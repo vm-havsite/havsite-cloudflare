@@ -1,0 +1,21 @@
+    .topnav {
+        overflow: hidden;
+        background: var(--primary-gradient);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        padding: 0 20px;
+        transition: transform 0.35s ease, opacity 0.25s ease;
+        will-change: transform;
+    }
+
+    .topnav.hidden {
+        transform: translateY(-120%);
+        opacity: 0;
+    }
+
+    .topnav{
+        transform: translateY(0);
+        opacity: 1;
+    }

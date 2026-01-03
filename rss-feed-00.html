@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <title>Havsite - RSS Feed Reader</title>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2196f3">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Havsite - Your personalized RSS feed reader">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" type="image/x-icon" href="images/logo_og.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="ai-assistant.css">
+    <script src="chatbot-js.js" defer></script>
+    <link rel="stylesheet" href="autohidenav.css">
+    <script src="autohidenav.js" defer></script>
+    <link rel="stylesheet" href="search-css.css">
+    <script src="search-js.js" defer></script>
+    
+<style>
+    /* Theme Variables */
+    :root {
+        --primary-gradient: linear-gradient(45deg, #6a11cb, #2575fc);
+        --secondary-gradient: linear-gradient(to right, #3494e6, #ec6ead);
+        --accent-color: #6a11cb;
+        --bg-color: #f9f9f9;
+        --text-color: #333;
+        --card-bg: #ffffff;
+        --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        --border-radius: 12px;
+        --transition-speed: 0.3s;
+    }
+
+    .dark-mode {
+        --bg-color: #121212;
+        --text-color: #f1f1f1;
+        --card-bg: #1e1e1e;
+        --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Selection styling */
+    ::selection {
+        background: rgba(106, 17, 203, 0.3);
+        color: var(--text-color);
+    }
+
+    /* Base styles */
+    body {
+        margin: 0;
+        font-family: 'Poppins', Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s ease, color 0.3s ease;
+        line-height: 1.6;
+    }
+
+
+    /* Navigation */
+    .topnav a {
+        float: left;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: all var(--transition-speed) ease;
+        border-radius: 6px;
+        margin: 8px 4px;
+    }
+
+    .topnav a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .topnav a.active {
+        font-weight: 600;
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .topnav .logo {
+        padding: 6px 16px;
+    }
+
+    .topnav .logo img {
+        transition: transform 0.3s ease;
+    }
+
+    .topnav .logo:hover img {
+        transform: scale(1.1);
+    }
+
+    .topnav .icon {
+        display: none;
+    }
+
+    .topnav .search-bar {
+        float: right;
+        display: flex;
+        align-items: center;
+        margin: 8px 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        padding: 4px 10px;
+        transition: all 0.3s ease;
+    }
+
+    .topnav .search-bar:focus-within {
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .topnav input[type="text"] {
+        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        color: white;
+        width: 200px;
+        outline: none;
+    }
+
+    .topnav input[type="text"]::placeholder {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .topnav button {
+        padding: 8px;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .topnav button:hover {
+        transform: scale(1.1);
+    }
+    .theme-toggle {
+        background: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 10px;
+        margin-right: 10px;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+        float: right;
+        margin-top: 8px;
+    }
+
+    .theme-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Main content */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .hero-section {
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    h1 {
+        font-size: 3em;
+        margin: 20px 0;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        display: inline-block;
+    }
+
+    h1::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: var(--primary-gradient);
+        border-radius: 2px;
+    }
+
+    /* Category Selection */
+    .category-section {
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--card-shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+
+    .category-section h2 {
+        color: var(--accent-color);
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .category-item {
+        position: relative;
+        background: var(--bg-color);
+        border: 2px solid transparent;
+        border-radius: var(--border-radius);
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        user-select: none;
+    }
+
+    .category-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-item.selected {
+        border-color: var(--accent-color);
+        background: linear-gradient(135deg, rgba(106, 17, 203, 0.1), rgba(37, 117, 252, 0.1));
+    }
+
+    .category-item .icon {
+        font-size: 2em;
+        margin-bottom: 10px;
+        color: var(--accent-color);
+    }
+
+    .category-item .name {
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .category-item .description {
+        font-size: 0.9em;
+        opacity: 0.7;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+    }
+
+    .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    @media screen and (max-width: 600px) {
+            .topnav a:not(:first-child), .topnav .search-bar { display: none; }
+            .topnav a.icon { float: right; display: block; 
+        }
+        
+        .topnav a.icon {
+            float: right;
+            display: block;
+        }
+        
+        h1 {
+            font-size: 2em;
+        }
+        
+        .footer-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .footer-section h3::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
+    /* Loading and Error States */
+    .loading {
+        text-align: center;
+        padding: 40px;
+        color: var(--accent-color);
+    }
+
+    .loading i {
+        font-size: 2em;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .error {
+        background: rgba(255, 0, 0, 0.1);
+        border: 1px solid rgba(255, 0, 0, 0.3);
+        color: #d63031;
+        padding: 15px;
+        border-radius: var(--border-radius);
+        margin: 20px 0;
+        text-align: center;
+    }
+
+    /* Feed Content */
+    .feed-section {
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--card-shadow);
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+
+    .feed-section h2 {
+        color: var(--accent-color);
+        margin-top: 0;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .feed-controls {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .sort-control select {
+        padding: 10px 15px;
+        border: 1px solid rgba(106, 17, 203, 0.3);
+        border-radius: var(--border-radius);
+        background: var(--bg-color);
+        color: var(--text-color);
+        font-size: 14px;
+    }
+
+    .feed-reel {
+        max-height: 80vh;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .feed-reel::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .feed-reel::-webkit-scrollbar-track {
+        background: var(--bg-color);
+        border-radius: 3px;
+    }
+
+    .feed-reel::-webkit-scrollbar-thumb {
+        background: var(--accent-color);
+        border-radius: 3px;
+    }
+
+    .feed-item {
+        background: var(--bg-color);
+        border-radius: var(--border-radius);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 4px solid var(--accent-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feed-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .feed-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .feed-item-category {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .feed-item-date {
+        font-size: 0.9em;
+        opacity: 0.7;
+    }
+
+    .feed-item-title {
+        font-size: 1.3em;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--text-color);
+    }
+
+    .feed-item-title a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .feed-item-title a:hover {
+        color: var(--accent-color);
+    }
+
+    .feed-item-description {
+        margin-bottom: 15px;
+        opacity: 0.8;
+    }
+
+    .feed-item-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--accent-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: transform 0.3s ease;
+    }
+
+    .feed-item-link:hover {
+        transform: translateX(5px);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        opacity: 0.7;
+    }
+
+    .empty-state i {
+        font-size: 4em;
+        margin-bottom: 20px;
+        color: var(--accent-color);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        .category-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .feed-controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .feed-item-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="topnav">
+        <a href="#" class="active">RSS Feed Reader</a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        <div class="search-bar">
+        </button>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="searchFunction()" aria-label="search button"><i class="fas fa-search" aria-hidden="true"></i></button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1>RSS Feed Reader</h1>
+            <p>Customize your news experience by selecting your favorite categories</p>
+        </div>
+
+        <div class="category-section">
+            <h2><i class="fas fa-filter"></i> Select Your Categories</h2>
+            <div class="category-grid" id="categoryGrid">
+                <div class="category-item" data-endpoint="buzzfeed_omg" data-category="OMG">
+                    <div class="icon"><i class="fas fa-surprise"></i></div>
+                    <div class="name">OMG</div>
+                    <div class="description">Viral and trending content</div>
+                </div>
+                <div class="category-item" data-endpoint="hobbies" data-category="Hobbies">
+                    <div class="icon"><i class="fas fa-palette"></i></div>
+                    <div class="name">Hobbies</div>
+                    <div class="description">Creative and hobby content</div>
+                </div>
+                <div class="category-item" data-endpoint="relationships" data-category="Relationships">
+                    <div class="icon"><i class="fas fa-heart"></i></div>
+                    <div class="name">Relationships</div>
+                    <div class="description">Love and relationship advice</div>
+                </div>
+                <div class="category-item" data-endpoint="fun" data-category="Fun">
+                    <div class="icon"><i class="fas fa-laugh"></i></div>
+                    <div class="name">Fun</div>
+                    <div class="description">Entertainment and humor</div>
+                </div>
+                <div class="category-item" data-endpoint="buzzfeed_quizzes" data-category="buzzfeed_quizzes">
+                    <div class="icon"><img src="images/quizzes.svg" height="60x" width-"50px"></div>
+                    <div class="name">Quizzes</div>
+                    <div class="description">Fun Quizzes</div>
+                </div>
+                <div class="category-item" data-endpoint="science" data-category="science">
+                    <div class="icon"><img src="images/food.svg" height="60x" width-"50px"></div>
+                    <div class="name">Science</div>
+                    <div class="description">Fun Quizzes</div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn" id="loadFeedsBtn" onclick="loadSelectedFeeds()" disabled>
+                    <i class="fas fa-download"></i> Load Feeds
+                </button>
+                <button class="btn" id="clearBtn" onclick="clearSelection()">
+                    <i class="fas fa-times"></i> Clear All
+                </button>
+                <button class="btn" id="selectAllBtn" onclick="selectAll()">
+                    <i class="fas fa-check-double"></i> Select All
+                </button>
+            </div>
+        </div>
+
+        <div class="feed-section" id="feedSection" style="display: none;">
+            <h2><i class="fas fa-rss"></i> Your Personalized Feed</h2>
+            <div class="feed-controls">
+                <div class="sort-control">
+                    <label for="sortSelect">Sort by:</label>
+                    <select id="sortSelect" onchange="sortFeedItems()">
+                        <option value="date">Date (Newest First)</option>
+                        <option value="date-old">Date (Oldest First)</option>
+                        <option value="title">Title (A-Z)</option>
+                        <option value="category">Category</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="refreshFeeds()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div class="feed-reel" id="feedReel">
+                <!-- Feed items will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Include external JS file -->
+    <script src="myscript.js"></script>
+    <script src="search.js"></script>
+
+    <script>
+        let selectedCategories = new Set();
+        let feedData = [];
+        let allFeedItems = [];
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const htmlRoot = document.getElementById('html-root');
+            const themeToggle = document.getElementById('themeToggle');
+            
+            htmlRoot.classList.toggle('dark-mode');
+            
+            if (htmlRoot.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        // Category selection functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryItems = document.querySelectorAll('.category-item');
+            const loadBtn = document.getElementById('loadFeedsBtn');
+
+            categoryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const endpoint = this.dataset.endpoint;
+                    const category = this.dataset.category;
+
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        selectedCategories.delete({endpoint, category});
+                    } else {
+                        this.classList.add('selected');
+                        selectedCategories.add({endpoint, category});
+                    }
+
+                    // Update selectedCategories Set properly
+                    selectedCategories.clear();
+                    document.querySelectorAll('.category-item.selected').forEach(selected => {
+                        selectedCategories.add({
+                            endpoint: selected.dataset.endpoint,
+                            category: selected.dataset.category
+                        });
+                    });
+
+                    loadBtn.disabled = selectedCategories.size === 0;
+                });
+            });
+        });
+
+        function selectAll() {
+            const categoryItems = document.querySelectorAll('.category-item');
+            const loadBtn = document.getElementById('loadFeedsBtn');
+            
+            selectedCategories.clear();
+            categoryItems.forEach(item => {
+                item.classList.add('selected');
+                selectedCategories.add({
+                    endpoint: item.dataset.endpoint,
+                    category: item.dataset.category
+                });
+            });
+            
+            loadBtn.disabled = false;
+        }
+
+        function clearSelection() {
+    		const categoryItems = document.querySelectorAll('.category-item');
+    		const loadBtn = document.getElementById('loadFeedsBtn');
+
+    		categoryItems.forEach(item => item.classList.remove('selected'));
+    		selectedCategories.clear();
+    		loadBtn.disabled = true;
+
+    		// Keep feed section visible
+    		const feedSection = document.getElementById('feedSection');
+    		feedSection.style.display = 'block'; // always visible
+    		feedSection.innerHTML = '';         // optionally clear previous feed items
+
+        }
+
+        async function loadSelectedFeeds() {
+            const feedReel = document.getElementById('feedReel');
+            const feedSection = document.getElementById('feedSection');
+            
+            // Show loading state
+            feedReel.innerHTML = '<div class="loading"><i class="fas fa-spinner"></i><p>Loading your personalized feed...</p></div>';
+            feedSection.style.display = 'block';
+            
+            allFeedItems = [];
+            const promises = [];
+
+            selectedCategories.forEach(({endpoint, category}) => {
+                const promise = fetchFeedData(endpoint, category);
+                promises.push(promise);
+            });
+
+            try {
+                const results = await Promise.allSettled(promises);
+                
+                results.forEach(result => {
+                    if (result.status === 'fulfilled' && result.value) {
+                        allFeedItems = allFeedItems.concat(result.value);
+                    }
+                });
+
+                if (allFeedItems.length === 0) {
+                    feedReel.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-rss"></i>
+                            <h3>No feed items found</h3>
+                            <p>Try selecting different categories or check back later.</p>
+                        </div>
+                    `;
+                } else {
+                    sortFeedItems();
+                }
+            } catch (error) {
+                feedReel.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Error loading feeds: ${error.message}</p>
+                        <button class="btn" onclick="loadSelectedFeeds()">Try Again</button>
+                    </div>
+                `;
+            }
+        }
+
+        async function fetchFeedData(endpoint, category) {
+            try {
+                const response = await fetch(`https://havsite-rss-feed.onrender.com/feed/${endpoint}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Handle both array format and object with items property
+                let items = [];
+                if (Array.isArray(data)) {
+                    items = data;
+                } else if (data.items && Array.isArray(data.items)) {
+                    items = data.items;
+                } else {
+                    console.warn(`Unexpected data format from ${endpoint}:`, data);
+                    return [];
+                }
+                
+                // Add category information to each item and map snippet to description
+                return items.map(item => ({
+                    ...item,
+                    description: item.description || item.snippet || '', // Map snippet to description
+                    category: category,
+                    endpoint: endpoint
+                }));
+            } catch (error) {
+                console.error(`Error fetching ${endpoint}:`, error);
+                return [];
+            }
+        }
+
+        function sortFeedItems() {
+            const sortValue = document.getElementById('sortSelect').value;
+            let sortedItems = [...allFeedItems];
+
+            switch (sortValue) {
+                case 'date':
+                    sortedItems.sort((a, b) => new Date(b.pubDate || b.date || 0) - new Date(a.pubDate || a.date || 0));
+                    break;
+                case 'date-old':
+                    sortedItems.sort((a, b) => new Date(a.pubDate || a.date || 0) - new Date(b.pubDate || b.date || 0));
+                    break;
+                case 'title':
+                    sortedItems.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+                    break;
+                case 'category':
+                    sortedItems.sort((a, b) => (a.category || '').localeCompare(b.category || ''));
+                    break;
+            }
+
+            renderFeedItems(sortedItems);
+        }
+
+        function renderFeedItems(items) {
+            const feedReel = document.getElementById('feedReel');
+            
+            if (items.length === 0) {
+                feedReel.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-rss"></i>
+                        <h3>No feed items to display</h3>
+                        <p>Your selected categories don't have any content right now.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            feedReel.innerHTML = items.map(item => `
+                <div class="feed-item">
+                    <div class="feed-item-header">
+                        <span class="feed-item-category">${item.category || 'Unknown'}</span>
+                        <span class="feed-item-date">${formatDate(item.pubDate || item.date)}</span>
+                    </div>
+                    <h3 class="feed-item-title">
+                        <a href="${item.link || '#'}" target="_blank" rel="noopener noreferrer">
+                            ${item.title || 'No title'}
+                        </a>
+                    </h3>
+                    ${item.description ? `<div class="feed-item-description">${truncateText(item.description, 200)}</div>` : ''}
+                    <a href="${item.link || '#'}" target="_blank" rel="noopener noreferrer" class="feed-item-link">
+                        Read more <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown date';
+            
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch (error) {
+                return 'Invalid date';
+            }
+        }
+
+        function truncateText(text, maxLength) {
+            if (!text) return '';
+            
+            // Strip HTML tags for display
+            const textOnly = text.replace(/<[^>]*>/g, '');
+            
+            if (textOnly.length <= maxLength) return textOnly;
+            return textOnly.substring(0, maxLength) + '...';
+        }
+
+        function refreshFeeds() {
+            if (selectedCategories.size > 0) {
+                loadSelectedFeeds();
+            }
+        }
+    </script>
+</body>
+</html>

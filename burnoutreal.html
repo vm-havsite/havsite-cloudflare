@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <title>Why are mellinials and gen-z so tired?</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Understanding Chronic Tiredness Despite Adequate Sleep">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" type="image/x-icon" href="images/logo_og.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="ai-assistant.css">
+    <script src="chatbot-js.js" defer></script>
+    <link rel="stylesheet" href="autohidenav.css">
+    <script src="autohidenav.js" defer></script>
+    <link rel="stylesheet" href="search-css.css">
+    <script src="search-js.js" defer></script>
+
+<style>
+    /* Theme Variables */
+    :root {
+        --primary-gradient: linear-gradient(45deg, #6a11cb, #2575fc);
+        --secondary-gradient: linear-gradient(to right, #3494e6, #ec6ead);
+        --accent-color: #6a11cb;
+        --bg-color: #f9f9f9;
+        --text-color: #333;
+        --card-bg: #ffffff;
+        --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        --img-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        --border-radius: 12px;
+        --transition-speed: 0.3s;
+    }
+
+    .dark-mode {
+        --bg-color: #121212;
+        --text-color: #f1f1f1;
+        --card-bg: #1e1e1e;
+        --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        --img-box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    }
+
+    @font-face {
+       font-family: 'National Park';
+       src: url('fonts/national-park-v1-latin-regular.woff2') format('woff2');
+       font-weight: normal;
+       font-style: normal;
+    }
+
+    @font-face {
+       font-family: 'Poppins';
+       src: url('fonts/poppins-v23-latin-regular.woff2') format('woff2');
+       font-weight: normal;
+       font-style: normal;
+    }
+
+    /* Selection styling */
+    h1::selection {
+        background: var(--accent-color);
+        color: white;
+    }
+    
+    ::selection {
+        background: rgba(106, 17, 203, 0.3);
+        color: var(--text-color);
+    }
+
+    /* Base styles */
+    body {
+        margin: 0;
+        font-family: 'Poppins', Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s ease, color 0.3s ease;
+        line-height: 1.6;
+    }
+
+    .article {
+        margin-left: 2px;
+     }
+
+    /* Navigation */
+    .topnav a {
+        float: left;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: all var(--transition-speed) ease;
+        border-radius: 6px;
+        margin: 8px 4px;
+    }
+
+    .topnav a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .topnav a.active {
+        font-weight: 600;
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .topnav .logo {
+        padding: 6px 16px;
+    }
+
+    .topnav .logo img {
+        transition: transform 0.3s ease;
+    }
+
+    .topnav .logo:hover img {
+        transform: scale(1.1);
+    }
+
+    .topnav .icon {
+        display: none;
+    }
+
+    .topnav .search-bar {
+        float: right;
+        display: flex;
+        align-items: center;
+        margin: 8px 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        padding: 4px 10px;
+        transition: all 0.3s ease;
+    }
+
+    .topnav .search-bar:focus-within {
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .topnav input[type="text"] {
+        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        color: white;
+        width: 200px;
+        outline: none;
+    }
+
+    .topnav input[type="text"]::placeholder {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .topnav button {
+        padding: 8px;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .topnav button:hover {
+        transform: scale(1.1);
+    }
+
+    /* Theme toggle button */
+    .theme-toggle {
+        background: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 10px;
+        margin-right: 10px;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+    }
+
+    .theme-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+        font-size: 3em;
+        margin: 20px 0;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Footer */
+    footer {
+        background: var(--primary-gradient);
+        color: white;
+        text-align: center;
+        padding: 30px 20px;
+        margin-top: 40px;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto 20px;
+    }
+
+    .footer-section {
+        flex: 1;
+        min-width: 250px;
+        padding: 0 20px;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .footer-section h3 {
+        margin-top: 0;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .footer-section h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer-links {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+        text-decoration: underline;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .social-icons a {
+        color: white;
+        font-size: 20px;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .social-icons a:hover {
+        transform: translateY(-5px);
+    }
+
+    .copyright {
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Back to top button */
+    .back-to-top {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        background: var(--primary-gradient);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+        z-index: 100;
+    }
+
+    .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .back-to-top:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Responsive styles */
+    @media screen and (max-width: 800px) {
+        h1 {
+            font-size: 2.5em;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+            .topnav a:not(:first-child), .topnav .search-bar { display: none; }
+            .topnav a.icon { float: right; display: block; 
+        }
+        
+        .topnav a.icon {
+            float: right;
+            display: block;
+        }
+        
+        h1 {
+            font-size: 2em;
+        }
+        
+        .footer-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .footer-section h3::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .topnav.responsive {
+            position: relative;
+            flex-direction: column;
+        }
+        
+        .topnav.responsive .icon {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+        }
+        
+        .topnav.responsive a {
+            float: none;
+            display: block;
+            text-align: left;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .topnav.responsive .search-bar {
+            display: flex;
+            width: 100%;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+    }
+	#title{
+           min-height:125 px;
+           min-width:650 px;
+           font-size: 4.5em;
+	   font-family: 'National Park';
+           margin: 20px 0;
+           background: var(--primary-gradient);
+           -webkit-background-clip: text;
+           background-clip: text;
+           color: transparent;
+           position: relative;
+           display: inline-block;
+   }
+</style>
+</head>
+<body>
+    <div class="topnav" id="myTopnav">
+        <a href="about-tech-bro.html" class="logo">
+            <img src="images/logo_og.png" alt="Havsite Logo" height="40" width="40" style="border-radius: 8px;">
+        </a>
+        <a href="help.html">Help</a>
+        <a href="tep.html">Contact</a>
+        <a href="tep.html">FAQ</a>
+        <a href="arcticles.html">Articles</a>
+        <a href="Saas.html">Tools</a>
+        <a href="our team.html">Team</a>
+        <a href="download.html">Download</a>
+        <a href="index.html">
+            <img src="images/home_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg">
+        </a>
+        <a href="cst.html" title="Profile">
+            <img src="images/user.png" alt="profile image" style="height:24px; width:24px; border-radius:50%;">
+        </a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="searchFunction()" aria-label="search button"><i class="fas fa-search" aria-hidden="true"></i></button>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fas fa-bars"></i>
+        </a>
+    </div>
+
+    <div class="article">
+        <h1>The Sleep Crisis Among Gen Z and Gen Alpha: Why Rest No Longer Restores</h1>
+        
+        <p>A troubling pattern has emerged among today's youth: despite clocking seven, eight, or even nine hours in bed, Gen Z and Gen Alpha report feeling perpetually exhausted. This paradox challenges our fundamental understanding of sleep and signals a deeper crisis in how modern life intersects with our biological needs for rest and recovery.</p>
+
+        <h2>When Eight Hours Isn't Enough: The Quality Crisis</h2>
+        
+        <p>Traditional wisdom suggests adults need 7-9 hours of sleep, yet countless young people meeting this quota still wake feeling unrested. The answer lies not in duration, but in what happens during those hours. Sleep quality has become the silent casualty of contemporary life.</p>
+        
+        <p>Young people experiencing this phenomenon describe a consistent set of challenges:</p>
+        
+        <ul>
+            <li>Waking up feeling as tired as when they went to bed</li>
+            <li>Brain fog that persists throughout the day, making concentration nearly impossible</li>
+            <li>Emotional volatility—mood swings that seem disproportionate to daily stressors</li>
+            <li>Physical symptoms from persistent headaches to frequent illness</li>
+            <li>A crushing sense of fatigue that no amount of sleep seems to fix</li>
+        </ul>
+
+        <hr>
+
+        <h2>The Perfect Storm: What's Stealing Our Sleep Quality</h2>
+
+        <h3>The Glow of Screens in Dark Rooms</h3>
+        
+        <p>Gen Z and Gen Alpha have never known a world without smartphones. The average teen checks their phone over 100 times daily, with the final check often occurring minutes before attempting sleep. This habit carries profound consequences.</p>
+        
+        <p>Blue light from screens doesn't just keep us awake—it actively sabotages our sleep architecture. Our brains interpret this light as daylight, suppressing melatonin production for hours. Even a brief glance at a bright screen can reset this process. Beyond the biological disruption, the content itself matters: scrolling through social media triggers emotional responses, algorithmic feeds ensure we're never satisfied enough to stop, and the fear of missing out keeps fingers swiping long past reasonable bedtimes.</p>
+
+        <h3>Living Against Our Internal Clocks</h3>
+        
+        <p>Humans evolved with consistent sleep-wake patterns tied to sunrise and sunset. Modern youth, however, operate on wildly variable schedules. They stay up until 2 AM on Friday night, sleep until noon Saturday, attempt to "fix" their schedule Sunday evening, then drag themselves from bed at 6 AM Monday morning.</p>
+        
+        <p>This pattern, known as social jetlag, is equivalent to flying from New York to London and back every single week. Our circadian rhythms—the ancient biological clocks that regulate everything from hormone release to body temperature—cannot adjust to this chaos. The result is a perpetual state of biological confusion, where the body never quite knows when to be alert and when to rest.</p>
+
+        <h3>The Anxiety Epidemic</h3>
+        
+        <p>Gen Z reports the highest anxiety levels of any generation in recorded history. Climate change, economic uncertainty, social media comparison culture, and academic pressure create a psychological environment of constant low-grade panic. Anxiety and sleep exist in a vicious cycle: poor sleep increases anxiety, while anxiety destroys sleep quality.</p>
+        
+        <p>When anxious, our nervous systems remain in a state of hypervigilance. The brain refuses to fully power down, scanning for threats even during sleep. This prevents entry into the deeper, restorative sleep stages where physical recovery and memory consolidation occur. Many young people report lying awake for hours, minds racing through catastrophic scenarios, then sleeping fitfully and waking exhausted.</p>
+
+        <h3>The Cult of Productivity</h3>
+        
+        <p>Modern teens face unprecedented pressure. Advanced Placement courses, extracurricular activities, part-time jobs, volunteer work for college applications, maintaining social relationships, and managing an online presence—all while their brains are still developing. Something has to give, and it's usually sleep.</p>
+        
+        <p>The culture glorifies exhaustion. "Pulling an all-nighter" for an exam becomes a badge of honor. Being perpetually busy signals importance and ambition. Rest is reframed as laziness. This toxic mindset teaches young people that sacrifice of wellbeing is not just acceptable but admirable.</p>
+
+        <h3>Fueling the Fire: Diet and Stimulants</h3>
+        
+        <p>Walk through any high school or college campus and observe the beverages students carry: energy drinks with caffeine equivalent to multiple cups of coffee, sugary sodas, and oversized coffees. Many students consume caffeine late into the afternoon or evening, not understanding that caffeine has a half-life of 5-6 hours—meaning that 4 PM coffee is still significantly affecting their system at bedtime.</p>
+        
+        <p>Nutritional deficiencies compound the problem. Diets heavy in processed foods, sugar, and lacking in essential nutrients like magnesium, B vitamins, and omega-3 fatty acids impair the body's ability to regulate sleep properly. Meanwhile, physical inactivity means the body never builds up sufficient "sleep pressure" to fall into deep, restorative rest.</p>
+
+        <h3>Bedrooms That Don't Support Sleep</h3>
+        
+        <p>The modern bedroom has become a multi-purpose space: homework station, social hub, entertainment center, and only incidentally, a place to sleep. Phones rest on nightstands, delivering notifications throughout the night. Laptops sit open on beds. Gaming systems hum in the corner.</p>
+        
+        <p>This environment sends confused signals to the brain. Rather than associating the bedroom with rest, the brain links it with stimulation and activity. The result is difficulty both falling asleep and staying asleep.</p>
+
+        <h3>Nobody Taught Us How to Sleep</h3>
+        
+        <p>Despite spending roughly a third of our lives asleep, most people receive zero education about sleep hygiene. Young people genuinely believe they can "catch up" on sleep during weekends or that pulling several all-nighters won't have lasting consequences. They don't understand how their daily choices—from afternoon coffee to late-night gaming sessions—accumulate to create chronic sleep problems.</p>
+
+        <hr>
+
+        <h2>What's Really Happening While You Sleep</h2>
+
+        <h3>Your Brain's Cleaning Cycle</h3>
+        
+        <p>During deep sleep, the brain's glymphatic system activates—essentially a waste removal system that clears out metabolic debris accumulated during waking hours. Without adequate deep sleep, this cleanup doesn't occur properly. Toxins accumulate, including proteins associated with cognitive decline. This explains why even after sleeping "enough hours," people feel mentally foggy if they never reached deep sleep stages.</p>
+
+        <h3>The Architecture of Rest</h3>
+        
+        <p>Quality sleep cycles through distinct stages: light sleep, deep sleep, and REM (rapid eye movement) sleep. Each stage serves specific functions. Deep sleep handles physical restoration and immune system support. REM sleep consolidates memories and processes emotions. A full night should include multiple complete cycles.</p>
+        
+        <p>However, stress, anxiety, alcohol, stimulants, and screen exposure all fragment this architecture. You might spend eight hours in bed but experience only light, fragmented sleep—waking feeling as though you never slept at all.</p>
+
+        <h3>The Stress Hormone Connection</h3>
+        
+        <p>Chronic stress elevates cortisol, the body's primary stress hormone. Cortisol should follow a predictable daily pattern: high in morning to promote wakefulness, low at night to permit sleep. In chronically stressed individuals, cortisol remains elevated at night, essentially telling the body it's still time to be alert and handle threats. This biological state is incompatible with restorative sleep.</p>
+
+        <hr>
+
+        <h2>The Cascading Consequences</h2>
+
+        <h3>Mental Performance Collapse</h3>
+        
+        <p>Sleep-deprived brains show measurable cognitive decline equivalent to significant alcohol intoxication. Students believe they're studying effectively during late-night cramming sessions, but research shows they retain far less information than they would have with adequate rest. Creativity suffers, problem-solving abilities diminish, and even simple tasks require disproportionate effort.</p>
+
+        <h3>Emotional Chaos</h3>
+        
+        <p>Sleep deprivation amplifies negative emotions while blunting positive ones. The amygdala—the brain's emotional center—becomes hyperactive, while the prefrontal cortex's regulatory control weakens. This creates emotional volatility: tears over minor frustrations, anger erupting unexpectedly, anxiety spiraling out of control. For a generation already struggling with mental health, sleep deprivation acts as an accelerant on existing challenges.</p>
+
+        <h3>Physical Health Deterioration</h3>
+        
+        <p>Inadequate sleep doesn't just make you feel tired—it systematically undermines physical health. Immune function weakens, making illness more frequent and recovery slower. Hormone regulation fails, affecting everything from appetite to stress response. Inflammation increases throughout the body. Long-term, these effects contribute to obesity, diabetes, cardiovascular disease, and even shortened lifespan.</p>
+
+        <h3>The Productivity Paradox</h3>
+        
+        <p>Ironically, students sacrifice sleep to accomplish more but end up achieving less. Sleep-deprived individuals work slower, make more mistakes, and need more time to complete tasks. They're essentially running their cognitive engine on fumes, burning tremendous effort for minimal output.</p>
+
+        <hr>
+
+        <h2>Reclaiming Rest: Practical Solutions</h2>
+
+        <h3>Rebuild Your Sleep Foundation</h3>
+        
+        <p><strong>Consistency is king.</strong> Choose a bedtime and wake time, then defend them fiercely—even on weekends. This allows your circadian rhythm to stabilize. Yes, you'll miss some late-night social events initially, but you'll feel dramatically better within weeks.</p>
+        
+        <p><strong>Design your sanctuary.</strong> Make your bedroom as dark as possible—use blackout curtains or an eye mask. Keep it cool, around 65-68°F. Eliminate noise with earpurers or white noise. Reserve your bed exclusively for sleep; do homework, social media, and entertainment elsewhere.</p>
+        
+        <p><strong>Create a transition ritual.</strong> Your brain needs a clear signal that work/play time is ending and rest time is beginning. Develop a 30-60 minute wind-down routine: dim lights, gentle stretching, reading physical books, listening to calming music, or taking a warm bath. This ritual becomes a powerful sleep cue.</p>
+
+        <h3>Break Up With Your Phone (Before Bed)</h3>
+        
+        <p>This is non-negotiable: no screens for at least one hour before bed. Charge your phone outside your bedroom. Use an actual alarm clock. If you must check your phone in the evening, use blue light filters and keep brightness at minimum.</p>
+        
+        <p>Delete social media apps from your phone temporarily if you can't resist them. Use app blockers to enforce boundaries. Remember: the dopamine hit from that notification is stealing your health.</p>
+
+        <h3>Calm the Mental Storm</h3>
+        
+        <p>If racing thoughts keep you awake, establish an earlier "worry time"—perhaps 7 PM—where you deliberately journal your anxieties and action plans. This contains worries to a specific period rather than letting them invade bedtime.</p>
+        
+        <p>Learn relaxation techniques: progressive muscle relaxation, where you systematically tense and release muscle groups; box breathing (inhale 4 counts, hold 4, exhale 4, hold 4); or body scan meditation. These activate the parasympathetic nervous system, your body's "rest and digest" mode.</p>
+
+        <h3>Move Your Body, Rest Your Mind</h3>
+        
+        <p>Regular exercise dramatically improves sleep quality, but timing matters. Morning or afternoon exercise is ideal. Intense workouts within three hours of bedtime can be counterproductive, though gentle yoga or stretching is beneficial.</p>
+        
+        <p>Even a 20-minute daily walk improves sleep. Exercise reduces stress hormones, increases time spent in deep sleep, and helps regulate your circadian rhythm—especially if done outdoors during daylight hours.</p>
+
+        <h3>Rethink What You Consume</h3>
+        
+        <p>Eliminate caffeine after 2 PM—earlier if you're particularly sensitive. This includes coffee, tea, energy drinks, and many sodas. Remember that caffeine doesn't just delay sleep; it reduces sleep quality even after you've fallen asleep.</p>
+        
+        <p>Avoid large meals close to bedtime, but don't go to bed hungry either. A light snack that combines complex carbohydrates with protein can actually promote sleep: whole grain toast with nut butter, Greek yogurt with berries, or banana with almonds.</p>
+        
+        <p>Consider supplementing if deficient: magnesium glycinate supports relaxation, and vitamin D (if you're deficient) affects sleep quality. However, consult healthcare providers before starting supplements.</p>
+
+        <h3>Demand Systemic Change</h3>
+        
+        <p>Individual solutions only go so far. Schools should start later—research overwhelmingly shows teenagers' circadian rhythms naturally shift toward later sleep and wake times. An 8:30 AM or 9:00 AM start time would align with biology rather than fighting it.</p>
+        
+        <p>Education systems need to acknowledge that assigning 4+ hours of homework nightly makes adequate sleep impossible. Something must give, and it shouldn't be students' health.</p>
+        
+        <p>Parents and educators should model healthy sleep habits and create environments where rest is valued rather than stigmatized.</p>
+
+        <h3>Know When to Seek Help</h3>
+        
+        <p>Sometimes sleep problems indicate underlying medical conditions: sleep apnea, restless leg syndrome, chronic insomnia, or mental health disorders requiring treatment. If you've implemented sleep hygiene strategies for several weeks without improvement, consult a healthcare provider. Sleep medicine has advanced dramatically—help is available.</p>
+
+        <hr>
+
+        <h2>The Bottom Line</h2>
+        
+        <p>Gen Z and Gen Alpha face a sleep crisis rooted not in laziness or poor time management, but in the collision between human biology and modern life's demands. Our bodies evolved for consistent rhythms, darkness after sunset, and freedom from constant stimulation. We're instead living in a 24/7, hyper-connected, achievement-obsessed culture that views sleep as an inconvenient obstacle rather than a biological necessity.</p>
+        
+        <p>The good news: sleep is remarkably responsive to positive changes. Unlike many health problems requiring expensive treatments or months to show improvement, better sleep practices can yield noticeable benefits within days or weeks.</p>
+        
+        <p>Reclaiming rest isn't selfish—it's essential. You cannot think clearly, regulate emotions, maintain physical health, or show up fully for the people and pursuits you care about while chronically exhausted. Prioritizing sleep isn't giving up on ambition; it's recognizing that sustainable success requires a foundation of wellbeing.</p>
+        
+        <p>Your generation faces unprecedented challenges: climate uncertainty, economic instability, and technological disruption. Meeting these challenges will require your best selves—clear-minded, emotionally resilient, physically healthy. That starts with something deceptively simple: closing your eyes and allowing your body and brain to do what they've evolved to do—rest, recover, and restore.</p>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="help.html">Help Center</a></li>
+                    <li><a href="tep.html">Contact Us</a></li>
+                    <li><a href="tep.html">FAQ</a></li>
+                    <li><a href="arcticles.html">Articles</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Features</h3>
+                <ul class="footer-links">
+                    <li><a href="ca-u2.html">Chat</a></li>
+                    <li><a href="development_error_page2.html">Updates</a></li>
+                    <li><a href="tep.html">Stories</a></li>
+                    <li><a href="cst.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Follow us on social media for updates and news</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="follow us on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="follow us on twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="follow us on instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="follow us on discord"><i class="fab fa-discord" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2024 by Vivaan | <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Include external JS file -->
+    <script src="myscript.js"></script>
+    
+    <script>
+        // Toggle mobile navigation
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+                window.scrollTo(0, 0);
+            } else {
+                x.className = "topnav";
+            }
+        }
+
+        // Search functionality
+        function searchFunction() {
+            var searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const pages = {
+                "help": "https://vm-havsite.github.io/help",
+                "testpage": "https://vm-havsite.github.io/practise_javascript",
+                "arcticles": "https://vm-havsite.github.io/arcticles",
+                "homepage": "https://vm-havsite.github.io/homepage",
+                "download": "https://vm-havsite.github.io/download",
+                "our team": "https://vm-havsite.github.io/our team",
+                "team": "https://vm-havsite.github.io/our team",
+                "music": "https://vm-havsite.github.io/music",
+                "faq": "https://vm-havsite.github.io/tep",
+                "contact": "https://vm-havsite.github.io/tep",
+                "contact us": "https://vm-havsite.github.io/tep",
+                "profiles": "https://vm-havsite.github.io/cst"
+            };
+            
+            if (pages[searchTerm]) {
+                window.location.href = pages[searchTerm];
+            } else {
+                alert("No results found for: " + searchTerm);
+            }
+        }
+
+        // Back to top button functionality
+        window.addEventListener('scroll', function() {
+            var backToTopButton = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        // Enable Enter key for search
+        document.getElementById("searchInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                searchFunction();
+            }
+        });
+        
+        // Update theme toggle icon on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('html-root').classList.contains('dark-mode')) {
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+    </script>
+</body>
+</html>

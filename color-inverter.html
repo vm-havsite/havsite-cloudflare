@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en"" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <title>Color Inverted Image</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" description="colour inverter">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/logo_og.png">
+    <link rel="stylesheet" href="ai-assistant.css">
+    <script src="chatbot-js.js" defer></script>
+    <link rel="stylesheet" href="autohidenav.css">
+    <script src="autohidenav.js" defer></script>
+    <link rel="stylesheet" href="search-css.css">
+    <script src="search-js.js" defer></script>
+
+    <style>
+    /* Theme Variables */
+    :root {
+        --primary-gradient: linear-gradient(45deg, #6a11cb, #2575fc);
+        --secondary-gradient: linear-gradient(to right, #3494e6, #ec6ead);
+        --accent-color: #6a11cb;
+        --bg-color: #f9f9f9;
+        --text-color: #333;
+        --card-bg: #ffffff;
+        --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        --img-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        --border-radius: 12px;
+        --transition-speed: 0.3s;
+    }
+
+    .dark-mode {
+        --bg-color: #121212;
+        --text-color: #f1f1f1;
+        --card-bg: #1e1e1e;
+        --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        --img-box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    }
+
+    @font-face {
+       font-family: 'National Park';
+       src: url('fonts/national-park-v1-latin-regular.woff2') format('woff2');
+       font-weight: normal;
+       font-style: normal;
+    }
+
+    @font-face {
+       font-family: 'Poppins';
+       src: url('fonts/poppins-v23-latin-regular.woff2') format('woff2');
+       font-weight: normal;
+       font-style: normal;
+    }
+
+        body {
+            margin: 0;
+            display: flex;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+      
+        .content{
+            padding: 20px;
+        }
+        
+        .container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .image-box {
+            text-align: center;
+        }
+        
+        .image-box h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        canvas {
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .upload-area {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            text-align: center;
+            background-color: white;
+        }
+        
+        .upload-area.dragover {
+            border-color: #007bff;
+            background-color: #f8f9ff;
+        }
+        
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+    /* Navigation */
+    .topnav a {
+        float: left;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: all var(--transition-speed) ease;
+        border-radius: 6px;
+        margin: 8px 4px;
+    }
+
+    .topnav a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .topnav a.active {
+        font-weight: 600;
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .topnav .logo {
+        padding: 6px 16px;
+    }
+
+    .topnav .logo img {
+        transition: transform 0.3s ease;
+    }
+
+    .topnav .logo:hover img {
+        transform: scale(1.1);
+    }
+
+    .topnav .icon {
+        display: none;
+    }
+
+    .topnav .search-bar {
+        float: right;
+        display: flex;
+        align-items: center;
+        margin: 8px 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        padding: 4px 10px;
+        transition: all 0.3s ease;
+    }
+
+    .topnav .search-bar:focus-within {
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .topnav input[type="text"] {
+        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        color: white;
+        width: 200px;
+        outline: none;
+    }
+
+    .topnav input[type="text"]::placeholder {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .topnav button {
+        padding: 8px;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .topnav button:hover {
+        transform: scale(1.1);
+    }
+
+    /* Theme toggle button */
+    .theme-toggle {
+        background: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 10px;
+        margin-right: 10px;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+    }
+
+    .theme-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: var(--primary-gradient);
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+    }
+    /* Footer */
+    footer {
+        background: var(--primary-gradient);
+        color: white;
+        text-align: center;
+        padding: 30px 20px;
+        margin-top: 40px;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto 20px;
+    }
+
+    .footer-section {
+        flex: 1;
+        min-width: 250px;
+        padding: 0 20px;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .footer-section h3 {
+        margin-top: 0;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .footer-section h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer-links {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+        text-decoration: underline;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .social-icons a {
+        color: white;
+        font-size: 20px;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .social-icons a:hover {
+        transform: translateY(-5px);
+    }
+
+    .copyright {
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Back to top button */
+    .back-to-top {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        background: var(--primary-gradient);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+        z-index: 100;
+    }
+
+    .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .back-to-top:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Responsive styles */
+    @media screen and (max-width: 800px) {
+        h1 {
+            font-size: 2.5em;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+            .topnav a:not(:first-child), .topnav .search-bar { display: none; }
+            .topnav a.icon { float: right; display: block; 
+        }
+        
+        .topnav a.icon {
+            float: right;
+            display: block;
+        }
+        
+        h1 {
+            font-size: 2em;
+        }
+        
+        .footer-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .footer-section h3::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .topnav.responsive {
+            position: relative;
+            flex-direction: column;
+        }
+        
+        .topnav.responsive .icon {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+        }
+        
+        .topnav.responsive a {
+            float: none;
+            display: block;
+            text-align: left;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .topnav.responsive .search-bar {
+            display: flex;
+            width: 100%;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="topnav" id="myTopnav">
+        <a href="about-tech-bro.html" class="logo">
+            <img src="images/logo_og.png" alt="Havsite Logo" height="40" width="40" style="border-radius: 8px;">
+        </a>
+        <a href="help.html">Help</a>
+        <a href="tep.html">Contact</a>
+        <a href="tep.html">FAQ</a>
+        <a href="arcticles.html">Articles</a>
+        <a href="Saas.html">Tools</a>
+        <a href="our team.html">Team</a>
+        <a href="download.html">Download</a>
+        <a href="index.html">
+            <img src="images/home_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg">
+        </a>
+        <a href="cst.html" title="Profile">
+            <img src="images/user.png" alt="profile image" style="height:24px; width:24px; border-radius:50%;">
+        </a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">
+            <i class="fas fa-moon"></i>
+        </button>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="searchFunction()" aria-label="search button"><i class="fas fa-search" aria-hidden="true"></i></button>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fas fa-bars"></i>
+        </a>
+    </div>
+<div class="content">
+    <h1>Color Inverter Tool</h1>
+    <p>Upload an image to invert its colors (black becomes white, everything else becomes black)</p>
+    
+    <div class="upload-area" id="uploadArea" style="margin-left: 10vw;">
+        <p>Drag and drop an image here or click to select</p>
+        <input type="file" id="fileInput" accept="image/*">
+        <br>
+        <button onclick="document.getElementById('fileInput').click()">Select Image</button>
+    </div>
+    
+    <div class="container" id="imageContainer" style="display: none;">
+        <div class="image-box">
+            <h3>Original Image</h3>
+            <canvas id="originalCanvas"></canvas>
+        </div>
+        <div class="image-box">
+            <h3>Inverted Image</h3>
+            <canvas id="invertedCanvas"></canvas>
+        </div>
+    </div>
+    
+    <div style="margin-top: 20px; margin-left: 20vw;">
+        <button id="downloadBtn" onclick="downloadInverted()" disabled>Download Inverted Image</button>
+        <button onclick="resetTool()">Reset</button>
+    </div>
+</div>
+
+    <footer style="width: 95vw;">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="help.html">Help Center</a></li>
+                    <li><a href="tep.html">Contact Us</a></li>
+                    <li><a href="tep.html">FAQ</a></li>
+                    <li><a href="arcticles.html">Articles</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Features</h3>
+                <ul class="footer-links">
+                    <li><a href="ca-u2.html">Chat</a></li>
+                    <li><a href="development_error_page2.html">Updates</a></li>
+                    <li><a href="tep.html">Stories</a></li>
+                    <li><a href="cst.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Follow us on social media for updates and news</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="follow us on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="follow us on twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="follow us on instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="follow us on discord"><i class="fab fa-discord" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2024 by Vivaan | <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Include external JS file -->
+    <script src="myscript.js"></script>
+    
+    <script>
+        // Toggle mobile navigation
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+                window.scrollTo(0, 0);
+            } else {
+                x.className = "topnav";
+            }
+        }	
+
+        // Back to top button functionality
+        window.addEventListener('scroll', function() {
+            var backToTopButton = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        
+        // Update theme toggle icon on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('html-root').classList.contains('dark-mode')) {
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+    </script>
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const imageContainer = document.getElementById('imageContainer');
+        const originalCanvas = document.getElementById('originalCanvas');
+        const invertedCanvas = document.getElementById('invertedCanvas');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // Drag and drop functionality
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    processImage(img);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function processImage(img) {
+            // Set canvas dimensions
+            const maxWidth = 400;
+            const maxHeight = 400;
+            let { width, height } = img;
+            
+            // Scale image to fit within max dimensions
+            if (width > maxWidth || height > maxHeight) {
+                const ratio = Math.min(maxWidth / width, maxHeight / height);
+                width *= ratio;
+                height *= ratio;
+            }
+
+            // Setup original canvas
+            originalCanvas.width = width;
+            originalCanvas.height = height;
+            const originalCtx = originalCanvas.getContext('2d');
+            originalCtx.drawImage(img, 0, 0, width, height);
+
+            // Setup inverted canvas
+            invertedCanvas.width = width;
+            invertedCanvas.height = height;
+            const invertedCtx = invertedCanvas.getContext('2d');
+
+            // Get image data
+            const imageData = originalCtx.getImageData(0, 0, width, height);
+            const data = imageData.data;
+
+            // Process each pixel
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                const a = data[i + 3];
+
+                // Check if pixel is black (or very dark)
+                const isBlack = r < 50 && g < 50 && b < 50;
+
+                if (isBlack) {
+                    // Make black pixels white
+                    data[i] = 255;     // R
+                    data[i + 1] = 255; // G
+                    data[i + 2] = 255; // B
+                } else {
+                    // Make all other pixels black
+                    data[i] = 0;       // R
+                    data[i + 1] = 0;   // G
+                    data[i + 2] = 0;   // B
+                }
+                // Keep original alpha
+                data[i + 3] = a;
+            }
+
+            // Draw inverted image
+            invertedCtx.putImageData(imageData, 0, 0);
+
+            // Show results
+            imageContainer.style.display = 'flex';
+            downloadBtn.disabled = false;
+        }
+
+        function downloadInverted() {
+            try {
+                // Create a temporary canvas to ensure clean output
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCanvas.width = invertedCanvas.width;
+                tempCanvas.height = invertedCanvas.height;
+                
+                // Copy the inverted image to temp canvas
+                tempCtx.drawImage(invertedCanvas, 0, 0);
+                
+                // Convert to blob and download
+                tempCanvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'inverted-image.png';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                }, 'image/png');
+            } catch (error) {
+                console.error('Download failed:', error);
+                alert('Download failed. Please try again.');
+            }
+        }
+
+        function resetTool() {
+            imageContainer.style.display = 'none';
+            fileInput.value = '';
+            downloadBtn.disabled = true;
+        }
+
+        // Auto-process the logo if provided
+        window.onload = function() {
+            // This would be where we'd process your uploaded logo
+            // For now, the tool is ready to accept any image upload
+        };
+    </script>
+</body>
+</html>

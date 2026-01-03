@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" description="SVG to PNG converter">
+  <title>SVG to PNG Converter</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      color: #2d3748;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .upload-section {
+      margin-bottom: 30px;
+    }
+
+    .file-upload {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .file-upload input[type="file"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .upload-label {
+      display: block;
+      padding: 20px;
+      background: #f7fafc;
+      border: 2px dashed #cbd5e0;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      color: #4a5568;
+      font-weight: 500;
+    }
+
+    .upload-label:hover {
+      background: #edf2f7;
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    .upload-label.has-file {
+      background: #e6fffa;
+      border-color: #38b2ac;
+      color: #2d3748;
+    }
+
+    .size-input {
+      width: 100%;
+      padding: 15px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #2d3748;
+      background: #f7fafc;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .size-input:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .convert-btn {
+      width: 100%;
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .convert-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .convert-btn:active {
+      transform: translateY(0);
+    }
+
+    .convert-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .result {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .download-link {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #48bb78, #38a169);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 600;
+      margin: 5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+    }
+
+    .download-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(72, 187, 120, 0.4);
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error {
+      background: #fed7d7;
+      color: #c53030;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-weight: 500;
+    }
+
+    .success {
+      background: #c6f6d5;
+      color: #2f855a;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-weight: 500;
+    }
+
+    .preview {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f7fafc;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .preview img {
+      max-width: 100px;
+      max-height: 100px;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>SVG to PNG Converter</h1>
+    
+    <div class="upload-section">
+      <div class="file-upload">
+        <input type="file" id="svgFile" accept=".svg">
+        <label for="svgFile" class="upload-label" id="uploadLabel">
+          <div>📁 Choose SVG file or drag & drop</div>
+          <div style="font-size: 14px; margin-top: 5px; opacity: 0.7;">Supports .svg files</div>
+        </label>
+      </div>
+      
+      <input 
+        type="number" 
+        id="size" 
+        class="size-input"
+        placeholder="Output size (e.g. 512)" 
+        value="512"
+        min="1"
+        max="4096"
+      >
+    </div>
+    
+    <button id="convertBtn" class="convert-btn">
+      Convert to PNG
+    </button>
+    
+    <div id="result" class="result" style="display: none;"></div>
+  </div>
+
+  <script>
+    const svgFile = document.getElementById('svgFile');
+    const uploadLabel = document.getElementById('uploadLabel');
+    const convertBtn = document.getElementById('convertBtn');
+    const result = document.getElementById('result');
+    const sizeInput = document.getElementById('size');
+
+    // File upload handling
+    svgFile.addEventListener('change', handleFileSelect);
+    
+    // Drag and drop
+    uploadLabel.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadLabel.style.borderColor = '#667eea';
+      uploadLabel.style.background = '#edf2f7';
+    });
+    
+    uploadLabel.addEventListener('dragleave', () => {
+      uploadLabel.style.borderColor = '#cbd5e0';
+      uploadLabel.style.background = '#f7fafc';
+    });
+    
+    uploadLabel.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadLabel.style.borderColor = '#cbd5e0';
+      uploadLabel.style.background = '#f7fafc';
+      
+      const files = e.dataTransfer.files;
+      if (files.length > 0 && files[0].type === 'image/svg+xml') {
+        svgFile.files = files;
+        handleFileSelect();
+      }
+    });
+
+    function handleFileSelect() {
+      const file = svgFile.files[0];
+      if (file) {
+        uploadLabel.classList.add('has-file');
+        uploadLabel.innerHTML = `
+          <div>✅ ${file.name}</div>
+          <div style="font-size: 14px; margin-top: 5px; opacity: 0.7;">Click to change file</div>
+        `;
+      }
+    }
+
+    convertBtn.addEventListener('click', convertSVG);
+
+    async function convertSVG() {
+      const file = svgFile.files[0];
+      const size = parseInt(sizeInput.value);
+      
+      // Clear previous results
+      result.innerHTML = '';
+      result.style.display = 'none';
+      
+      // Validation
+      if (!file) {
+        showError('Please select an SVG file');
+        return;
+      }
+      
+      if (!size || size < 1 || size > 4096) {
+        showError('Please enter a valid size between 1 and 4096 pixels');
+        return;
+      }
+
+      // Show loading state
+      convertBtn.disabled = true;
+      convertBtn.innerHTML = '<span class="loading"></span>Converting...';
+      
+      try {
+        const text = await file.text();
+        const img = new Image();
+        const blob = new Blob([text], {type: "image/svg+xml"});
+        const url = URL.createObjectURL(blob);
+
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext("2d");
+          
+          // Fill with white background
+          ctx.fillStyle = 'white';
+          ctx.fillRect(0, 0, size, size);
+          
+          ctx.drawImage(img, 0, 0, size, size);
+          URL.revokeObjectURL(url);
+
+          // Create download link
+          const link = document.createElement("a");
+          const filename = file.name.replace(".svg", `-${size}x${size}.png`);
+          link.download = filename;
+          link.href = canvas.toDataURL("image/png");
+          link.className = "download-link";
+          link.textContent = `📥 Download ${size}×${size} PNG`;
+          
+          // Show success and result
+          showSuccess(`Successfully converted to ${size}×${size} PNG!`);
+          result.appendChild(link);
+          
+          // Add preview
+          const preview = document.createElement('div');
+          preview.className = 'preview';
+          preview.innerHTML = `
+            <div style="margin-bottom: 10px; font-weight: 600;">Preview:</div>
+            <img src="${canvas.toDataURL('image/png')}" alt="Preview">
+          `;
+          result.appendChild(preview);
+          
+          // Reset button
+          convertBtn.disabled = false;
+          convertBtn.innerHTML = 'Convert to PNG';
+        };
+        
+        img.onerror = () => {
+          showError('Failed to load SVG. Please check if the file is valid.');
+          convertBtn.disabled = false;
+          convertBtn.innerHTML = 'Convert to PNG';
+        };
+        
+        img.src = url;
+        
+      } catch (error) {
+        showError('Error processing file: ' + error.message);
+        convertBtn.disabled = false;
+        convertBtn.innerHTML = 'Convert to PNG';
+      }
+    }
+
+    function showError(message) {
+      result.innerHTML = `<div class="error">❌ ${message}</div>`;
+      result.style.display = 'block';
+    }
+
+    function showSuccess(message) {
+      result.innerHTML = `<div class="success">✅ ${message}</div>`;
+      result.style.display = 'block';
+    }
+
+    // Size input validation
+    sizeInput.addEventListener('input', (e) => {
+      const value = parseInt(e.target.value);
+      if (value > 4096) {
+        e.target.value = 4096;
+      } else if (value < 1) {
+        e.target.value = 1;
+      }
+    });
+  </script>
+</body>
+</html>

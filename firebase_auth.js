@@ -1,0 +1,126 @@
+// Firebase Auth Setup
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js';
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signOut, 
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithPopup 
+} from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
+import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDlQ_JWAToYyuintCnpzJQeURXq-p9C9XI",
+    authDomain: "havsite-login-and-chat.firebaseapp.com",
+    projectId: "havsite-login-and-chat",
+    storageBucket: "havsite-login-and-chat.firebasestorage.app",
+    messagingSenderId: "116998302820",
+    appId: "1:116998302820:web:0c67e8f1b6bc9a8f200371"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Signup with Email
+async function signUp(email, password, username) {
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        
+        // Save username to Firestore
+        await setDoc(doc(db, 'users', user.uid), {
+            email: user.email,
+            username: username,
+            createdAt: new Date(),
+            provider: 'email'
+        });
+        
+        console.log('Signup successful:', user);
+        return user;
+    } catch (error) {
+        console.error('Signup error:', error.message);
+        throw error;
+    }
+}
+
+// Signin with Email
+async function signIn(email, password) {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log('Signin successful:', userCredential.user);
+        return userCredential.user;
+    } catch (error) {
+        console.error('Signin error:', error.message);
+        throw error;
+    }
+}
+
+// Sign In with Google
+async function signInWithGoogle() {
+    const provider = new GoogleAuthProvider();
+    
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        
+        // Check if user document already exists
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        
+        // If new user, save their info to Firestore
+        if (!userDoc.exists()) {
+            await setDoc(doc(db, 'users', user.uid), {
+                email: user.email,
+                username: user.displayName || 'Google User',
+                photoURL: user.photoURL || null,
+                createdAt: new Date(),
+                provider: 'google'
+            });
+            console.log('New Google user created:', user);
+        } else {
+            console.log('Existing Google user signed in:', user);
+        }
+        
+        return user;
+    } catch (error) {
+        console.error('Error signing in with Google:', error.message);
+        throw error;
+    }
+}
+
+// Signout
+async function signOutUser() {
+    try {
+        await signOut(auth);
+        console.log('Signout successful');
+    } catch (error) {
+        console.error('Signout error:', error.message);
+        throw error;
+    }
+}
+
+// Auto-login check when visiting the chat section
+function checkAuthState(onAuthenticated, onUnauthenticated) {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            console.log('User is signed in:', user);
+            if (onAuthenticated) onAuthenticated(user);
+        } else {
+            console.log('No user signed in');
+            if (onUnauthenticated) onUnauthenticated();
+        }
+    });
+}
+
+export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState };
+export { app, db, auth };
+
+// Example usage
+// signUp('test@example.com', 'password123', 'testuser');
+// signIn('test@example.com', 'password123');
+// signInWithGoogle();
+// signOutUser();
+// checkAuthState(() => console.log('User is already signed in'), () => console.log('User needs to sign in'));
