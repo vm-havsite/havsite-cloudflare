@@ -663,7 +663,7 @@
                         articleCard.className = 'article-card';
 
                         // Create link to article page
-                        const articleLink = `/article/${encodeURIComponent(data.articleid)}`;
+                        const articleLink = `/articles/${encodeURIComponent(data.articleid)}`;
                         
                         // Determine if we should show thumbnail or placeholder
                         const thumbnailHTML = data.fileUrl 
@@ -711,29 +711,55 @@
                 // Remove loading spinner and show error message
                 const loadingElement = document.getElementById('loadingIndicator');
                 if (loadingElement && loadingElement.parentNode) {
-                    loadingElement.innerHTML = `
-                        <div style="text-align: center; padding: 2rem;">
-                            <p style="color: #d32f2f; margin-bottom: 1rem; font-size: 1.1rem;">
-                                <i class="fas fa-exclamation-circle"></i> 
-                                Failed to load articles
-                            </p>
-                            <p style="color: var(--text-color); font-size: 0.9rem; margin-bottom: 1rem;">
-                                ${error.message || 'Could not connect to Firebase. Please check your connection.'}
-                            </p>
-                            <button onclick="location.reload()" style="
-                                padding: 10px 20px; 
-                                background: var(--accent-color); 
-                                color: white; 
-                                border: none; 
-                                border-radius: 6px; 
-                                cursor: pointer;
-                                font-size: 1rem;
-                                transition: background 0.3s ease;
-                            " onmouseover="this.style.background='#5a0eb0'" onmouseout="this.style.background='var(--accent-color)'">
-                                <i class="fas fa-redo"></i> Retry
-                            </button>
-                        </div>
-                    `;
+                  if ( error.message == 'Missing or insufficient permissions' ) {
+                      loadingElement.innerHTML = `
+                          <div style="text-align: center; padding: 2rem;">
+                              <p style="color: #d32f2f; margin-bottom: 1rem; font-size: 1.1rem;">
+                                  <i class="fas fa-exclamation-circle"></i> 
+                                  Failed to load articles
+                              </p>
+                              <p style="color: var(--text-color); font-size: 0.9rem; margin-bottom: 1rem;">
+                                  ${error.message || 'Could not connect to Firebase. Please check your connection.'}
+                              </p>
+                              <button onclick="location.reload()" style="
+                                  padding: 10px 20px; 
+                                  background: var(--accent-color); 
+                                  color: white; 
+                                  border: none; 
+                                  border-radius: 6px; 
+                                  cursor: pointer;
+                                  font-size: 1rem;
+                                  transition: background 0.3s ease;
+                              " onmouseover="this.style.background='#5a0eb0'" onmouseout="this.style.background='var(--accent-color)'">
+                                  <i class="fas fa-redo"></i> Retry
+                              </button>
+                          </div>`;
+                    }
+		    else{ 
+                      loadingElement.innerHTML = `
+                          <div style="text-align: center; padding: 2rem;">
+                              <p style="color: #d32f2f; margin-bottom: 1rem; font-size: 1.1rem;">
+                                  <i class="fas fa-exclamation-circle"></i> 
+                                  Failed to load articles
+                              </p>
+                              <p style="color: var(--text-color); font-size: 0.9rem; margin-bottom: 1rem;">
+                                  ${error.message || 'Could not connect to Firebase. Please check your connection.'}
+                              </p>
+                              <button onclick="location.reload()" style="
+                                  padding: 10px 20px; 
+                                  background: var(--accent-color); 
+                                  color: white; 
+                                  border: none; 
+                                  border-radius: 6px; 
+                                  cursor: pointer;
+                                  font-size: 1rem;
+                                  transition: background 0.3s ease;
+                              " onmouseover="this.style.background='#5a0eb0'" onmouseout="this.style.background='var(--accent-color)'">
+                                  <i class="fas fa-redo"></i> Retry
+                              </button>
+                          </div>
+                      `;
+		    }
                 }
                 
                 // Still show the "Create new article" button even if loading fails
