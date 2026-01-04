@@ -663,7 +663,7 @@
                         articleCard.className = 'article-card';
 
                         // Create link to article page
-                        const articleLink = `article-viewer.html?id=${encodeURIComponent(data.articleid)}`;
+                        const articleLink = `/article/${encodeURIComponent(data.articleid)}`;
                         
                         // Determine if we should show thumbnail or placeholder
                         const thumbnailHTML = data.fileUrl 
