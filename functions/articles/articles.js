@@ -69,28 +69,28 @@ function generateArticlesHTML(articles, errorMessage = null) {
   const hardcodedArticles = `
     <article class="article-card">
         <a href="why-are-teenagers-depressed.html" style="color:var(--text-color);">
-            <img src="images/wrtd.jpg" alt="Why are teenagers depressed?">
+            <img src="https://havsite2.pages.dev/images/wrtd.jpg" alt="Why are teenagers depressed?">
             <p>why are teenagers<br> depressed?</p>
         </a>
     </article>
 
     <article class="article-card">
         <a href="rt.html" style="color:var(--text-color);">
-            <img src="images/rtf-t.jfif" alt="Ratanji Tata">
+            <img src="https://havsite2.pages.dev/images/rtf-t.jfif" alt="Ratanji Tata">
             <p>Ratanji Tata<br>(1937-2024)</p>
         </a>
     </article>
 
     <article class="article-card">
         <a href="burnoutreal.html" style="color:var(--text-color);">
-            <img src="images/The-Burnout-Generation-Why-Millennials-and-Gen-Z-Are-Getting-Tired-of-Work_Blog-Banner.png" alt="Burnout Generation">
+            <img src="https://havsite2.pages.dev/images/The-Burnout-Generation-Why-Millennials-and-Gen-Z-Are-Getting-Tired-of-Work_Blog-Banner.png" alt="Burnout Generation">
             <p>Why are Mellinials and Gen-Z so tired?</p>
         </a>
     </article>
 
     <article class="article-card">
         <a href="windows-10.html" style="color:var(--text-color);">
-            <img src="images/windows 10.jpg" alt="Windows 10">
+            <img src="https://havsite2.pages.dev/images/windows 10.jpg" alt="Windows 10">
             <p>windows 10 the best os ever?</p>
         </a>
     </article>
@@ -113,7 +113,7 @@ function generateArticlesHTML(articles, errorMessage = null) {
 
   const newArticleCard = `
     <article class="article-card">
-        <a href="word_processor2.html" style="color:var(--text-color);">
+        <a href="https://havsite2.pages.dev/word_processor2.html" style="color:var(--text-color);">
             <div class="new">
                 <div class="plus1"></div>
                 <div class="plus2"></div>
@@ -138,16 +138,16 @@ function generateArticlesHTML(articles, errorMessage = null) {
     <meta name="description" content="Havsite - Articles and reading materials">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="icon" type="image/x-icon" href="images/logo_og.png">
+    <link rel="icon" type="image/x-icon" href="https://havsite2.pages.dev/images/logo_og.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="ai-assistant.css">
-    <script src="chatbot-js.js" defer></script>
-    <link rel="stylesheet" href="autohidenav.css">
-    <script src="autohidenav.js" defer></script>
-    <link rel="stylesheet" href="search-css.css">
-    <script src="search-js.js" defer></script>
+    <script src="https://havsite2.pages.dev/chatbot-js.js" defer></script>
+    <link rel="https://havsite2.pages.dev/stylesheet" href="autohidenav.css">
+    <script src="https://havsite2.pages.dev/autohidenav.js" defer></script>
+    <link rel="https://havsite2.pages.dev/stylesheet" href="search-css.css">
+    <script src="https://havsite2.pages.dev/search-js.js" defer></script>
 <style>
     /* Theme Variables */
     :root {
@@ -565,21 +565,21 @@ function generateArticlesHTML(articles, errorMessage = null) {
 </head>
 <body>
     <div class="topnav" id="myTopnav">
-        <a href="about-tech-bro.html" class="logo">
-            <img src="images/logo_og.png" alt="Havsite Logo" height="40" width="40" style="border-radius: 8px;">
+        <a href="https://havsite2.pages.dev/about-tech-bro.html" class="logo">
+            <img src="https://havsite2.pages.dev/images/logo_og.png" alt="Havsite Logo" height="40" width="40" style="border-radius: 8px;">
         </a>
-        <a href="help.html">Help</a>
-        <a href="tep.html">Contact</a>
-        <a href="tep.html">FAQ</a>
-        <a href="arcticles.html">Articles</a>
-        <a href="Saas.html">Tools</a>
-        <a href="our team.html">Team</a>
-        <a href="download.html">Download</a>
-        <a href="index.html">
+        <a href="https://havsite2.pages.dev/help.html">Help</a>
+        <a href="https://havsite2.pages.dev/tep.html">Contact</a>
+        <a href="https://havsite2.pages.dev/tep.html">FAQ</a>
+        <a href="https://havsite2.pages.dev/arcticles.html">Articles</a>
+        <a href="https://havsite2.pages.dev/Saas.html">Tools</a>
+        <a href="https://havsite2.pages.dev/our team.html">Team</a>
+        <a href="https://havsite2.pages.dev/download.html">Download</a>
+        <a href="https://havsite2.pages.dev/index.html">
             <span class="material-symbols-outlined">home</span>
         </a>
-        <a href="cst.html" title="Profile">
-            <img src="images/user.png" style="height:24px; width:24px; border-radius:50%;">
+        <a href="https://havsite2.pages.dev/cst.html" title="Profile">
+            <img src="https://havsite2.pages.dev/images/user.png" style="height:24px; width:24px; border-radius:50%;">
         </a>
         <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">
             <i class="fas fa-moon"></i>
@@ -605,19 +605,19 @@ function generateArticlesHTML(articles, errorMessage = null) {
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href="help.html">Help Center</a></li>
-                    <li><a href="tep.html">Contact Us</a></li>
-                    <li><a href="tep.html">FAQ</a></li>
-                    <li><a href="arcticles.html">Articles</a></li>
+                    <li><a href="https://havsite2.pages.dev/help.html">Help Center</a></li>
+                    <li><a href="https://havsite2.pages.dev/tep.html">Contact Us</a></li>
+                    <li><a href="https://havsite2.pages.dev/tep.html">FAQ</a></li>
+                    <li><a href="https://havsite2.pages.dev/arcticles.html">Articles</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h3>Features</h3>
                 <ul class="footer-links">
-                    <li><a href="ca-u2.html">Chat</a></li>
-                    <li><a href="development_error_page2.html">Updates</a></li>
-                    <li><a href="tep.html">Stories</a></li>
-                    <li><a href="cst.html">Profile</a></li>
+                    <li><a href="https://havsite2.pages.dev/ca-u2.html">Chat</a></li>
+                    <li><a href="https://havsite2.pages.dev/development_error_page2.html">Updates</a></li>
+                    <li><a href="https://havsite2.pages.dev/tep.html">Stories</a></li>
+                    <li><a href="https://havsite2.pages.dev/cst.html">Profile</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -632,7 +632,7 @@ function generateArticlesHTML(articles, errorMessage = null) {
             </div>
         </div>
         <div class="copyright">
-            <p>© 2024 by Vivaan | <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a></p>
+            <p>© 2024 by Vivaan | <a href="https://havsite2.pages.dev/privacy-policy.html">Privacy Policy</a> | <a href="https://havsite2.pages.dev/terms-of-service.html">Terms of Service</a></p>
         </div>
     </footer>
 
@@ -640,7 +640,7 @@ function generateArticlesHTML(articles, errorMessage = null) {
         <i class="fas fa-arrow-up"></i>
     </a>
 
-    <script src="myscript.js"></script>
+    <script src="https://havsite2.pages.dev/myscript.js"></script>
     
     <script>
         function myFunction() {
