@@ -144,9 +144,9 @@ function generateArticlesHTML(articles, errorMessage = null) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://havsite2.pages.dev/ai-assistant.css">
     <script src="https://havsite2.pages.dev/chatbot-js.js" defer></script>
-    <link rel="https://havsite2.pages.dev/stylesheet" href="autohidenav.css">
+    <link rel="stylesheet" href="https://havsite2.pages.dev/autohidenav.css">
     <script src="https://havsite2.pages.dev/autohidenav.js" defer></script>
-    <link rel="https://havsite2.pages.dev/stylesheet" href="search-css.css">
+    <link rel="stylesheet" href="https://havsite2.pages.dev/search-css.css">
     <script src="https://havsite2.pages.dev/search-js.js" defer></script>
 <style>
     /* Theme Variables */
