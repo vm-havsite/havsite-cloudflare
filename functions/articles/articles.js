@@ -1,3 +1,135 @@
+// functions/articles.js
+export async function onRequest(context) {
+  const { env } = context;
+
+  try {
+    // Fetch articles from Firebase
+    const articles = await fetchArticlesFromFirebase(env);
+    
+    // Generate the HTML with server-side rendered articles
+    const html = generateArticlesHTML(articles);
+    
+    return new Response(html, {
+      headers: {
+        'Content-Type': 'text/html;charset=UTF-8',
+        'Cache-Control': 'public, max-age=300, s-maxage=600', // Cache for 5-10 minutes
+      },
+    });
+  } catch (error) {
+    console.error('Error loading articles:', error);
+    
+    // Return a fallback HTML with error message
+    const html = generateArticlesHTML([], error.message);
+    
+    return new Response(html, {
+      status: 500,
+      headers: {
+        'Content-Type': 'text/html;charset=UTF-8',
+      },
+    });
+  }
+}
+
+async function fetchArticlesFromFirebase(env) {
+  const projectId = env.FIREBASE_PROJECT_ID;
+  
+  if (!projectId) {
+    throw new Error('FIREBASE_PROJECT_ID environment variable missing');
+  }
+
+  // Fetch from Firestore REST API (no auth needed for public reads)
+  const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/thumbnails`;
+  
+  const response = await fetch(firestoreUrl);
+
+  if (!response.ok) {
+    throw new Error(`Firebase API error: ${response.status} - ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  
+  // Parse Firestore document format
+  const articles = [];
+  if (data.documents) {
+    for (const doc of data.documents) {
+      const fields = doc.fields || {};
+      articles.push({
+        articleid: fields.articleid?.stringValue || '',
+        title: fields.title?.stringValue || 'Untitled',
+        fileUrl: fields.fileUrl?.stringValue || '',
+      });
+    }
+  }
+
+  return articles;
+}
+
+function generateArticlesHTML(articles, errorMessage = null) {
+  // Generate article cards HTML
+  const hardcodedArticles = `
+    <article class="article-card">
+        <a href="why-are-teenagers-depressed.html" style="color:var(--text-color);">
+            <img src="images/wrtd.jpg" alt="Why are teenagers depressed?">
+            <p>why are teenagers<br> depressed?</p>
+        </a>
+    </article>
+
+    <article class="article-card">
+        <a href="rt.html" style="color:var(--text-color);">
+            <img src="images/rtf-t.jfif" alt="Ratanji Tata">
+            <p>Ratanji Tata<br>(1937-2024)</p>
+        </a>
+    </article>
+
+    <article class="article-card">
+        <a href="burnoutreal.html" style="color:var(--text-color);">
+            <img src="images/The-Burnout-Generation-Why-Millennials-and-Gen-Z-Are-Getting-Tired-of-Work_Blog-Banner.png" alt="Burnout Generation">
+            <p>Why are Mellinials and Gen-Z so tired?</p>
+        </a>
+    </article>
+
+    <article class="article-card">
+        <a href="windows-10.html" style="color:var(--text-color);">
+            <img src="images/windows 10.jpg" alt="Windows 10">
+            <p>windows 10 the best os ever?</p>
+        </a>
+    </article>
+  `;
+
+  const dynamicArticles = articles.map(article => {
+    const thumbnailHTML = article.fileUrl 
+      ? `<img src="${escapeHtml(article.fileUrl)}" alt="${escapeHtml(article.title)}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22140%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E'">`
+      : `<img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22140%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E" alt="${escapeHtml(article.title)}">`;
+
+    return `
+    <article class="article-card">
+        <a href="/articles/${escapeHtml(article.articleid)}" style="color:var(--text-color);">
+            ${thumbnailHTML}
+            <p>${escapeHtml(article.title)}</p>
+        </a>
+    </article>
+    `;
+  }).join('');
+
+  const newArticleCard = `
+    <article class="article-card">
+        <a href="word_processor2.html" style="color:var(--text-color);">
+            <div class="new">
+                <div class="plus1"></div>
+                <div class="plus2"></div>
+            </div>
+            <p>Create an article</p>
+        </a>
+    </article>
+  `;
+
+  const errorHTML = errorMessage ? `
+    <div class="loading">
+        <p style="color: #d32f2f;">⚠️ Failed to load some articles: ${escapeHtml(errorMessage)}</p>
+    </div>
+  ` : '';
+
+  return `<!DOCTYPE html>
 <html lang="english" id="html-root">
 <head>
     <title>Havsite - Articles</title>
@@ -43,7 +175,6 @@
         --arcticle-box-shadow: #e4e4e4;
     }
 
-    /* Selection styling */
     h1::selection {
         background: var(--accent-color);
         color: white;
@@ -54,7 +185,6 @@
         color: var(--text-color);
     }
 
-    /* Base styles */
     body {
         margin: 0;
         font-family: 'Poppins', Arial, sans-serif;
@@ -64,7 +194,6 @@
         line-height: 1.6;
     }
 
-    /* Navigation */
     .topnav a {
         float: left;
         display: flex;
@@ -149,7 +278,6 @@
         transform: scale(1.1);
     }
 
-    /* Theme toggle button */
     .theme-toggle {
         background: transparent;
         border: none;
@@ -166,7 +294,6 @@
         background-color: rgba(255, 255, 255, 0.1);
     }
 
-    /* Footer */
     footer {
         background: var(--primary-gradient);
         color: white;
@@ -249,7 +376,6 @@
         border-top: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* Responsive styles */
     @media screen and (max-width: 800px) {
         h1 {
             font-size: 2.5em;
@@ -336,7 +462,6 @@
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
-    /* Article specific styles */
     .articles {
         display: flex;
         flex-wrap: wrap;
@@ -429,28 +554,12 @@
         border-radius: 10px;
     }
 
-    /* Loading spinner */
     .loading {
         grid-column: 1 / -1;
         text-align: center;
         padding: 2rem;
         font-size: 1.2rem;
         color: var(--text-color);
-    }
-
-    .spinner {
-        border: 4px solid rgba(106, 17, 203, 0.1);
-        border-radius: 50%;
-        border-top: 4px solid var(--accent-color);
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 20px auto;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
     }
 </style>
 </head>
@@ -484,42 +593,11 @@
         </a>
     </div>
 
-    <!-- Article content -->
     <div class="articles" id="articlesContainer">
-        <!-- Hardcoded original articles -->
-        <article class="article-card">
-            <a href="why-are-teenagers-depressed.html" style="color:var(--text-color);">
-                <img src="images/wrtd.jpg">
-                <p>why are teenagers<br> depressed?</p>
-            </a>
-        </article>
-
-        <article class="article-card">
-            <a href="rt.html" style="color:var(--text-color);">
-                <img src="images/rtf-t.jfif">
-                <p>Ratanji Tata<br>(1937-2024)</p>
-            </a>
-        </article>
-
-        <article class="article-card">
-            <a href="burnoutreal.html" style="color:var(--text-color);">
-                <img src="images/The-Burnout-Generation-Why-Millennials-and-Gen-Z-Are-Getting-Tired-of-Work_Blog-Banner.png">
-                <p>Why are Mellinials and Gen-Z so tired?</p>
-            </a>
-        </article>
-
-        <article class="article-card">
-            <a href="windows-10.html" style="color:var(--text-color);">
-                <img src="images/windows 10.jpg">
-                <p>windows 10 the best os ever?</p>
-            </a>
-        </article>
-
-        <!-- Loading indicator -->
-        <div class="loading" id="loadingIndicator">
-            <div class="spinner"></div>
-            <p>Loading articles...</p>
-        </div>
+        ${hardcodedArticles}
+        ${dynamicArticles}
+        ${newArticleCard}
+        ${errorHTML}
     </div>
 
     <footer>
@@ -562,11 +640,9 @@
         <i class="fas fa-arrow-up"></i>
     </a>
 
-    <!-- Include external JS file -->
     <script src="myscript.js"></script>
     
     <script>
-        // Toggle mobile navigation
         function myFunction() {
             var x = document.getElementById("myTopnav");
             if (x.className === "topnav") {
@@ -577,7 +653,6 @@
             }
         }
 
-        // Back to top button functionality
         window.addEventListener('scroll', function() {
             var backToTopButton = document.getElementById('backToTop');
             if (window.pageYOffset > 300) {
@@ -587,14 +662,12 @@
             }
         });
 
-        // Enable Enter key for search
         document.getElementById("searchInput").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 searchFunction();
             }
         });
         
-        // Theme toggle functionality
         function toggleTheme() {
             document.getElementById('html-root').classList.toggle('dark-mode');
             if (document.getElementById('html-root').classList.contains('dark-mode')) {
@@ -604,7 +677,6 @@
             }
         }
         
-        // Update theme toggle icon on page load
         document.addEventListener('DOMContentLoaded', () => {
             if (document.getElementById('html-root').classList.contains('dark-mode')) {
                 document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
@@ -613,7 +685,6 @@
             }
         });
 
-        // Make back to top button work
         document.getElementById('backToTop').addEventListener('click', function(e) {
             e.preventDefault();
             window.scrollTo({
@@ -622,148 +693,17 @@
             });
         });
     </script>
-
-    <script type="module">
-        import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
-        import { app, db } from './firebase_auth.js';
-
-        // Function to load and display articles
-        async function loadArticles() {
-            const articlesContainer = document.getElementById('articlesContainer');
-            const loadingIndicator = document.getElementById('loadingIndicator');
-
-            try {
-                // Check if Firebase is initialized
-                if (!db) {
-                    throw new Error('Firebase not initialized');
-                }
-
-                // Fetch all thumbnails from Firestore
-                const thumbnailsCollection = collection(db, 'thumbnails');
-                const thumbnailsSnapshot = await getDocs(thumbnailsCollection);
-
-                // Hide loading indicator instead of removing it
-                if (loadingIndicator && loadingIndicator.parentNode) {
-                    loadingIndicator.style.display = 'none';
-                }
-
-                // Add all fetched articles FIRST
-                let articlesLoaded = 0;
-                thumbnailsSnapshot.forEach((doc) => {
-                    try {
-                        const data = doc.data();
-                        
-                        // Validate data
-                        if (!data || !data.articleid) {
-                            console.warn('Invalid article data:', doc.id);
-                            return;
-                        }
-
-                        const articleCard = document.createElement('article');
-                        articleCard.className = 'article-card';
-
-                        // Create link to article page
-                        const articleLink = `/articles/${encodeURIComponent(data.articleid)}`;
-                        
-                        // Determine if we should show thumbnail or placeholder
-                        const thumbnailHTML = data.fileUrl 
-                            ? `<img src="${data.fileUrl}" alt="${data.title || 'Article'}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22140%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E'">`
-                            : `<img src="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22140%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E" alt="${data.title || 'Article'}">`;
-
-                        articleCard.innerHTML = `
-                            <a href="${articleLink}" style="color:var(--text-color);">
-                                ${thumbnailHTML}
-                                <p>${data.title || 'Untitled'}</p>
-                            </a>
-                        `;
-                        
-                        articlesContainer.appendChild(articleCard);
-                        articlesLoaded++;
-                    } catch (cardError) {
-                        console.error('Error creating article card:', cardError);
-                    }
-                });
-
-                // Add "Create new article" card LAST
-                const newArticleCard = document.createElement('article');
-                newArticleCard.className = 'article-card';
-                newArticleCard.innerHTML = `
-                    <a href="word_processor2.html" style="color:var(--text-color);">
-                        <div class="new">
-                            <div class="plus1"></div>
-                            <div class="plus2"></div>
-                        </div>
-                        <p>Create an article</p>
-                    </a>
-                `;
-                articlesContainer.appendChild(newArticleCard);
-
-                // If no articles found (only show message if no Firebase articles)
-                if (thumbnailsSnapshot.empty || articlesLoaded === 0) {
-                    console.log('No Firebase articles found');
-                }
-
-                console.log(`Successfully loaded ${articlesLoaded} articles`);
-
-            } catch (error) {
-                console.error('Error loading articles:', error);
-                
-                // Remove loading spinner and show error message
-                const loadingElement = document.getElementById('loadingIndicator');
-                if (loadingElement && loadingElement.parentNode) {
-                      loadingElement.innerHTML = `
-                          <div style="text-align: center; padding: 2rem;">
-                              <p style="color: #d32f2f; margin-bottom: 1rem; font-size: 1.1rem;">
-                                  <i class="fas fa-exclamation-circle"></i> 
-                                  Failed to load articles
-                              </p>
-                              <p style="color: var(--text-color); font-size: 0.9rem; margin-bottom: 1rem;">
-                                  ${error.message || 'Could not connect to Firebase. Please check your connection.'}
-                              </p>
-                              <button onclick="location.reload()" style="
-                                  padding: 10px 20px; 
-                                  background: var(--accent-color); 
-                                  color: white; 
-                                  border: none; 
-                                  border-radius: 6px; 
-                                  cursor: pointer;
-                                  font-size: 1rem;
-                                  transition: background 0.3s ease;
-                              " onmouseover="this.style.background='#5a0eb0'" onmouseout="this.style.background='var(--accent-color)'">
-                                  <i class="fas fa-redo"></i> Retry
-                              </button>
-                          </div>
-                      `;
-                }
-                
-                // Still show the "Create new article" button even if loading fails
-                try {
-                    const newArticleCard = document.createElement('article');
-                    newArticleCard.className = 'article-card';
-                    newArticleCard.innerHTML = `
-                        <a href="word_processor2.html" style="color:var(--text-color);">
-                            <div class="new">
-                                <div class="plus1"></div>
-                                <div class="plus2"></div>
-                            </div>
-                            <p>Create an article</p>
-                        </a>
-                    `;
-                    articlesContainer.appendChild(newArticleCard);
-                } catch (cardError) {
-                    console.error('Could not create new article button:', cardError);
-                }
-            }
-        }
-
-        // Load articles when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            try {
-                loadArticles();
-            } catch (error) {
-                console.error('Failed to initialize article loading:', error);
-            }
-        });
-    </script>
 </body>
-</html>
+</html>`;
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
