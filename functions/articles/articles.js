@@ -142,7 +142,7 @@ function generateArticlesHTML(articles, errorMessage = null) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" href="ai-assistant.css">
+    <link rel="stylesheet" href="https://havsite2.pages.dev/articles/articlesai-assistant.css">
     <script src="https://havsite2.pages.dev/chatbot-js.js" defer></script>
     <link rel="https://havsite2.pages.dev/stylesheet" href="autohidenav.css">
     <script src="https://havsite2.pages.dev/autohidenav.js" defer></script>
