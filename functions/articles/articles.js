@@ -571,7 +571,7 @@ function generateArticlesHTML(articles, errorMessage = null) {
         <a href="https://havsite2.pages.dev/help.html">Help</a>
         <a href="https://havsite2.pages.dev/tep.html">Contact</a>
         <a href="https://havsite2.pages.dev/tep.html">FAQ</a>
-        <a href="https://havsite2.pages.dev/arcticles.html">Articles</a>
+        <a href="https://havsite2.pages.dev/#">Articles</a>
         <a href="https://havsite2.pages.dev/Saas.html">Tools</a>
         <a href="https://havsite2.pages.dev/our team.html">Team</a>
         <a href="https://havsite2.pages.dev/download.html">Download</a>
@@ -608,7 +608,7 @@ function generateArticlesHTML(articles, errorMessage = null) {
                     <li><a href="https://havsite2.pages.dev/help.html">Help Center</a></li>
                     <li><a href="https://havsite2.pages.dev/tep.html">Contact Us</a></li>
                     <li><a href="https://havsite2.pages.dev/tep.html">FAQ</a></li>
-                    <li><a href="https://havsite2.pages.dev/arcticles.html">Articles</a></li>
+                    <li><a href="https://havsite2.pages.dev/#">Articles</a></li>
                 </ul>
             </div>
             <div class="footer-section">
