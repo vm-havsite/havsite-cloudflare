@@ -367,7 +367,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 <body>
     <div class="header">
         <div class="header-content">
-            <h1>📄 Havsite</h1>
+            <h1>📄 Havsite Articles</h1>
             <a href="/arcticles.html" class="back-link">
                 <i class="fas fa-arrow-left"></i> Back to Articles
             </a>
