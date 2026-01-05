@@ -1,5 +1,5 @@
 // UPDATE THIS WITH YOUR WORKER URL
-const FUZZY_SEARCH_WORKER_URL = 'https://fuzzysearch.vm002248.workers.dev/search';
+const FUZZY_SEARCH_WORKER_URL = 'https://fuzzysearch2.vm002248.workers.dev/search';
 
 // Create search modal HTML
 function createSearchModal() {
