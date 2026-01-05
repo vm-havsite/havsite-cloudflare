@@ -12,12 +12,12 @@ import {
 import { getFirestore, doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDlQ_JWAToYyuintCnpzJQeURXq-p9C9XI",
-    authDomain: "havsite-login-and-chat.firebaseapp.com",
-    projectId: "havsite-login-and-chat",
-    storageBucket: "havsite-login-and-chat.firebasestorage.app",
-    messagingSenderId: "116998302820",
-    appId: "1:116998302820:web:0c67e8f1b6bc9a8f200371"
+  apiKey: "AIzaSyC4PK265Bh7rF92ihkUC4MjD4YtN5Y0las",
+  authDomain: "havsite-pwa.firebaseapp.com",
+  projectId: "havsite-pwa",
+  storageBucket: "havsite-pwa.firebasestorage.app",
+  messagingSenderId: "994396465347",
+  appId: "1:994396465347:web:16939fceebfb70368e1a76",
 };
 
 
