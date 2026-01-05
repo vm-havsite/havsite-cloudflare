@@ -12,7 +12,7 @@ export async function onRequest(context) {
     return new Response(html, {
       headers: {
         'Content-Type': 'text/html;charset=UTF-8',
-        'Cache-Control': 'public, max-age=300, s-maxage=600', // Cache for 5-10 minutes
+        'Cache-Control': 'public, max-age=300, s-maxage=600', // Cache for 5-10 minutes 
       },
     });
   } catch (error) {
