@@ -410,19 +410,7 @@
         import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
         import { signUp, signIn, signOutUser, signInWithGoogle } from './firebase_auth.js';
 
-	function checkAuthState(onAuthenticated, onUnauthenticated) {
-	    onAuthStateChanged(auth, (user) => {
-	        if (user) {
-	            console.log('User is signed in:', user);
-                    Toast.show('Already signed in,', 'Redirecting');
-		    setTimeout(() => {
-        		if (destination) {
-		            window.location.replace(destination);
-		        }
-		    }, 1000); // Wait exactly 1 second, then run once
-	        }
-	    });
-	}
+        checkAuthState();
 
         function setLoading(btn, isLoading) {
             if (isLoading) {
@@ -435,7 +423,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            checkAuthState();
 
             // Email Sign Up
             const signupForm = document.getElementById('email-signup-form');

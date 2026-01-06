@@ -115,6 +115,25 @@ function checkAuthState(onAuthenticated, onUnauthenticated) {
     });
 }
 
+
+// Auto-login check when visiting the auth page
+function checkAuthState(onAuthenticated, onUnauthenticated) {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+	  console.log('User is signed in:', user);
+          Toast.show('Already signed in,', 'Redirecting');
+	    setTimeout(() => {
+              if (destination) {
+	        window.location.replace(destination);
+	      }
+            }, 1000); // Wait exactly 1 second, then run once
+        } else {
+            console.log('No user signed in');
+            if (onUnauthenticated) onUnauthenticated();
+        }
+    });
+}
+
 export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState };
 export { app, db, auth };
 
