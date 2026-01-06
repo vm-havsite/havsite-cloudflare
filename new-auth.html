@@ -409,7 +409,12 @@
 
         import { signUp, signIn, signOutUser, signInWithGoogle, checkAuthState2 } from './firebase_auth.js';
 
-        checkAuthState2(destination);
+	setTimeout(() => {
+          if (destination) {
+            checkAuthState2(destination);
+	  }
+	 }, 1000); // Wait exactly 1 second, then run once
+
 
         function setLoading(btn, isLoading) {
             if (isLoading) {
