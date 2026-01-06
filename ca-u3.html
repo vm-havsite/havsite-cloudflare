@@ -1004,7 +1004,7 @@ async function sendMessage() {
 }
 
 async function loadContacts() {
-    const querySnapshot = await getDocs(collection(db, "users", username.uid, "contacts", "contacts"));
+    const querySnapshot = await getDocs(collection(db, "users", username.uid, "contacts"));
     const contactsList = document.getElementById("contactsList");
     contactsList.innerHTML = "";
     querySnapshot.forEach((doc) => {
