@@ -117,7 +117,7 @@ function checkAuthState(onAuthenticated, onUnauthenticated) {
 
 
 // Auto-login check when visiting the auth page
-function checkAuthState(onAuthenticated, onUnauthenticated) {
+function checkAuthState2(onAuthenticated, onUnauthenticated) {
     onAuthStateChanged(auth, (user) => {
         if (user) {
 	  console.log('User is signed in:', user);
