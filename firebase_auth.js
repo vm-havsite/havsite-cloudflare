@@ -134,7 +134,7 @@ function checkAuthState2(onAuthenticated, onUnauthenticated) {
     });
 }
 
-export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState };
+export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState, checkAuthState2 };
 export { app, db, auth };
 
 // Example usage
