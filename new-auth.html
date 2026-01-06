@@ -435,7 +435,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            
+            checkAuthState();
+
             // Email Sign Up
             const signupForm = document.getElementById('email-signup-form');
             signupForm.addEventListener('submit', async (e) => {
