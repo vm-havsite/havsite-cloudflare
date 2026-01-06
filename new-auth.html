@@ -403,7 +403,25 @@
 
     <!-- Firebase Logic -->
     <script type="module">
+    //Grab the parameter from the URL
+    const params = new URLSearchParams(window.location.search);
+    const destination = params.get('p');
+
         import { signUp, signIn, signOutUser, signInWithGoogle } from './firebase_auth.js';
+
+	function checkAuthState(onAuthenticated, onUnauthenticated) {
+	    onAuthStateChanged(auth, (user) => {
+	        if (user) {
+	            console.log('User is signed in:', user);
+                    Toast.show('Already signed in,', 'Redirecting');
+		    setTimeout(() => {
+        		if (destination) {
+		            window.location.replace(destination);
+		        }
+		    }, 1000); // Wait exactly 1 second, then run once
+	        }
+	    });
+	}
 
         function setLoading(btn, isLoading) {
             if (isLoading) {
@@ -430,6 +448,11 @@
                 try {
                     await signUp(email, password, username);
                     Toast.show('Account created successfully!', 'success');
+		    setTimeout(() => {
+        		if (destination) {
+		            window.location.replace(destination);
+		        }
+		    }, 1000); // Wait exactly 1 second, then run once
                 } catch (error) {
                     Toast.show(error.message, 'error');
                 } finally {
@@ -449,6 +472,11 @@
                 try {
                     await signIn(email, password);
                     Toast.show('Welcome back!', 'success');
+		    setTimeout(() => {
+        		if (destination) {
+		            window.location.replace(destination);
+		        }
+		    }, 1000); // Wait exactly 1 second, then run once
                 } catch (error) {
                     Toast.show('Login failed: ' + error.message, 'error');
                 } finally {
@@ -461,6 +489,11 @@
                 try {
                     await signInWithGoogle();
                     Toast.show('Signed in with Google', 'success');
+		    setTimeout(() => {
+        		if (destination) {
+		            window.location.replace(destination);
+		        }
+		    }, 1000); // Wait exactly 1 second, then run once
                 } catch (error) {
                     Toast.show('Google Sign In failed', 'error');
                 }
@@ -471,6 +504,11 @@
                 try {
                     await signInWithGoogle();
                     Toast.show('Signed up with Google', 'success');
+		    setTimeout(() => {
+        		if (destination) {
+		            window.location.replace(destination);
+		        }
+		    }, 1000); // Wait exactly 1 second, then run once
                 } catch (error) {
                     Toast.show('Google Sign Up failed', 'error');
                 }
