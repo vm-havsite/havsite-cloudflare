@@ -407,14 +407,7 @@
     const params = new URLSearchParams(window.location.search);
     const destination = params.get('p');
 
-        import { signUp, signIn, signOutUser, signInWithGoogle, checkAuthState2 } from './firebase_auth.js';
-
-	setTimeout(() => {
-          if (destination) {
-            checkAuthState2(destination);
-	  }
-	 }, 3000); // Wait exactly 3 second, then run once
-	
+        import { signUp, signIn, signOutUser, signInWithGoogle, checkAuthState2 } from './firebase_auth.js';	
 
         function setLoading(btn, isLoading) {
             if (isLoading) {
@@ -427,6 +420,12 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+
+	setTimeout(() => {
+          if (destination) {
+            checkAuthState2(destination);
+	  }
+	 }, 1000); // Wait exactly 3 second, then run once
 
             // Email Sign Up
             const signupForm = document.getElementById('email-signup-form');
