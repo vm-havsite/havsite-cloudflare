@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" id="html-root">
 <head>
-    <title>User Profile</title>
+    <title>Havsite - Home</title>
     <meta charset="UTF-8">
-    <meta http-equiv=”refresh” content=”5″>
-    <meta name="viewport" content="width=device-width, initial-scale=1" decription="profile page">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2196f3">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Havsite Home - Connect with classmates and access the latest updates">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="icon" type="image/x-icon" href="images/logo_og.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
     <link rel="stylesheet" href="ai-assistant.css">
     <script src="chatbot-js.js" defer></script>
     <link rel="stylesheet" href="autohidenav.css">
     <script src="autohidenav.js" defer></script>
     <link rel="stylesheet" href="search-css.css">
     <script src="search-js.js" defer></script>
+
 
 <style>
     /* Theme Variables */
@@ -64,6 +67,7 @@
         background: rgba(106, 17, 203, 0.3);
         color: var(--text-color);
     }
+
 
     /* Base styles */
     body {
@@ -177,99 +181,6 @@
         background-color: rgba(255, 255, 255, 0.1);
     }
 
-    /* Main content */
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    .hero-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 40px 20px;
-    }
-
-    h1 {
-        font-size: 3em;
-        margin: 20px 0;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        position: relative;
-        display: inline-block;
-    }
-
-    h1::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 4px;
-        background: var(--primary-gradient);
-        border-radius: 2px;
-    }
-
-    .tagline {
-        font-size: 1.2em;
-        margin-bottom: 30px;
-        max-width: 800px;
-        color: var(--text-color);
-    }
-
-    /* Featured content */
-    .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-        margin: 40px 0;
-    }
-
-    .feature-card {
-        background: var(--card-bg);
-        border-radius: var(--border-radius);
-        box-shadow: var(--card-shadow);
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .feature-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    .feature-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-radius: var(--border-radius) var(--border-radius) 0 0;
-        transition: transform 0.5s ease;
-    }
-
-    .feature-card:hover img {
-        transform: scale(1.05);
-    }
-
-    .feature-content {
-        padding: 20px;
-    }
-
-    .feature-content h3 {
-        margin-top: 0;
-        color: var(--accent-color);
-    }
-
-    .feature-content p {
-        margin-bottom: 15px;
-        text-align: left;
-    }
-
     .btn {
         display: inline-block;
         padding: 10px 20px;
@@ -285,72 +196,6 @@
     .btn:hover {
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
-    }
-
-    /* Call to action */
-    .cta-section {
-        background: var(--secondary-gradient);
-        padding: 60px 30px;
-        text-align: center;
-        margin: 60px 0;
-        border-radius: var(--border-radius);
-        box-shadow: var(--card-shadow);
-        color: white;
-    }
-
-    .cta-section h2 {
-        margin-top: 0;
-        font-size: 2.5em;
-    }
-
-    .cta-section p {
-        max-width: 600px;
-        margin: 20px auto 30px;
-    }
-
-    .cta-section .btn {
-        background: white;
-        color: var(--accent-color);
-        font-weight: 600;
-        padding: 12px 30px;
-        font-size: 1.1em;
-    }
-
-    /* Announcement banner */
-    .announcement {
-        background-color: rgba(106, 17, 203, 0.1);
-        padding: 10px 20px;
-        text-align: center;
-        border-radius: var(--border-radius);
-        margin: 20px 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .announcement i {
-        margin-right: 10px;
-        color: var(--accent-color);
-    }
-
-    /* Quote section */
-    .quote-container {
-        margin: 40px auto;
-        max-width: 800px;
-        text-align: center;
-    }
-
-    .quote-img {
-        width: 100%;
-        max-width: 600px;
-        height: auto;
-        border-radius: var(--border-radius);
-        box-shadow: var(--img-box-shadow);
-        transition: transform 0.3s ease;
-    }
-
-    .quote-img:hover {
-        transform: scale(1.02);
     }
 
     /* Footer */
@@ -466,17 +311,6 @@
         transform: translateY(-5px);
     }
 
-    /* Responsive styles */
-    @media screen and (max-width: 800px) {
-        h1 {
-            font-size: 2.5em;
-        }
-
-        .features-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
     @media screen and (max-width: 600px) {
             .topnav a:not(:first-child), .topnav .search-bar { display: none; }
             .topnav a.icon { float: right; display: block; 
@@ -529,61 +363,11 @@
             box-sizing: border-box;
         }
     }
-	#title{
-           font-size: 4.5em;
-	   font-family: 'National Park';
-           margin: 20px 0;
-           background: var(--primary-gradient);
-           -webkit-background-clip: text;
-           background-clip: text;
-           color: transparent;
-           position: relative;
-           display: inline-block;
-   }
-	#title:after{
-           content: '';
-           position: absolute;
-           bottom: -10px;
-           left: 50%;
-           transform: translateX(-50%);
-           width: 80px;
-           height: 4px;
-           background: var(--primary-gradient);
-           border-radius: 2px;
-   }
-    /* Call to action */
-    .cta-section {
-        background: var(--secondary-gradient);
-        padding: 60px 30px;
-        text-align: center;
-        margin: 60px 0;
-        border-radius: var(--border-radius);
-        box-shadow: var(--card-shadow);
-        color: white;
-    }
-
-    .cta-section h2 {
-        margin-top: 0;
-        font-size: 2.5em;
-    }
-
-    .cta-section p {
-        max-width: 600px;
-        margin: 20px auto 30px;
-    }
-
-    .cta-section .btn {
-        background: white;
-        color: var(--accent-color);
-        font-weight: 600;
-        padding: 12px 30px;
-        font-size: 1.1em;
-    }
 </style>
 </head>
 <body>
     <div class="topnav" id="myTopnav">
-        <a href="abou-tech-bro.html" class="logo">
+        <a href="about tech bro.html" class="logo">
             <img src="images/logo_og.png" alt="Havsite Logo" height="40" width="40" style="border-radius: 8px;">
         </a>
         <a href="help.html">Help</a>
@@ -594,29 +378,24 @@
         <a href="our team.html">Team</a>
         <a href="download.html">Download</a>
         <a href="index.html">
-            <span class="material-symbols-outlined">home</span>
+            <img src="images/home_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg">
         </a>
         <a href="cst.html" title="Profile">
-            <img src="images/user.png" style="height:24px; width:24px; border-radius:50%;">
+            <img src="images/user.png" alt="profile image" style="height:24px; width:24px; border-radius:50%;">
         </a>
         <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">
             <i class="fas fa-moon"></i>
         </button>
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search...">
-            <button onclick="searchFunction()"><i class="fas fa-search"></i></button>
+            <button onclick="searchFunction()" aria-label="search button"><i class="fas fa-search" aria-hidden="true"></i></button>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fas fa-bars"></i>
         </a>
     </div>
-    <div class="container" id="userdetails">
-        <h1>User Login</h1>
-        <div id="profile">
-            <div><img src="images/user.png" style="height:24px; width:24px; border-radius:50%;"></div>
-            <h2>Welcome, <span id="displayUsername"></span>!</h2>
-            <p>Email: <span id="displayEmail"></span></p>
-        </div>
+
+    <div class="container">
     </div>
 
     <footer>
@@ -654,41 +433,16 @@
             <p>© 2024 by Vivaan | <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a></p>
         </div>
     </footer>
-<script type="module">
-  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
-  import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
-  import { app, db } from './firebase_auth.js';
 
-  const auth = getAuth(app);
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
 
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      try {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          const useremail = userDoc.data().email;
-          const username = userDoc.data().username;
-          document.getElementById('displayEmail').textContent = useremail;
-          document.getElementById('displayUsername').textContent = username || "Unknown User";
-        } else {
-          console.log("User document does not exist");
-          document.getElementById('displayUsername').textContent = "Unknown User";
-          document.getElementById('displayEmail').textContent = user.email || "No email";
-        }
-      } catch (error) {
-        console.error("Error fetching user document:", error);
-        document.getElementById('displayUsername').textContent = "Unknown User";
-        document.getElementById('displayEmail').textContent = "Error loading email";
-      }
-    } else {
-      document.getElementById('userdetails').innerHTML += '<div class="cta-section"><h2>Join Our Community Today</h2><p>Become part of our growing community and experience the best way to connect with your classmates and friends.</p><a href="new auth.html" class="btn" aria-label="signup button">Sign Up Now</a></div>';
-    }
-  });
-</script>
-
-    </script>
+    <!-- Include external JS file -->
     <script src="myscript.js"></script>
-    <script defer loading="lazy">
+    
+    <script>
+        // Toggle mobile navigation
         function myFunction() {
             var x = document.getElementById("myTopnav");
             if (x.className === "topnav") {
@@ -698,6 +452,26 @@
                 x.className = "topnav";
             }
         }
+
+
+        // Back to top button functionality
+        window.addEventListener('scroll', function() {
+            var backToTopButton = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        // Update theme toggle icon on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('html-root').classList.contains('dark-mode')) {
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
     </script>
 </body>
 </html>
