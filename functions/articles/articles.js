@@ -68,28 +68,28 @@ function generateArticlesHTML(articles, errorMessage = null) {
   // Generate article cards HTML
   const hardcodedArticles = `
     <article class="article-card">
-        <a href="why-are-teenagers-depressed.html" style="color:var(--text-color);">
+        <a href="https://havsite2.pages.dev/why-are-teenagers-depressed.html" style="color:var(--text-color);">
             <img src="https://havsite2.pages.dev/images/wrtd.jpg" alt="Why are teenagers depressed?">
             <p>why are teenagers<br> depressed?</p>
         </a>
     </article>
 
     <article class="article-card">
-        <a href="rt.html" style="color:var(--text-color);">
+        <a href="https://havsite2.pages.dev/rt.html" style="color:var(--text-color);">
             <img src="https://havsite2.pages.dev/images/rtf-t.jfif" alt="Ratanji Tata">
             <p>Ratanji Tata<br>(1937-2024)</p>
         </a>
     </article>
 
     <article class="article-card">
-        <a href="burnoutreal.html" style="color:var(--text-color);">
+        <a href="https://havsite2.pages.dev/burnoutreal.html" style="color:var(--text-color);">
             <img src="https://havsite2.pages.dev/images/The-Burnout-Generation-Why-Millennials-and-Gen-Z-Are-Getting-Tired-of-Work_Blog-Banner.png" alt="Burnout Generation">
             <p>Why are Mellinials and Gen-Z so tired?</p>
         </a>
     </article>
 
     <article class="article-card">
-        <a href="windows-10.html" style="color:var(--text-color);">
+        <a href="https://havsite2.pages.dev/windows-10.html" style="color:var(--text-color);">
             <img src="https://havsite2.pages.dev/images/windows 10.jpg" alt="Windows 10">
             <p>windows 10 the best os ever?</p>
         </a>
