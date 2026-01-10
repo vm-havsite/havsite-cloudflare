@@ -179,17 +179,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
             line-height: 1.2;
         }
 
-
-          h1::after {
-             position: absolute;
-             bottom: -10px;
-             left: 50%;
-             width: 80px;
-             height: 4px;
-             background: var(--primary-gradient);
-             border-radius: 2px;
-         }
-
         .article-meta {
             color: #666;
             font-size: 0.95rem;
