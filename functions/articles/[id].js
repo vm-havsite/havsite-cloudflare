@@ -172,9 +172,25 @@ function generateArticleHTML(article, thumbnail, articleId) {
         .article-title {
             font-size: 2.5rem;
             margin-bottom: 20px;
-            color: var(--text-color);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background: var(--primary-gradient);
             line-height: 1.2;
         }
+
+
+          .article-title::after {
+             content: '';
+             position: absolute;
+             bottom: -10px;
+             left: 50%;
+             transform: translateX(-50%);
+             width: 80px;
+             height: 4px;
+             background: var(--primary-gradient);
+             border-radius: 2px;
+         }
 
         .article-meta {
             color: #666;
