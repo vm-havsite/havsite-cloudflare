@@ -169,24 +169,28 @@ function generateArticleHTML(article, thumbnail, articleId) {
             margin-bottom: 30px;
         }
 
-        .article-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: var(--primary-gradient);
-            line-height: 1.2;
-        }
+    h1 {
+        font-size: 3em;
+        margin: 20px 0;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        display: inline-block;
+    }
 
-
-          .article-title::after {
-             position: absolute;
-             bottom: -10px;
-             left: 50%;
-             width: 80px;
-             height: 4px;
-             border-radius: 2px;
-         }
+    h1::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: var(--primary-gradient);
+        border-radius: 2px;
+    }
 
         .article-meta {
             color: #666;
