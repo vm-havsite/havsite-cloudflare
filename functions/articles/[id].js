@@ -174,10 +174,19 @@ function generateArticleHTML(article, thumbnail, articleId) {
             margin-bottom: 20px;
             -webkit-background-clip: text;
             background-clip: text;
-            color: transparent;
-            background: var(--primary-gradient);
+            color: var(--primary-gradient);
             line-height: 1.2;
         }
+
+
+          .article-title::after {
+             position: absolute;
+             bottom: -10px;
+             left: 50%;
+             width: 80px;
+             height: 4px;
+             border-radius: 2px;
+         }
 
         .article-meta {
             color: #666;
