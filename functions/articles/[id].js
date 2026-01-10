@@ -169,7 +169,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             margin-bottom: 30px;
         }
 
-    h1 {
+    .article-title {
         font-size: 3em;
         margin: 20px 0;
         background: var(--primary-gradient);
@@ -180,7 +180,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         display: inline-block;
     }
 
-    h1::after {
+    .article-title::after {
         content: '';
         position: absolute;
         bottom: -10px;
