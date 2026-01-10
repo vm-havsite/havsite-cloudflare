@@ -180,12 +180,10 @@ function generateArticleHTML(article, thumbnail, articleId) {
         }
 
 
-          .article-title::after {
-             content: '';
+          h1::after {
              position: absolute;
              bottom: -10px;
              left: 50%;
-             transform: translateX(-50%);
              width: 80px;
              height: 4px;
              background: var(--primary-gradient);
