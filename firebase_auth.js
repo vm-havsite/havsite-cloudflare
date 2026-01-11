@@ -127,7 +127,7 @@ function checkAuthState2(destination, onAuthenticated, onUnauthenticated) {
 	      }
         }
     });
-  }, 3000); // Wait exactly 1 second, then run once
+  }, 3000); // Wait exactly 3 second, then run once
 }
 
 export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState, checkAuthState2 };
