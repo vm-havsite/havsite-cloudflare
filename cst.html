@@ -537,9 +537,26 @@
 
     .points{
 	background: #292929;
-	border-radius: 40%;
-	height: 80px;
+	border-radius: 0.4rem;
+	height: max-content;
 	width: 90vw;
+	display: flex;
+        padding: 6px 6px;
+        text-align: center;
+	font-weight: bolder;
+	font-size: 1.1rem;
+    }
+
+    .points a {
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: all var(--transition-speed) ease;
+        border-radius: 6px;
+        margin: 8px 4px;
+	margin-left: 60vw;
     }
 
 </style>
@@ -582,6 +599,8 @@
             <p>Email: <span id="displayEmail"></span></p>
         </div>
         <div class="points">
+          <p>Havsite Points: &nbsp&nbsp <p id="points"></p> </p>
+          <a href="#">earn points 💰</a>
         </div>
     </div>
 
@@ -624,6 +643,7 @@
   import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
   import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
   import { app, db } from './firebase_auth.js';
+  import { getpoints, addpoints, subpoints } from './points.js
 
   const auth = getAuth(app);
 
@@ -650,6 +670,9 @@
       document.getElementById('userdetails').innerHTML += '<div class="cta-section"><h2>Join Our Community Today</h2><p>Become part of our growing community and experience the best way to connect with your classmates and friends.</p><a href="new auth.html" class="btn" aria-label="signup button">Sign Up Now</a></div>';
     }
   });
+  
+  let points = getpoints();
+  document.getElementById('points').textContent = points || 0;
 </script>
 
     </script>
