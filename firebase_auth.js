@@ -123,11 +123,13 @@ function checkAuthState2(destination, onAuthenticated, onUnauthenticated) {
 	  console.log('User is signed in:', user);
           Toast.show('Already signed in, Redirecting');
               if (destination) {
+		setTimeout(() => {
 	        window.location.replace(destination);
+		}, 1200);
 	      }
         }
     });
-  }, 1800); // Wait exactly 1.8 second, then run once
+  }, 1000); // Wait exactly 1 second, then run once
 }
 
 export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState, checkAuthState2 };
