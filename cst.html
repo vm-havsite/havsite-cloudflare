@@ -553,10 +553,15 @@
         padding: 14px 16px;
         text-decoration: none;
         font-size: 16px;
-        transition: all var(--transition-speed) ease;
         border-radius: 6px;
         margin: 8px 4px;
 	margin-left: 60vw;
+    }
+
+    @media screen and (max-width: 600px) {
+      .points a {
+	  margin-left: 50vw;
+      }
     }
 
 </style>
@@ -599,7 +604,7 @@
             <p>Email: <span id="displayEmail"></span></p>
         </div>
         <div class="points">
-          <p>Havsite Points: &nbsp&nbsp <p id="points"></p> </p>
+          <p>Havsite Points: <p id="points"></p> </p>
           <a href="#">earn points 💰</a>
         </div>
     </div>
