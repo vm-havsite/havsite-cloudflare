@@ -773,6 +773,10 @@ async function displayArticles() {
     articleList.innerHTML = '<p>Error loading articles. Please try again.</p>';
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  displayArticles();
+});
 </script>
 </body>
 </html>
