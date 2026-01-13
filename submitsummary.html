@@ -449,6 +449,7 @@
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
+import { getpoints, addpoints, subpoints } from './points.js';
 const auth = getAuth(app);
 
 //Grab the parameter from the URL
@@ -504,7 +505,9 @@ window.saveDocument = async function() {
             
             console.log('Article saved successfully');
 
-            alert(`summary has been saved successfully!\n\nWords: ${document.getElementById('wordCount').textContent}\nCharacters: ${document.getElementById('charCount').textContent}`);
+            alert(`summary has been saved successfully!\n\nYou have earned 6 Points.\n\nWords: ${document.getElementById('wordCount').textContent}\nCharacters: ${document.getElementById('charCount').textContent}`);
+	    addval = 3;
+	    addpoints(addval);
             
             // Update status
             const statusBar = document.querySelector('.status-bar');
