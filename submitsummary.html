@@ -371,7 +371,6 @@
 
         // Update document data
         function updateDocumentData() {
-            documentData.title = document.getElementById('docTitle').value || 'Untitled Document';
             documentData.content = quill.getContents();
             documentData.lastSaved = new Date().toISOString();
         }
