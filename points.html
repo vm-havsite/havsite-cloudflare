@@ -492,12 +492,14 @@
 	background: white;
 	border-radius: 4px;
     }
+
     .fill{
 	height: 10px;
 	width: 80px;;
 	background: yellow;
 	border-radius: 4px;
-}
+    }
+
     .points-menu{
 	background: #292929;
 	border-radius: 0.4rem;
@@ -506,7 +508,7 @@
         text-align: center;
 	font-weight: bolder;
 	font-size: 1.1rem;
-}
+    }
 
     .points-menu a {
         color: white;
@@ -540,6 +542,7 @@
 	overflow-y: scroll;
 	scroll-behavior: smooth;
 	scrollbar-width: 4px;
+        padding: 2px 2px;
     }
 
     .article-item{
@@ -594,14 +597,14 @@
             <div class="feature-card">
                 <div class="feature-content">
                     <h3>Earn 3 points</h3>
-                    <p>get 3 point for a 3day streak on havsite</p>
+                    <p>Get 3 point for a 3 day streak on havsite</p>
                     <a href="ca-u2.html" class="btn" aria-label="chat room">Start Chatting</a>
                 </div>
             </div>
             <div class="feature-card">
                 <div class="feature-content">
                     <h3>Earn 6 points</h3>
-                    <p>Submit summary of an article of your choice and earh 6 points</p>
+                    <p>Submit summary of an article of your choice and earn 6 points</p>
                     <a href="rss-feed-00.html" class="btn" aria-label="see updates">See Updates</a>
                 </div>
             </div>
@@ -763,6 +766,8 @@ async function displayArticles() {
       articleElement.innerHTML = `
         <h3>${article.name}</h3>
         <p>ID: ${article.id}</p>
+	<a href="articles/${article.id}"><div class="btn">View article</div><a>
+	<a href="submitsummary.html?id=${article.id}"><div class="btn">Write summary</div><a>
       `;
       articleList.appendChild(articleElement);
     });

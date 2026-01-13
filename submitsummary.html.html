@@ -294,15 +294,6 @@
                 font-size: 12px;
             }
         }
-
-    .popup{
-      height: max-content;
-      width: max-content;
-      backdrop-filter: blur(10px);
-      background-color: rgba(255, 255, 255, 0.5)
-      text-overflow: wrap;
-      border-radius: 10%;
-}
     </style>
 </head>
 <body>
@@ -311,23 +302,11 @@
         <div class="header-buttons">
             <button class="btn btn-secondary" onclick="newDocument()">New</button>
             <button class="btn btn-primary" id="save">Upload</button>
-	    <input type="file" id="fileInput" style="display: none;">
-	    <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">Thumbnail</button>
-            <button class="btn btn-primary" id="download">Download</button>
-            <button class="btn btn-secondary" onclick="printDocument()">Print</button>
+            <a href='points.html" style="text-decoration: none;"><button class="btn btn-primary">Back</button></a>
         </div>
-    </div>
-
-    <div id="popup">
-     <p>Please Signin/Signup to publish articles, till then you can save you work locally</p>
-     <a href="new-auth.html?p=word_processor3.html"><button class="btn btn-primary">Signin</button></a>
-     <button class="btn btn-secondary" onclick="cancel()">cancel</button>
     </div>
 
     <div class="container">
-        <div class="document-title">
-            <input type="text" id="docTitle" placeholder="Untitled Document">
-        </div>
         
         <div class="editor-container">
             <div id="editor"></div>
@@ -407,32 +386,6 @@
             }
         }
 
-        // Print document
-        function printDocument() {
-            const printWindow = window.open('', '_blank');
-            const content = quill.root.innerHTML;
-            const title = document.getElementById('docTitle').value || 'Untitled Document';
-            
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>${title}</title>
-                    <style>
-                        body { font-family: 'Times New Roman', serif; line-height: 1.6; margin: 1in; }
-                        h1, h2, h3 { margin-top: 1em; margin-bottom: 0.5em; }
-                        p { margin-bottom: 1em; }
-                    </style>
-                </head>
-                <body>
-                    <h1>${title}</h1>
-                    <div>${content}</div>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
-        }
 
         // Zoom functions
         function zoomIn() {
@@ -496,45 +449,6 @@
             updateDocumentData();
             // You could implement auto-save here
         }, 30000); // Auto-save every 30 seconds
-
-        // Download functionality
-        document.getElementById('download').addEventListener('click', () => {
-            // Get HTML content from Quill
-            const htmlContent = quill.root.innerHTML;
-
-            // Create a complete HTML file structure
-            const fullHTML = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Exported Document</title>
-</head>
-<body>
-${htmlContent}
-</body>
-</html>`;
-
-            var documentname = prompt("Document name:");
-            if (documentname) {
-                // Create a Blob
-                const blob = new Blob([fullHTML], { type: "text/html" });
-
-                // Create a temporary download link
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = documentname + ".html"; // filename
-                a.click();
-
-                // Cleanup
-                URL.revokeObjectURL(url);
-            }
-        });
-
-    function cancel(){
-      document.getElementById('popup').classList.remove('visible');
-      document.getElementById('popup').innerHTML = ""
-    }
     </script>
 
 <script type="module">
@@ -543,6 +457,10 @@ import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.
 import { app, db } from './firebase_auth.js';
 const auth = getAuth(app);
 
+//Grab the parameter from the URL
+const params = new URLSearchParams(window.location.search);
+const articleId = params.get('id');
+
 // IMPORTANT: Replace with your Cloudflare Worker URL
 const WORKER_URL = 'https://cloudinary.vm002248.workers.dev';
 
@@ -550,8 +468,6 @@ const WORKER_URL = 'https://cloudinary.vm002248.workers.dev';
 let username = '';
 let currentUser = null;
 
-// Store thumbnail file temporarily (in memory, not uploaded yet)
-let pendingThumbnailFile = null;
 
 // Set up auth state listener ONCE when page loads
 onAuthStateChanged(auth, async (user) => {
@@ -562,6 +478,8 @@ onAuthStateChanged(auth, async (user) => {
             username = userDoc.data().username;
             console.log('User logged in:', username);
         }
+    } else {
+        window.location.href = "new-auth.html?p=word_processor2.html";
     }
 });
 
@@ -577,7 +495,7 @@ document.getElementById('fileInput').addEventListener('change', async (e) => {
 
     // Store the file in memory for later upload
     pendingThumbnailFile = file;
-    alert('Thumbnail selected! It will be uploaded when you upload the article.');
+    alert('Thumbnail selected! It will be uploaded when you save the article.');
     
     e.target.value = '';
 });
@@ -586,8 +504,6 @@ document.getElementById('fileInput').addEventListener('change', async (e) => {
 window.saveDocument = async function() {
     if (!currentUser || !username) {
         alert('Please wait for authentication to complete.');
-        document.getElementById('popup').innerHTML = `<p>Please Signin/Signup to publish articles, till then you can save you work locally</p><a href="new-auth.html?p=word_processor2.html"><button class="btn btn-primary">Signin</button></a><button class="btn btn-secondary" onclick="cancel()">cancel</button></div>`;
-        document.getElementById('popup').classList.add('visible');
         return;
     }
 
@@ -596,78 +512,20 @@ window.saveDocument = async function() {
     
     console.log('Saving document:', documentData);
     
-    var documentname = document.getElementById('docTitle').value;
-    if (!documentname) {
-        alert('Please enter a document name before saving.');
-        return;
-    }
-    
     const htmlContent = quill.root.innerHTML;
     
     if (htmlContent) {
         try {
-            const articleId = username + documentname;
             
             // Step 1: Save the article first
-            await setDoc(doc(db, "articles", articleId), {
-                author: username,
+            await setDoc(doc(db, "summaries", articleId), {
                 content: htmlContent,
-                title: documentname,
+                title: articleId,
                 timestamp: serverTimestamp()
             });
             
             console.log('Article saved successfully');
-            
-            // Step 2: If article save succeeded AND there's a pending thumbnail, upload it
-            if (pendingThumbnailFile) {
-                console.log('Uploading thumbnail to worker...');
-                
-                try {
-                    const idToken = await currentUser.getIdToken();
 
-                    const formData = new FormData();
-                    formData.append('file', pendingThumbnailFile);
-                    formData.append('username', username);
-
-                    const response = await fetch(`${WORKER_URL}/upload`, {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': `Bearer ${idToken}`
-                        },
-                        body: formData
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Thumbnail upload failed');
-                    }
-
-                    const data = await response.json();
-                    const fileUrl = data.url;
-                    const fileType = pendingThumbnailFile.type;
-                    
-                    console.log('Thumbnail uploaded to worker, now saving to Firestore...');
-                    
-                    // Step 3: Only after worker upload succeeds, save thumbnail metadata to Firestore
-                    await setDoc(doc(db, "thumbnails", articleId), {
-                        author: username,
-                        title: documentname,
-                        articleid: articleId,
-                        fileUrl: fileUrl,
-                        fileType: fileType
-                    });
-                    
-                    console.log('Thumbnail metadata saved to Firestore');
-                    
-                    // Clear the pending thumbnail after successful upload
-                    pendingThumbnailFile = null;
-                    
-                } catch (thumbnailError) {
-                    console.error('Thumbnail upload error:', thumbnailError);
-                    alert('Article saved, but thumbnail upload failed: ' + thumbnailError.message);
-                    return; // Don't show success message if thumbnail failed
-                }
-            }
-            
             alert(`Document "${documentname}" saved successfully!\n\nWords: ${document.getElementById('wordCount').textContent}\nCharacters: ${document.getElementById('charCount').textContent}`);
             
             // Update status
