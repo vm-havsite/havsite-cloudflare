@@ -413,11 +413,6 @@
             updateWordCount();
         });
 
-        document.getElementById('docTitle').addEventListener('input', function() {
-            // Update document title in real-time
-            document.title = this.value || 'Word Processor';
-        });
-
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey || e.metaKey) {
