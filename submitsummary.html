@@ -483,23 +483,6 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-// File selection handler - just stores the file, doesn't upload yet
-document.getElementById('fileInput').addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (!currentUser || !username) {
-        alert('Please wait for authentication to complete.');
-        return;
-    }
-
-    // Store the file in memory for later upload
-    pendingThumbnailFile = file;
-    alert('Thumbnail selected! It will be uploaded when you save the article.');
-    
-    e.target.value = '';
-});
-
 // Make saveDocument function global so it can be called from keyboard shortcut
 window.saveDocument = async function() {
     if (!currentUser || !username) {
