@@ -473,7 +473,8 @@ onAuthStateChanged(auth, async (user) => {
             console.log('User logged in:', username);
         }
     } else {
-        window.location.href = "new-auth.html?p=word_processor2.html";
+	params.append('p', `submitsummary.html?id=${articleId}`);
+	window.location.href = `new-auth.html?${params.toString()}`;
     }
 });
 
