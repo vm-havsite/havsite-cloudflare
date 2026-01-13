@@ -521,6 +521,7 @@ ${htmlContent}
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
+import { getpoints, addpoints, subpoints } from './points.js';
 const auth = getAuth(app);
 
 // IMPORTANT: Replace with your Cloudflare Worker URL
@@ -649,6 +650,8 @@ window.saveDocument = async function() {
             }
             
             alert(`Document "${documentname}" saved successfully!\n\nWords: ${document.getElementById('wordCount').textContent}\nCharacters: ${document.getElementById('charCount').textContent}`);
+   	    const addval = 12;
+	    addpoints(addval);
             
             // Update status
             const statusBar = document.querySelector('.status-bar');
