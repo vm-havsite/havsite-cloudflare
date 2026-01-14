@@ -653,6 +653,14 @@ window.saveDocument = async function() {
                     return; // Don't show success message if thumbnail failed
                 }
             }
+
+            // Step 4: Save the article to unsummarzed
+            await setDoc(doc(db, "unsummarzed", articleId), {
+                id: articleId,
+                title: documentname
+            });
+            
+            console.log('Article status: unsummarized');
             
             alert(`Document "${documentname}" saved successfully!\n\nWords: ${document.getElementById('wordCount').textContent}\nCharacters: ${document.getElementById('charCount').textContent}`);
    	    const addval = 12;
