@@ -584,6 +584,11 @@ window.saveDocument = async function() {
     }
     
     const htmlContent = quill.root.innerHTML;
+
+    if (pendingThumbnailFile == null;) {
+        alert('Please upload a thumbnail image before saving.');
+        return;
+    }
     
     if (htmlContent) {
         try {
