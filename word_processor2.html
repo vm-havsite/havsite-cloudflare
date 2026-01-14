@@ -657,7 +657,7 @@ window.saveDocument = async function() {
             // Step 4: Save the article to unsummarzed
             await setDoc(doc(db, "unsummarized", articleId), {
                 id: articleId,
-                title: documentname
+                Title: documentname
             });
             
             console.log('Article status: unsummarized');
