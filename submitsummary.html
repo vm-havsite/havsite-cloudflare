@@ -447,7 +447,7 @@
 
 <script type="module">
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
 import { getpoints, addpoints, subpoints } from './points.js';
 const auth = getAuth(app);
@@ -504,6 +504,16 @@ window.saveDocument = async function() {
             });
             
             console.log('Article saved successfully');
+
+	    const deleteSpecificDocument = async (collectionName, documentId) => {
+	      try {
+		const docRef = doc(db, "unsummarized", articleId);
+    		await deleteDoc(docRef);
+    		console.log("Document successfully deleted!");
+  	      } catch (error) {
+    		  console.error("Error removing document: ", error);
+	      }
+	    };
 
             alert(`summary has been saved successfully!\n\nYou have earned 6 Points.\n\nWords: ${document.getElementById('wordCount').textContent}\nCharacters: ${document.getElementById('charCount').textContent}`);
 	    const addval = 6;
