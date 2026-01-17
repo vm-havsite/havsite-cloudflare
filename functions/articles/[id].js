@@ -2,6 +2,7 @@
 // Cloudflare Pages Function for server-side rendering articles
 
 const WORKER_URL = 'https://firebase.vm002248.workers.dev';
+const SUMMARIZER_URL = 'https://summarizer.vm002248.workers.dev';
 
 export async function onRequest(context) {
   const { params } = context;
@@ -169,28 +170,28 @@ function generateArticleHTML(article, thumbnail, articleId) {
             margin-bottom: 30px;
         }
 
-    .article-title {
-        font-size: 3em;
-        margin: 20px 0;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        position: relative;
-        display: inline-block;
-    }
+        .article-title {
+            font-size: 3em;
+            margin: 20px 0;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+        }
 
-    .article-title::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 4px;
-        background: var(--primary-gradient);
-        border-radius: 2px;
-    }
+        .article-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+        }
 
         .article-meta {
             color: #666;
@@ -224,6 +225,86 @@ function generateArticleHTML(article, thumbnail, articleId) {
             border-radius: var(--border-radius);
             margin-bottom: 30px;
             box-shadow: var(--card-shadow);
+        }
+
+        .summarize-button {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 30px 0;
+            box-shadow: 0 4px 12px rgba(106, 17, 203, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .summarize-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(106, 17, 203, 0.4);
+        }
+
+        .summarize-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .summary-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin: 30px 0;
+            border-left: 4px solid var(--accent-color);
+            display: none;
+        }
+
+        .summary-container.visible {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .summary-container h3 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .summary-text {
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .article-content {
@@ -408,6 +489,16 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
         ${thumbnailUrl ? `<img src="${escapeHtml(thumbnailUrl)}" alt="${escapeHtml(title || 'Article')}" class="thumbnail">` : ''}
 
+        <button class="summarize-button" id="summarizeBtn" onclick="summarizeArticle()">
+            <i class="fas fa-magic"></i>
+            Summarize Article (3 points)
+        </button>
+
+        <div class="summary-container" id="summaryContainer">
+            <h3><i class="fas fa-sparkles"></i> Summary</h3>
+            <div class="summary-text" id="summaryText"></div>
+        </div>
+
         <div class="article-content">
             ${content || '<p>No content available.</p>'}
         </div>
@@ -421,7 +512,97 @@ function generateArticleHTML(article, thumbnail, articleId) {
         <i class="fas fa-moon"></i>
     </button>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getpoints, addpoints, subpoints } from './points.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhscw4AedUkhDWF2R-XuFvRI9ucFeSDoo",
+            authDomain: "havsite-1e0ba.firebaseapp.com",
+            projectId: "havsite-1e0ba",
+            storageBucket: "havsite-1e0ba.firebasestorage.app",
+            messagingSenderId: "264821989132",
+            appId: "1:264821989132:web:a229792767bb833ae82dce"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const articleId = '${articleId}';
+        const SUMMARIZER_URL = 'https://summarizer.vm002248.workers.dev';
+        const subval = 3;
+
+        window.summarizeArticle = async function() {
+            const btn = document.getElementById('summarizeBtn');
+            const container = document.getElementById('summaryContainer');
+            const summaryText = document.getElementById('summaryText');
+
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loading-spinner"></div> Generating Summary...';
+
+            try {
+                // First, try to fetch from Firestore
+                const summaryDoc = await getDoc(doc(db, 'summaries', articleId));
+
+                let summaryContent;
+
+                if (summaryDoc.exists()) {
+                    // Summary exists in Firestore
+                    summaryContent = summaryDoc.data().summary;
+                } else {
+                    // Generate new summary via Gemini
+                    const articleContent = \`${content?.replace(/`/g, '\\`').replace(/\$/g, '\\$') || ''}\`;
+                    
+                    const response = await fetch(SUMMARIZER_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            content: articleContent
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to generate summary');
+                    }
+
+                    const data = await response.json();
+                    summaryContent = data.summary;
+
+                    // Save to Firestore
+                    await setDoc(doc(db, 'summaries', articleId), {
+                        summary: summaryContent,
+                        createdAt: new Date().toISOString()
+                    });
+
+                    // Remove from unsummarized collection
+                    try {
+                        await deleteDoc(doc(db, 'unsummarzied', articleId));
+                    } catch (e) {
+                        console.log('Article not in unsummarzied collection');
+                    }
+                }
+
+                // Display summary
+                summaryText.innerHTML = summaryContent;
+                container.classList.add('visible');
+
+                // Subtract points
+                await subpoints(subval);
+
+                btn.innerHTML = '<i class="fas fa-check"></i> Summary Generated';
+                
+            } catch (error) {
+                console.error('Error generating summary:', error);
+                summaryText.innerHTML = '<p style="color: #e74c3c;">Failed to generate summary. Please try again later.</p>';
+                container.classList.add('visible');
+                btn.innerHTML = '<i class="fas fa-magic"></i> Summarize Article (3 points)';
+                btn.disabled = false;
+            }
+        };
+
         function toggleTheme() {
             document.getElementById('html-root').classList.toggle('dark-mode');
             const icon = document.querySelector('#themeToggle i');
@@ -443,6 +624,8 @@ function generateArticleHTML(article, thumbnail, articleId) {
             const isDark = document.getElementById('html-root').classList.contains('dark-mode');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
+
+        window.toggleTheme = toggleTheme;
     </script>
 </body>
 </html>`;
