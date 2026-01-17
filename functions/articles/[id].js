@@ -2,7 +2,6 @@
 // Cloudflare Pages Function for server-side rendering articles
 
 const WORKER_URL = 'https://firebase.vm002248.workers.dev';
-const SUMMARIZER_URL = 'https://summarizer.vm002248.workers.dev';
 
 export async function onRequest(context) {
   const { params } = context;
@@ -170,28 +169,28 @@ function generateArticleHTML(article, thumbnail, articleId) {
             margin-bottom: 30px;
         }
 
-        .article-title {
-            font-size: 3em;
-            margin: 20px 0;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            position: relative;
-            display: inline-block;
-        }
+    .article-title {
+        font-size: 3em;
+        margin: 20px 0;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        display: inline-block;
+    }
 
-        .article-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--primary-gradient);
-            border-radius: 2px;
-        }
+    .article-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: var(--primary-gradient);
+        border-radius: 2px;
+    }
 
         .article-meta {
             color: #666;
@@ -225,86 +224,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
             border-radius: var(--border-radius);
             margin-bottom: 30px;
             box-shadow: var(--card-shadow);
-        }
-
-        .summarize-button {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 30px 0;
-            box-shadow: 0 4px 12px rgba(106, 17, 203, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .summarize-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(106, 17, 203, 0.4);
-        }
-
-        .summarize-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .summary-container {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            margin: 30px 0;
-            border-left: 4px solid var(--accent-color);
-            display: none;
-        }
-
-        .summary-container.visible {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .summary-container h3 {
-            color: var(--accent-color);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .summary-text {
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
 
         .article-content {
@@ -469,6 +388,9 @@ function generateArticleHTML(article, thumbnail, articleId) {
             <a href="/arcticles.html" class="back-link">
                 <i class="fas fa-arrow-left"></i> Back to Articles
             </a>
+            <a href="/arcticles.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Articles
+            </a>
         </div>
     </div>
 
@@ -489,16 +411,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
         ${thumbnailUrl ? `<img src="${escapeHtml(thumbnailUrl)}" alt="${escapeHtml(title || 'Article')}" class="thumbnail">` : ''}
 
-        <button class="summarize-button" id="summarizeBtn">
-            <i class="fas fa-magic"></i>
-            Summarize Article (3 points)
-        </button>
-
-        <div class="summary-container" id="summaryContainer">
-            <h3><i class="fas fa-sparkles"></i> Summary</h3>
-            <div class="summary-text" id="summaryText"></div>
-        </div>
-
         <div class="article-content">
             ${content || '<p>No content available.</p>'}
         </div>
@@ -508,12 +420,11 @@ function generateArticleHTML(article, thumbnail, articleId) {
         <p>© 2024 Havsite | <a href="/arcticles.html">Browse More Articles</a></p>
     </footer>
 
-    <button class="theme-toggle" id="themeToggle">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
         <i class="fas fa-moon"></i>
     </button>
 
     <script>
-        // Global functions for onclick handlers
         function toggleTheme() {
             document.getElementById('html-root').classList.toggle('dark-mode');
             const icon = document.querySelector('#themeToggle i');
@@ -522,219 +433,19 @@ function generateArticleHTML(article, thumbnail, articleId) {
             } else {
                 icon.className = 'fas fa-moon';
             }
-            // Save theme preference
-            const isDark = document.getElementById('html-root').classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
-        function summarizeArticle() {
-            // This will be overwritten by the module script
-            console.log('Summary function loading...');
-        }
-
-        // Check for saved theme preference on load
+        // Check for saved theme preference
         if (localStorage.getItem('theme') === 'dark') {
             document.getElementById('html-root').classList.add('dark-mode');
             document.querySelector('#themeToggle i').className = 'fas fa-sun';
         }
 
-        // Add event listener for theme toggle
-        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
-    </script>
-
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { getpoints, addpoints, subpoints } from 'https://havsite2.pages.dev/points.js ';
-
-        const firebaseConfig = {
-	  apiKey: "AIzaSyC4PK265Bh7rF92ihkUC4MjD4YtN5Y0las",
-	  authDomain: "havsite-pwa.firebaseapp.com",
-	  projectId: "havsite-pwa",
-	  storageBucket: "havsite-pwa.firebasestorage.app",
-	  messagingSenderId: "994396465347",
-	  appId: "1:994396465347:web:16939fceebfb70368e1a76",
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        const articleId = '${articleId}';
-        const SUMMARIZER_URL = 'https://summarizer.vm002248.workers.dev';
-        const subval = 3;
-
-        window.summarizeArticle = async function() {
-            const btn = document.getElementById('summarizeBtn');
-            const container = document.getElementById('summaryContainer');
-            const summaryText = document.getElementById('summaryText');
-
-            btn.disabled = true;
-            btn.innerHTML = '<div class="loading-spinner"></div> Generating Summary...';
-
-            try {
-                // First, try to fetch from Firestore
-                const summaryDoc = await getDoc(doc(db, 'summaries', articleId));
-
-                let summaryContent;
-
-                if (summaryDoc.exists()) {
-                    // Summary exists in Firestore
-                    summaryContent = summaryDoc.data().summary;
-                } else {
-                    // Generate new summary via Gemini
-                    const articleContent = \`${content?.replace(/`/g, '\\`').replace(/\$/g, '\\
-</body>
-</html>`;
-}
-
-function generateErrorHTML(message, articleId, details = '') {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error - Havsite</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
-    <style>
-        body {
-            font-family: 'Poppins', Arial, sans-serif;
-            background: linear-gradient(45deg, #6a11cb, #2575fc);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            text-align: center;
-            padding: 20px;
-        }
-        .error-container {
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        .article-id {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px 15px;
-            border-radius: 6px;
-            display: inline-block;
-            margin: 15px 0;
-            font-family: monospace;
-        }
-        .details {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 6px;
-        }
-        a {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 15px 35px;
-            background: white;
-            color: #6a11cb;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-    </style>
-</head>
-<body>
-    <div class="error-container">
-        <i class="fas fa-exclamation-triangle" style="font-size: 4rem; margin-bottom: 20px;"></i>
-        <h1>${escapeHtml(message)}</h1>
-        <p>Article ID:</p>
-        <div class="article-id">${escapeHtml(articleId)}</div>
-        ${details ? `<div class="details"><strong>Details:</strong><br>${escapeHtml(details)}</div>` : ''}
-        <a href="/arcticles.html">
-            <i class="fas fa-arrow-left"></i> Back to Articles
-        </a>
-    </div>
-</body>
-</html>`;
-}
-
-// Escape HTML to prevent XSS
-function escapeHtml(text) {
-  if (!text) return '';
-  const map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-  };
-  return text.toString().replace(/[&<>"']/g, m => map[m]);
-}) || ''}\`;
-                    
-                    const response = await fetch(SUMMARIZER_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            content: articleContent
-                        })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Failed to generate summary');
-                    }
-
-                    const data = await response.json();
-                    summaryContent = data.summary;
-
-                    // Save to Firestore
-                    await setDoc(doc(db, 'summaries', articleId), {
-                        summary: summaryContent,
-                        createdAt: new Date().toISOString()
-                    });
-
-                    // Remove from unsummarized collection
-                    try {
-                        await deleteDoc(doc(db, 'unsummaried', articleId));
-                    } catch (e) {
-                        console.log('Article not in unsummaried collection');
-                    }
-                }
-
-                // Display summary
-                summaryText.innerHTML = summaryContent;
-                container.classList.add('visible');
-
-                // Subtract points
-                await subpoints(subval);
-
-                btn.innerHTML = '<i class="fas fa-check"></i> Summary Generated';
-                
-            } catch (error) {
-                console.error('Error generating summary:', error);
-                summaryText.innerHTML = '<p style="color: #e74c3c;">Failed to generate summary. Please try again later.</p>';
-                container.classList.add('visible');
-                btn.innerHTML = '<i class="fas fa-magic"></i> Summarize Article (3 points)';
-                btn.disabled = false;
-            }
-        };
+        // Save theme preference
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const isDark = document.getElementById('html-root').classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
     </script>
 </body>
 </html>`;
