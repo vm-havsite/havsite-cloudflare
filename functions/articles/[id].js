@@ -489,7 +489,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
         ${thumbnailUrl ? `<img src="${escapeHtml(thumbnailUrl)}" alt="${escapeHtml(title || 'Article')}" class="thumbnail">` : ''}
 
-        <button class="summarize-button" id="summarizeBtn" onclick="summarizeArticle()">
+        <button class="summarize-button" id="summarizeBtn">
             <i class="fas fa-magic"></i>
             Summarize Article (3 points)
         </button>
@@ -508,12 +508,12 @@ function generateArticleHTML(article, thumbnail, articleId) {
         <p>© 2024 Havsite | <a href="/arcticles.html">Browse More Articles</a></p>
     </footer>
 
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+    <button class="theme-toggle" id="themeToggle">
         <i class="fas fa-moon"></i>
     </button>
 
     <script>
-        // Theme toggle - needs to be global for onclick attribute
+        // Global functions for onclick handlers
         function toggleTheme() {
             document.getElementById('html-root').classList.toggle('dark-mode');
             const icon = document.querySelector('#themeToggle i');
@@ -527,25 +527,33 @@ function generateArticleHTML(article, thumbnail, articleId) {
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
-        // Check for saved theme preference
+        function summarizeArticle() {
+            // This will be overwritten by the module script
+            console.log('Summary function loading...');
+        }
+
+        // Check for saved theme preference on load
         if (localStorage.getItem('theme') === 'dark') {
             document.getElementById('html-root').classList.add('dark-mode');
             document.querySelector('#themeToggle i').className = 'fas fa-sun';
         }
+
+        // Add event listener for theme toggle
+        document.getElementById('themeToggle').addEventListener('click', toggleTheme);
     </script>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { getpoints, addpoints, subpoints } from './points.js';
+        import { getpoints, addpoints, subpoints } from '/points.js';
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDhscw4AedUkhDWF2R-XuFvRI9ucFeSDoo",
-            authDomain: "havsite-1e0ba.firebaseapp.com",
-            projectId: "havsite-1e0ba",
-            storageBucket: "havsite-1e0ba.firebasestorage.app",
-            messagingSenderId: "264821989132",
-            appId: "1:264821989132:web:a229792767bb833ae82dce"
+	  apiKey: "AIzaSyC4PK265Bh7rF92ihkUC4MjD4YtN5Y0las",
+	  authDomain: "havsite-pwa.firebaseapp.com",
+	  projectId: "havsite-pwa",
+	  storageBucket: "havsite-pwa.firebasestorage.app",
+	  messagingSenderId: "994396465347",
+	  appId: "1:994396465347:web:16939fceebfb70368e1a76",
         };
 
         const app = initializeApp(firebaseConfig);
