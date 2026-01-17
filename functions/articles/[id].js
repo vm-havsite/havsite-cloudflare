@@ -512,6 +512,28 @@ function generateArticleHTML(article, thumbnail, articleId) {
         <i class="fas fa-moon"></i>
     </button>
 
+    <script>
+        // Theme toggle - needs to be global for onclick attribute
+        function toggleTheme() {
+            document.getElementById('html-root').classList.toggle('dark-mode');
+            const icon = document.querySelector('#themeToggle i');
+            if (document.getElementById('html-root').classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+            // Save theme preference
+            const isDark = document.getElementById('html-root').classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.getElementById('html-root').classList.add('dark-mode');
+            document.querySelector('#themeToggle i').className = 'fas fa-sun';
+        }
+    </script>
+
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
@@ -552,7 +574,110 @@ function generateArticleHTML(article, thumbnail, articleId) {
                     summaryContent = summaryDoc.data().summary;
                 } else {
                     // Generate new summary via Gemini
-                    const articleContent = \`${content?.replace(/`/g, '\\`').replace(/\$/g, '\\$') || ''}\`;
+                    const articleContent = \`${content?.replace(/`/g, '\\`').replace(/\$/g, '\\
+</body>
+</html>`;
+}
+
+function generateErrorHTML(message, articleId, details = '') {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Havsite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+    <style>
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            padding: 20px;
+        }
+        .error-container {
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .article-id {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 15px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        .details {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 6px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 35px;
+            background: white;
+            color: #6a11cb;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <i class="fas fa-exclamation-triangle" style="font-size: 4rem; margin-bottom: 20px;"></i>
+        <h1>${escapeHtml(message)}</h1>
+        <p>Article ID:</p>
+        <div class="article-id">${escapeHtml(articleId)}</div>
+        ${details ? `<div class="details"><strong>Details:</strong><br>${escapeHtml(details)}</div>` : ''}
+        <a href="/arcticles.html">
+            <i class="fas fa-arrow-left"></i> Back to Articles
+        </a>
+    </div>
+</body>
+</html>`;
+}
+
+// Escape HTML to prevent XSS
+function escapeHtml(text) {
+  if (!text) return '';
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.toString().replace(/[&<>"']/g, m => map[m]);
+}) || ''}\`;
                     
                     const response = await fetch(SUMMARIZER_URL, {
                         method: 'POST',
@@ -579,9 +704,9 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
                     // Remove from unsummarized collection
                     try {
-                        await deleteDoc(doc(db, 'unsummarzied', articleId));
+                        await deleteDoc(doc(db, 'unsummaried', articleId));
                     } catch (e) {
-                        console.log('Article not in unsummarzied collection');
+                        console.log('Article not in unsummaried collection');
                     }
                 }
 
@@ -602,30 +727,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
                 btn.disabled = false;
             }
         };
-
-        function toggleTheme() {
-            document.getElementById('html-root').classList.toggle('dark-mode');
-            const icon = document.querySelector('#themeToggle i');
-            if (document.getElementById('html-root').classList.contains('dark-mode')) {
-                icon.className = 'fas fa-sun';
-            } else {
-                icon.className = 'fas fa-moon';
-            }
-        }
-
-        // Check for saved theme preference
-        if (localStorage.getItem('theme') === 'dark') {
-            document.getElementById('html-root').classList.add('dark-mode');
-            document.querySelector('#themeToggle i').className = 'fas fa-sun';
-        }
-
-        // Save theme preference
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            const isDark = document.getElementById('html-root').classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
-
-        window.toggleTheme = toggleTheme;
     </script>
 </body>
 </html>`;
