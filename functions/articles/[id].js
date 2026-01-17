@@ -545,7 +545,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { getpoints, addpoints, subpoints } from '/points.js';
+        import { getpoints, addpoints, subpoints } from 'https://havsite2.pages.dev/points.js ';
 
         const firebaseConfig = {
 	  apiKey: "AIzaSyC4PK265Bh7rF92ihkUC4MjD4YtN5Y0las",
