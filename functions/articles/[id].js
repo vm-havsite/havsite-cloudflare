@@ -454,7 +454,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 	let summary;
 	async function fetchUnsummarizedArticles() {
 	  try {
-	    const articlesRef = collection(db, 'summaries', `${articleId}`);
+	    const articlesRef = collection(db, 'summaries', articleId);
 	    const querySnapshot = await getDocs(articlesRef);
 	    
 	    const summary = querySnapshot.docs.map(doc => ({
