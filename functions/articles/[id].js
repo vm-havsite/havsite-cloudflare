@@ -385,7 +385,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
     <div class="header">
         <div class="header-content">
             <h1>📄 Havsite Articles</h1>
-            <a href="#" class="back-link">
+            <a href="#" class="back-link" id="summarize">
                 summarize
             </a>
             <a href="/arcticles.html" class="back-link">
@@ -467,7 +467,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 		console.error('Error fetching summary:', error);
 	        throw error;
 	  }
-	
+	document.getElementById("summarize").addEventListener("click", fetchUnsummarizedArticles);	
     </script>
 </body>
 </html>`;
