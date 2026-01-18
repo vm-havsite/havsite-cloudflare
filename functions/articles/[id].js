@@ -467,6 +467,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 		console.error('Error fetching summary:', error);
 	        throw error;
 	  }
+	}
 	document.getElementById("summarize").addEventListener("click", fetchUnsummarizedArticles);	
     </script>
 </body>
