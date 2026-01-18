@@ -385,8 +385,8 @@ function generateArticleHTML(article, thumbnail, articleId) {
     <div class="header">
         <div class="header-content">
             <h1>📄 Havsite Articles</h1>
-            <a href="/arcticles.html" class="back-link">
-                <i class="fas fa-arrow-left"></i> Back to Articles
+            <a href="#" class="back-link">
+                summarize
             </a>
             <a href="/arcticles.html" class="back-link">
                 <i class="fas fa-arrow-left"></i> Back to Articles
@@ -411,7 +411,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
         ${thumbnailUrl ? `<img src="${escapeHtml(thumbnailUrl)}" alt="${escapeHtml(title || 'Article')}" class="thumbnail">` : ''}
 
-        <div class="article-content">
+        <div class="article-content" id="content">
             ${content || '<p>No content available.</p>'}
         </div>
     </div>
@@ -446,6 +446,28 @@ function generateArticleHTML(article, thumbnail, articleId) {
             const isDark = document.getElementById('html-root').classList.contains('dark-mode');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
+    </script>
+    <script type="module">
+	import {  doc, getDoc, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+	import { db } from '/firebase_auth.js';
+	import { getpoints, addpoints, subpoints } from '/points.js';
+	let summary;
+	async function fetchUnsummarizedArticles() {
+	  try {
+	    const articlesRef = collection(db, 'summaries', `${articleId}`);
+	    const querySnapshot = await getDocs(articlesRef);
+	    
+	    const summary = querySnapshot.docs.map(doc => ({
+	      content: doc.data().content
+	    }));
+	    
+	    document.getElementById('content').innerHTML = summary;
+	    return summary;
+	  } catch (error) {
+		console.error('Error fetching summary:', error);
+	        throw error;
+	  }
+	
     </script>
 </body>
 </html>`;
