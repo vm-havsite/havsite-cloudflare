@@ -159,6 +159,26 @@ function generateArticleHTML(article, thumbnail, articleId) {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
+       .summarize {
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            background:  var(--primary-gradient);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .summarize:hover {
+            background:  var(--primary-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
         .container {
             max-width: 900px;
             margin: 40px auto;
@@ -313,7 +333,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         }
 
         .article-content a {
-            color: var(--accent-color);
+            color: white;
             text-decoration: none;
             border-bottom: 1px solid var(--accent-color);
             transition: opacity 0.3s ease;
