@@ -433,7 +433,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         ${thumbnailUrl ? `<img src="${escapeHtml(thumbnailUrl)}" alt="${escapeHtml(title || 'Article')}" class="thumbnail">` : ''}
 
         <div class="article-content" id="content">
-            <a href="#" class="back-link" id="summarize">
+            <a href="#" class="summarize" id="summarize">
                 summarize
             </a><br><br>
             ${content || '<p>No content available.</p>'}
