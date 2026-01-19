@@ -101,8 +101,8 @@ function generateArticleHTML(article, thumbnail, articleId) {
         }
 
         .dark-mode {
-            --bg-color: #0f172a;
-            --text-color: #f1f5f9;
+            --bg-color: #121212;
+            --text-color: #f1f1f1;
             --text-secondary: #94a3b8;
             --card-bg: #1e293b;
             --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -127,12 +127,8 @@ function generateArticleHTML(article, thumbnail, articleId) {
         .header {
             background: var(--primary-gradient);
             color: white;
-            padding: 24px 20px;
-            box-shadow: 0 4px 20px rgba(106, 17, 203, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header-content {
@@ -274,10 +270,8 @@ function generateArticleHTML(article, thumbnail, articleId) {
             text-decoration: none;
             padding: 14px 28px;
             border-radius: 10px;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 0.95rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
             margin-bottom: 40px;
         }
 
