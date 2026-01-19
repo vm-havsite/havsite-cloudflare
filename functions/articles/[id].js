@@ -418,7 +418,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
     <footer>
         <p>© 2024 Havsite | <a href="/arcticles.html">Browse More Articles</a></p>
-        <div id="id" style="height: 0px; width: 0px;">${escapeHtml(author || 'Unknown')}${escapeHtml(title || 'Untitled Article')}</div>
+        <div id="id" style="height: 0px; width: 0px; font-size: 0px;">${escapeHtml(author || 'Unknown')}${escapeHtml(title || 'Untitled Article')}</div>
     </footer>
 
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
