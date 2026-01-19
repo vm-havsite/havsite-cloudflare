@@ -454,6 +454,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 	import { getpoints, addpoints, subpoints } from '/points.js';
 	let summary;
 	let articleId = document.getElementById('id').value;
+	console.log("DEBUG: articleId is", articleId);
 
 	async function fetchsummarizedArticles() {
 	  try {
