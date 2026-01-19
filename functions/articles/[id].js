@@ -455,6 +455,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 	let summary;
 	let articleId = document.getElementById('id').innerText;
 	console.log("DEBUG: articleId is", articleId);
+	console.log("DEBUG: db is", db);
 
 	async function fetchsummarizedArticles() {
 	  try {
