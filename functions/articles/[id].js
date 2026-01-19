@@ -457,20 +457,29 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
 	async function fetchsummarizedArticles() {
 	  try {
-	    const articlesRef = collection(db, 'summaries', articleId);
-	    const querySnapshot = await getDocs(articlesRef);
+	    const articleId = document.getElementById('id').value;
 	    
-	    const summary = querySnapshot.docs.map(doc => ({
-	      content: doc.data().content
-	    }));
-	    
-	    document.getElementById('content').innerHTML = summary;
-	    return summary;
-	    let subval = 3;
-	    subpoints(subval);
+	    // Use doc() to point to the specific document
+	    const docRef = doc(db, 'summaries', articleId);
+	    const docSnap = await getDoc(docRef);
+	
+	    if (docSnap.exists()) {
+	      const data = docSnap.data();
+	      
+	      // Update the UI with the content
+	      document.getElementById('content').innerHTML = data.content;
+	
+	      // CRITICAL: Call subpoints BEFORE returning
+	      let subval = 3;
+	      subpoints(subval);      
+	      return data.content;
+	    } else {
+	      console.warn("No summary found with ID:", articleId);
+              document.getElementById('content').innerHTML = "Summary not found.";
+	    }
 	  } catch (error) {
-		console.error('Error fetching summary:', error);
-	        throw error;
+	    console.error('Error fetching summary:', error);
+    	    throw error;
 	  }
 	}
 	document.getElementById("summarize").addEventListener("click", fetchsummarizedArticles);	
