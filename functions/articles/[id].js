@@ -411,7 +411,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         <div class="article-content" id="content">
             <a href="#" class="back-link" id="summarize">
                 summarize
-            </a>
+            </a><br><br>
             ${content || '<p>No content available.</p>'}
         </div>
     </div>
