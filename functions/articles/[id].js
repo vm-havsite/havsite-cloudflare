@@ -478,9 +478,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
 	import { getpoints, addpoints, subpoints } from '/points.js';
 	let summary;
 	let articleId = document.getElementById('id').innerText;
-	console.log("DEBUG: articleId is", articleId);
-	console.log("DEBUG: db is", db);
-
 	async function fetchsummarizedArticles() {
 	  try {
 	    
