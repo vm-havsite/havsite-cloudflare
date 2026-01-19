@@ -385,9 +385,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
     <div class="header">
         <div class="header-content">
             <h1>📄 Havsite Articles</h1>
-            <a href="#" class="back-link" id="summarize">
-                summarize
-            </a>
             <a href="/arcticles.html" class="back-link">
                 <i class="fas fa-arrow-left"></i> Back to Articles
             </a>
@@ -412,6 +409,9 @@ function generateArticleHTML(article, thumbnail, articleId) {
         ${thumbnailUrl ? `<img src="${escapeHtml(thumbnailUrl)}" alt="${escapeHtml(title || 'Article')}" class="thumbnail">` : ''}
 
         <div class="article-content" id="content">
+            <a href="#" class="back-link" id="summarize">
+                summarize
+            </a>
             ${content || '<p>No content available.</p>'}
         </div>
     </div>
