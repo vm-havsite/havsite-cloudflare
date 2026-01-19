@@ -453,7 +453,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 	import { db } from '/firebase_auth.js';
 	import { getpoints, addpoints, subpoints } from '/points.js';
 	let summary;
-	let articleId = document.getElementById('id').value;
+	let articleId = document.getElementById('id').innerText;
 	console.log("DEBUG: articleId is", articleId);
 
 	async function fetchsummarizedArticles() {
