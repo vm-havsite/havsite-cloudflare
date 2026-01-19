@@ -265,7 +265,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            color: white;
+            color: #FFFFFF;
             background: var(--primary-gradient);
             text-decoration: none;
             padding: 14px 28px;
