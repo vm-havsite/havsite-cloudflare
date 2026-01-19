@@ -459,7 +459,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
 	async function fetchsummarizedArticles() {
 	  try {
-	    const articleId = document.getElementById('id').value;
 	    
 	    // Use doc() to point to the specific document
 	    const docRef = doc(db, 'summaries', articleId);
