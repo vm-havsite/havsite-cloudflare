@@ -418,6 +418,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
     <footer>
         <p>© 2024 Havsite | <a href="/arcticles.html">Browse More Articles</a></p>
+        <div id="id" style="height: 0px; width: 0px;">${escapeHtml(author || 'Unknown')}${escapeHtml(title || 'Untitled Article')}</div>
     </footer>
 
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
@@ -452,7 +453,9 @@ function generateArticleHTML(article, thumbnail, articleId) {
 	import { db } from '/firebase_auth.js';
 	import { getpoints, addpoints, subpoints } from '/points.js';
 	let summary;
-	async function fetchUnsummarizedArticles() {
+	let articleId = document.getElementById('id').value;
+
+	async function fetchsummarizedArticles() {
 	  try {
 	    const articlesRef = collection(db, 'summaries', articleId);
 	    const querySnapshot = await getDocs(articlesRef);
@@ -463,12 +466,14 @@ function generateArticleHTML(article, thumbnail, articleId) {
 	    
 	    document.getElementById('content').innerHTML = summary;
 	    return summary;
+	    let subval = 3;
+	    subpoints(subval);
 	  } catch (error) {
 		console.error('Error fetching summary:', error);
 	        throw error;
 	  }
 	}
-	document.getElementById("summarize").addEventListener("click", fetchUnsummarizedArticles);	
+	document.getElementById("summarize").addEventListener("click", fetchsummarizedArticles);	
     </script>
 </body>
 </html>`;
