@@ -104,7 +104,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             --bg-color: #121212;
             --text-color: #f1f1f1;
             --text-secondary: #94a3b8;
-            --card-bg: #1e293b;
+            --card-bg: #1e1e1e;
             --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             --card-shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.7);
             --border-color: #334155;
