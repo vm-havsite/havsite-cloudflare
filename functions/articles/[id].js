@@ -532,7 +532,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
                 return;
             }
             
-            const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Summary not found.';
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Summary not found(ai failure).';
             
             // Format and display the summary (returns HTML)
             const htmlContent = formatMarkdown(text);
