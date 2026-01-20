@@ -472,40 +472,197 @@ function generateArticleHTML(article, thumbnail, articleId) {
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
     </script>
-    <script type="module">
-	import {  doc, getDoc, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
-	import { db } from '/firebase_auth.js';
-	import { getpoints, addpoints, subpoints } from '/points.js';
-	let summary;
-	let articleId = document.getElementById('id').innerText;
-	async function fetchsummarizedArticles() {
-	  try {
-	    
-	    // Use doc() to point to the specific document
-	    const docRef = doc(db, 'summaries', articleId);
-	    const docSnap = await getDoc(docRef);
-	
-	    if (docSnap.exists()) {
-	      const data = docSnap.data();
-	      
-	      // Update the UI with the content
-	      document.getElementById('content').innerHTML = data.content;
-	
-	      // CRITICAL: Call subpoints BEFORE returning
-	      let subval = 3;
-	      subpoints(subval);      
-	      return data.content;
-	    } else {
-	      console.warn("No summary found with ID:", articleId);
-              document.getElementById('content').innerHTML = "Summary not found.";
-	    }
-	  } catch (error) {
-	    console.error('Error fetching summary:', error);
-    	    throw error;
-	  }
-	}
-	document.getElementById("summarize").addEventListener("click", fetchsummarizedArticles);	
-    </script>
+<script type="module">
+    import { doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+    import { db } from '/firebase_auth.js';
+    import { subpoints } from '/points.js';
+    
+    const articleId = document.getElementById('id').innerText;
+    const summarizebtn = document.getElementById("summarize");
+    const WORKER_URL = 'https://gemini-rest-worker.vm002248.workers.dev/';
+    
+    async function fetchsummarizedArticles() {
+        try {
+            // Use doc() to point to the specific document
+            const docRef = doc(db, 'summaries', articleId);
+            const docSnap = await getDoc(docRef);
+    
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                
+                // Update the UI with the content
+                document.getElementById('content').innerHTML = data.content;
+    
+                // Call subpoints
+                let subval = 3;
+                subpoints(subval);      
+                return data.content;
+            } else {
+                // If summary doesn't exist, generate it
+                await sendMessage();
+            }
+        } catch (error) {
+            console.error('Error fetching summary:', error);
+            document.getElementById('content').innerHTML = '<p style="color: red;">Error loading summary. Please try again.</p>';
+        }
+    }
+
+    async function sendMessage() {
+        const message = document.getElementById('content').innerText;
+        
+        // Disable button while processing
+        summarizebtn.disabled = true;
+        summarizebtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Summarizing...';
+        
+        try {
+            const response = await fetch(WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: `Please provide a concise summary of the following article:\n\n${message}`
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.error) {
+                console.error('Worker error:', data);
+                document.getElementById('content').innerHTML = '<p style="color: red;">Sorry, something went wrong. Please try again.</p>';
+                return;
+            }
+            
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Summary not found.';
+            
+            // Format and display the summary (returns HTML)
+            const htmlContent = formatMarkdown(text);
+            
+            // Save formatted HTML to Firestore for future use
+            await saveSummaryToFirestore(htmlContent);
+            
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('content').innerHTML = '<p style="color: red;">Sorry, something went wrong. Please try again.</p>';
+        } finally {
+            summarizebtn.disabled = false;
+            summarizebtn.innerHTML = 'Summarize';
+        }
+    }
+
+    async function saveSummaryToFirestore(htmlContent) {
+        try {
+            const docRef = doc(db, 'summaries', articleId);
+            await setDoc(docRef, {
+                content: htmlContent, // Save the HTML version
+                createdAt: new Date().toISOString(),
+                articleId: articleId
+            });
+            console.log('Summary saved successfully');
+        } catch (error) {
+            console.error('Error saving summary:', error);
+            // Don't show error to user - summary still displayed
+        }
+        
+        // Delete from unsummarized collection after successful save
+        try {
+            const docRef = doc(db, "unsummarized", articleId);
+            await deleteDoc(docRef);
+            console.log("Document successfully deleted from unsummarized!");
+        } catch (error) {
+            console.error("Error removing document: ", error);
+        }
+    }
+
+
+    function formatMarkdown(text) {
+        if (!text) {
+            document.getElementById('content').innerHTML = '<p>No summary available.</p>';
+            return;
+        }
+
+        // First escape HTML special characters
+        let html = text.replace(/&/g, '&amp;')
+                       .replace(/</g, '&lt;')
+                       .replace(/>/g, '&gt;');
+        
+        // Format code blocks (must be done before inline code)
+        html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+            return `<pre><code class="language-${lang || 'text'}">${code.trim()}</code></pre>`;
+        });
+        
+        // Format inline code
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+        
+        // Format headings (must be done before other formatting)
+        html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+        html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+        
+        // Format bold (must be done before italic)
+        html = html.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+        
+        // Format italic
+        html = html.replace(/\*([^\*]+)\*/g, '<em>$1</em>');
+        html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+        
+        // Format links
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+        
+        // Format unordered lists
+        html = html.replace(/^[\*\-] (.+)$/gm, '<li>$1</li>');
+        
+        // Format ordered lists
+        html = html.replace(/^\d+\. (.+)$/gm, '<li class="ordered">$1</li>');
+        
+        // Wrap consecutive list items in ul/ol tags
+        html = html.replace(/(<li>.*?<\/li>\n?)+/g, (match) => {
+            return `<ul>${match}</ul>`;
+        });
+        html = html.replace(/(<li class="ordered">.*?<\/li>\n?)+/g, (match) => {
+            // Remove the class attribute and wrap in ol
+            const cleaned = match.replace(/ class="ordered"/g, '');
+            return `<ol>${cleaned}</ol>`;
+        });
+        
+        // Format paragraphs (replace double newlines with paragraph breaks)
+        html = html.replace(/\n\n+/g, '</p><p>');
+        html = '<p>' + html + '</p>';
+        
+        // Clean up empty paragraphs
+        html = html.replace(/<p><\/p>/g, '');
+        html = html.replace(/<p>\s*<\/p>/g, '');
+        
+        // Replace single newlines with line breaks (except after block elements)
+        html = html.replace(/\n(?![<])/g, '<br>');
+        
+        // Clean up formatting around block elements
+        html = html.replace(/<\/p><br>/g, '</p>');
+        html = html.replace(/<br><p>/g, '<p>');
+        html = html.replace(/<p>(<h[1-6]>)/g, '$1');
+        html = html.replace(/(<\/h[1-6]>)<\/p>/g, '$1');
+        html = html.replace(/<p>(<ul>|<ol>)/g, '$1');
+        html = html.replace(/(<\/ul>|<\/ol>)<\/p>/g, '$1');
+        html = html.replace(/<p>(<pre>)/g, '$1');
+        html = html.replace(/(<\/pre>)<\/p>/g, '$1');
+
+        // Update the UI with the formatted content
+        document.getElementById('content').innerHTML = html;
+
+        // Call subpoints after displaying summary
+        let subval = 3;
+        subpoints(subval);
+        
+        return html;
+    }
+
+    // Add event listener to summarize button
+    if (summarizebtn) {
+        summarizebtn.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            fetchsummarizedArticles();
+        });
+    }
+</script>
 </body>
 </html>`;
 }
