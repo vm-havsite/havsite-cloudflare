@@ -479,6 +479,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
     
     const articleId = document.getElementById('id').innerText;
     const summarizebtn = document.getElementById("summarize");
+    const originalText = document.getElementById('content').innerText;
     const WORKER_URL = 'https://gemini-rest-worker.vm002248.workers.dev/';
     
     async function fetchsummarizedArticles() {
@@ -508,8 +509,8 @@ function generateArticleHTML(article, thumbnail, articleId) {
     }
 
     async function sendMessage() {
-        const message = document.getElementById('content').innerText;
-        
+        const message = originalText;
+
         // Disable button while processing
         summarizebtn.disabled = true;
         summarizebtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Summarizing...';
