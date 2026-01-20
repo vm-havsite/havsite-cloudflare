@@ -575,88 +575,58 @@ function generateArticleHTML(article, thumbnail, articleId) {
     }
 
 
-    function formatMarkdown(text) {
+function formatMarkdown(text) {
         if (!text) {
             document.getElementById('content').innerHTML = '<p>No summary available.</p>';
             return;
         }
 
-        // First escape HTML special characters
         let html = text.replace(/&/g, '&amp;')
                        .replace(/</g, '&lt;')
                        .replace(/>/g, '&gt;');
         
-        // Format code blocks (must be done before inline code)
-        html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-            return `<pre><code class="language-${lang || 'text'}">${code.trim()}</code></pre>`;
+        html = html.replace(/\`\`\`(\\w+)?\\n([\\s\\S]*?)\`\`\`/g, (match, lang, code) => {
+            return \`<pre><code class="language-\${lang || 'text'}">\${code.trim()}</code></pre>\`;
         });
         
-        // Format inline code
-        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-        
-        // Format headings (must be done before other formatting)
+        html = html.replace(/\`([^\`]+)\`/g, '<code>$1</code>');
         html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
         html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
         html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
-        
-        // Format bold (must be done before italic)
-        html = html.replace(/\*\*([^\*]+)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\\*\\*([^\\*]+)\\*\\*/g, '<strong>$1</strong>');
         html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
-        
-        // Format italic
-        html = html.replace(/\*([^\*]+)\*/g, '<em>$1</em>');
+        html = html.replace(/\\*([^\\*]+)\\*/g, '<em>$1</em>');
         html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
-        
-        // Format links
-        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-        
-        // Format unordered lists
-        html = html.replace(/^[\*\-] (.+)$/gm, '<li>$1</li>');
-        
-        // Format ordered lists
-        html = html.replace(/^\d+\. (.+)$/gm, '<li class="ordered">$1</li>');
-        
-        // Wrap consecutive list items in ul/ol tags
-        html = html.replace(/(<li>.*?<\/li>\n?)+/g, (match) => {
-            return `<ul>${match}</ul>`;
+        html = html.replace(/\\[([^\\]]+)\\]\\(([^)]+)\\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+        html = html.replace(/^[\\*\\-] (.+)$/gm, '<li>$1</li>');
+        html = html.replace(/^\\d+\\. (.+)$/gm, '<li class="ordered">$1</li>');
+        html = html.replace(/(<li>.*?<\\/li>\\n?)+/g, (match) => {
+            return \`<ul>\${match}</ul>\`;
         });
-        html = html.replace(/(<li class="ordered">.*?<\/li>\n?)+/g, (match) => {
-            // Remove the class attribute and wrap in ol
+        html = html.replace(/(<li class="ordered">.*?<\\/li>\\n?)+/g, (match) => {
             const cleaned = match.replace(/ class="ordered"/g, '');
-            return `<ol>${cleaned}</ol>`;
+            return \`<ol>\${cleaned}</ol>\`;
         });
         
-        // Format paragraphs (replace double newlines with paragraph breaks)
-        html = html.replace(/\n\n+/g, '</p><p>');
+        html = html.replace(/\\n\\n+/g, '</p><p>');
         html = '<p>' + html + '</p>';
-        
-        // Clean up empty paragraphs
-        html = html.replace(/<p><\/p>/g, '');
-        html = html.replace(/<p>\s*<\/p>/g, '');
-        
-        // Replace single newlines with line breaks (except after block elements)
-        html = html.replace(/\n(?![<])/g, '<br>');
-        
-        // Clean up formatting around block elements
-        html = html.replace(/<\/p><br>/g, '</p>');
+        html = html.replace(/<p><\\/p>/g, '');
+        html = html.replace(/<p>\\s*<\\/p>/g, '');
+        html = html.replace(/\\n(?![<])/g, '<br>');
+        html = html.replace(/<\\/p><br>/g, '</p>');
         html = html.replace(/<br><p>/g, '<p>');
         html = html.replace(/<p>(<h[1-6]>)/g, '$1');
-        html = html.replace(/(<\/h[1-6]>)<\/p>/g, '$1');
+        html = html.replace(/(<\\/h[1-6]>)<\\/p>/g, '$1');
         html = html.replace(/<p>(<ul>|<ol>)/g, '$1');
-        html = html.replace(/(<\/ul>|<\/ol>)<\/p>/g, '$1');
+        html = html.replace(/(<\\/ul>|<\\/ol>)<\\/p>/g, '$1');
         html = html.replace(/<p>(<pre>)/g, '$1');
-        html = html.replace(/(<\/pre>)<\/p>/g, '$1');
+        html = html.replace(/(<\\/pre>)<\\/p>/g, '$1');
 
-        // Update the UI with the formatted content
         document.getElementById('content').innerHTML = html;
-
-        // Call subpoints after displaying summary
         let subval = 3;
         subpoints(subval);
-        
         return html;
     }
-
     // Add event listener to summarize button
     if (summarizebtn) {
         summarizebtn.addEventListener("click", (e) => {
