@@ -520,7 +520,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    message: `Please provide a concise summary of the following article:\n\n${message}`,
+                    message: \`Please provide a concise summary of the following article:\n\n${message}\`,
                     type: 'summary'
                 })
             });
