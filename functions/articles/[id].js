@@ -480,7 +480,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
     const articleId = document.getElementById('id').innerText;
     const summarizebtn = document.getElementById("summarize");
     const originalText = document.getElementById('content').innerText;
-    const WORKER_URL = 'https://gemini-rest-worker.vm002248.workers.dev/';
+    const WORKER_URL = 'https:// summarizer.vm002248.workers.dev/';
     
     async function fetchsummarizedArticles() {
         try {
