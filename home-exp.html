@@ -107,6 +107,8 @@
     .size-display { font-size: 3em; font-weight: bold; margin: 20px 0; }
     .includes { list-style: none; padding: 0; text-align: left; display: inline-block; }
     .includes li::before { content: "✓ "; margin-right: 5px; }
+    .includes2 { list-style: none; padding: 0; text-align: left; display: inline-block; }
+    .includes2 li::before { content: "⚠ "; margin-right: 5px; }
     .verdict { font-weight: bold; margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px; }
 
     /* Buttons */
@@ -274,7 +276,7 @@
             <div class="comparison-column theirs">
               <h3>Typical Framework App</h3>
               <div class="size-display">1.5MB+</div>
-              <ul class="includes">
+              <ul class="includes2">
                 <li>React/Vue framework</li>
                 <li>Router library</li>
                 <li>State management</li>
