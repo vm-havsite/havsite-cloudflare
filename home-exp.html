@@ -65,14 +65,108 @@
         transition: background-color 0.3s ease, color 0.3s ease;
         line-height: 1.6;
     }
-
     /* Navigation */
-    .topnav { background: var(--primary-gradient); overflow: hidden; display: flex; align-items: center; padding: 0 10px; }
-    .topnav a { float: left; display: flex; align-items: center; justify-content: center; color: white; text-align: center; padding: 14px 16px; text-decoration: none; font-size: 16px; transition: all var(--transition-speed) ease; border-radius: 6px; margin: 8px 4px; }
-    .topnav a:hover { background-color: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
-    .topnav .logo img { border-radius: 8px; transition: transform 0.3s ease; }
-    .topnav .search-bar { float: right; display: flex; align-items: center; background: rgba(255, 255, 255, 0.2); border-radius: 30px; padding: 4px 10px; margin-left: auto; }
-    .topnav input[type="text"] { border: none; background: transparent; color: white; outline: none; padding: 8px; }
+    .topnav a {
+        float: left;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 16px;
+        transition: all var(--transition-speed) ease;
+        border-radius: 6px;
+        margin: 8px 4px;
+    }
+
+    .topnav a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .topnav a.active {
+        font-weight: 600;
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .topnav .logo {
+        padding: 6px 16px;
+    }
+
+    .topnav .logo img {
+        transition: transform 0.3s ease;
+    }
+
+    .topnav .logo:hover img {
+        transform: scale(1.1);
+    }
+
+    .topnav .icon {
+        display: none;
+    }
+
+    .topnav .search-bar {
+        float: right;
+        display: flex;
+        align-items: center;
+        margin: 8px 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        padding: 4px 10px;
+        transition: all 0.3s ease;
+    }
+
+    .topnav .search-bar:focus-within {
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .topnav input[type="text"] {
+        padding: 8px 12px;
+        border: none;
+        background: transparent;
+        color: white;
+        width: 200px;
+        outline: none;
+    }
+
+    .topnav input[type="text"]::placeholder {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .topnav button {
+        padding: 8px;
+        border: none;
+        border-radius: 50%;
+        background-color: transparent;
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .topnav button:hover {
+        transform: scale(1.1);
+    }
+
+    /* Theme toggle button */
+    .theme-toggle {
+        background: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 10px;
+        margin-right: 10px;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+    }
+
+    .theme-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+s
 
     /* Theme toggle */
     .theme-toggle { background: transparent; border: none; color: white; cursor: pointer; font-size: 20px; padding: 10px; border-radius: 50%; }
@@ -138,19 +232,31 @@
 <body>
     <div class="topnav" id="myTopnav">
         <a href="about tech bro.html" class="logo">
-            <img src="images/logo_og.png" alt="Havsite Logo" height="40" width="40">
+            <img src="images/logo_og.png" alt="Havsite Logo" height="40" width="40" style="border-radius: 8px;">
         </a>
-        <a href="index.html">Home</a>
-        <a href="Saas.html">Tools</a>
+        <a href="help.html">Help</a>
+        <a href="tep.html">Contact</a>
+        <a href="tep.html">FAQ</a>
         <a href="/articles/articles">Articles</a>
-        <a href="download.html">PWA</a>
-        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+        <a href="Saas.html">Tools</a>
+        <a href="our team.html">Team</a>
+        <a href="download.html">Download</a>
+        <a href="index.html">
+            <img src="images/home_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg">
+        </a>
+        <a href="cst.html" title="Profile">
+            <img src="images/user.png" alt="profile image" style="height:24px; width:24px; border-radius:50%;">
+        </a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">
             <i class="fas fa-moon"></i>
         </button>
         <div class="search-bar">
-            <input type="text" placeholder="Search...">
-            <i class="fas fa-search" style="color:white; margin-right:10px;"></i>
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="searchFunction()" aria-label="search button"><i class="fas fa-search" aria-hidden="true"></i></button>
         </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fas fa-bars"></i>
+        </a>
     </div>
 
     <div class="container">
