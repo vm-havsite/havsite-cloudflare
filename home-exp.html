@@ -252,6 +252,31 @@ s
         #title { font-size: 3em; }
         .btn-secondary { margin-top: 10px; margin-left: 0; display: block; }
     }
+	#title{
+           min-height:125 px;
+           min-width:650 px;
+           font-size: 4.5em;
+	   font-family: 'National Park';
+           margin: 20px 0;
+           background: var(--primary-gradient);
+           -webkit-background-clip: text;
+           background-clip: text;
+           color: transparent;
+           position: relative;
+           display: inline-block;
+   }
+
+	#title:after{
+           content: '';
+           position: absolute;
+           bottom: -10px;
+           left: 50%;
+           transform: translateX(-50%);
+           width: 80px;
+           height: 4px;
+           background: var(--primary-gradient);
+           border-radius: 2px;
+   }
 </style>
 </head>
 <body>
@@ -487,7 +512,7 @@ s
         });
     </script>
 <script>
-    const message = "Welcome to Havsite";
+    const message = "Havsite";
     let index = 0;
     
     function typeLetter() {
