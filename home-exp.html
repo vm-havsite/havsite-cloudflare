@@ -210,9 +210,34 @@ s
     .btn-secondary { display: inline-block; padding: 12px 30px; border: 2px solid var(--accent-color); color: var(--accent-color); text-decoration: none; border-radius: 30px; margin-left: 10px; }
     .btn-primary:hover, .btn-primary-large:hover { transform: scale(1.05); }
 
-    /* Final CTA */
-    .final-cta { text-align: center; background: var(--secondary-gradient); color: white; padding: 60px 20px; border-radius: var(--border-radius); }
-    .cta-emphasis { font-size: 1.5em; font-weight: bold; margin: 20px 0; }
+    /* Call to action */
+    .cta-section {
+        background: var(--secondary-gradient);
+        padding: 60px 30px;
+        text-align: center;
+        margin: 60px 0;
+        border-radius: var(--border-radius);
+        box-shadow: var(--card-shadow);
+        color: white;
+    }
+
+    .cta-section h2 {
+        margin-top: 0;
+        font-size: 2.5em;
+    }
+
+    .cta-section p {
+        max-width: 600px;
+        margin: 20px auto 30px;
+    }
+
+    .cta-section .btn {
+        background: white;
+        color: var(--accent-color);
+        font-weight: 600;
+        padding: 12px 30px;
+        font-size: 1.1em;
+    }
 
     /* Footer */
     footer { background: var(--primary-gradient); color: white; padding: 40px 20px; margin-top: 60px; text-align: center; }
@@ -425,31 +450,62 @@ s
         <p style="margin-top:40px;">© 2024 Havsite | Built with Vanilla JS</p>
     </footer>
 
+
+    <!-- Include external JS file -->
+    <script src="myscript.js"></script>
+    
     <script>
-        // Theme Toggle Logic
-        function toggleTheme() {
-            const root = document.getElementById('html-root');
-            const icon = document.querySelector('#themeToggle i');
-            root.classList.toggle('dark-mode');
-            
-            if(root.classList.contains('dark-mode')) {
-                icon.className = 'fas fa-sun';
+        // Toggle mobile navigation
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+                window.scrollTo(0, 0);
             } else {
-                icon.className = 'fas fa-moon';
+                x.className = "topnav";
             }
         }
 
-        // Typing Animation
-        const message = "Havsite";
-        let index = 0;
-        function typeLetter() {
-          if (index < message.length) {
-            document.getElementById("title").innerHTML += message.charAt(index);
-            index++;
-            setTimeout(typeLetter, 150);
-          }
-        }
-        window.onload = typeLetter;
+
+        // Back to top button functionality
+        window.addEventListener('scroll', function() {
+            var backToTopButton = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        // Update theme toggle icon on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (document.getElementById('html-root').classList.contains('dark-mode')) {
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
     </script>
+<script>
+    const message = "Welcome to Havsite";
+    let index = 0;
+    
+    function typeLetter() {
+      if (index < message.length) {
+        document.getElementById("title").innerHTML += message.charAt(index);
+        index++;
+        setTimeout(typeLetter, 100);
+      } else {
+        anime({
+          targets: '#typing',
+          opacity: [0.8, 1],
+          duration: 500,
+          easing: 'easeInOutCirc'
+        });
+      }
+    }
+    
+    window.onload = typeLetter;
+</script>
 </body>
 </html>
