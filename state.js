@@ -1,4 +1,4 @@
-import { Authcheck } from './firebase_auth.js;
+import { Authcheck } from './firebase_auth.js';
 const userstate = localStorage.getItem("state");
 const lastcheck = localStorage.getItem("lastcheck");
 let state;
