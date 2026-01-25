@@ -32,7 +32,10 @@ else if(userstate != null){
 }
 
 function getstate(){
-  return state;  // ✓ Fixed
+    if (today !== lastcheck) {
+        return await authcheck();
+    }
+    return state;
 }
 
 function updatestate(newstate){
