@@ -239,12 +239,87 @@
     }
 
     /* Footer */
-    footer { background: var(--primary-gradient); color: white; padding: 40px 20px; margin-top: 60px; text-align: center; }
-    .footer-content { display: flex; flex-wrap: wrap; justify-content: space-around; max-width: 1200px; margin: 0 auto; text-align: left; }
-    .footer-section { margin: 20px; }
-    .footer-links { list-style: none; padding: 0; }
-    .footer-links a { color: white; text-decoration: none; opacity: 0.8; }
-    .footer-links a:hover { opacity: 1; }
+    footer {
+        background: var(--primary-gradient);
+        color: white;
+        text-align: center;
+        padding: 30px 20px;
+        margin-top: 40px;
+    }
+
+    .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto 20px;
+    }
+
+    .footer-section {
+        flex: 1;
+        min-width: 250px;
+        padding: 0 20px;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .footer-section h3 {
+        margin-top: 0;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .footer-section h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.5);
+    }
+
+    .footer-links {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+        color: white;
+        text-decoration: underline;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .social-icons a {
+        color: white;
+        font-size: 20px;
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+
+    .social-icons a:hover {
+        transform: translateY(-5px);
+    }
+
+    .copyright {
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+    }
 
     /* Mobile adjustments */
     @media (max-width: 600px) {
@@ -455,25 +530,41 @@
         </section>
     </div>
 
+
     <footer>
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
                     <li><a href="help.html">Help Center</a></li>
-                    <li><a href="tep.html">Contact</a></li>
-                    <li><a href="privacy-policy.html">Privacy</a></li>
+                    <li><a href="tep.html">Contact Us</a></li>
+                    <li><a href="tep.html">FAQ</a></li>
+                    <li><a href="/articles/articles">Articles</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3>Social</h3>
+                <h3>Features</h3>
+                <ul class="footer-links">
+                    <li><a href="ca-u2.html">Chat</a></li>
+                    <li><a href="development_error_page2.html">Updates</a></li>
+                    <li><a href="tep.html">Stories</a></li>
+                    <li><a href="cst.html">Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <p>Follow us on social media for updates and news</p>
                 <div class="social-icons">
-                    <a href="#"><i class="fab fa-discord"></i> Discord</a><br>
-                    <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="#" aria-label="follow us on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="follow us on twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="follow us on instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                    <a href="#" aria-label="follow us on discord"><i class="fab fa-discord" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
-        <p style="margin-top:40px;">© 2024 Havsite | Built with Vanilla JS</p>
+        <div class="copyright">
+            <p>© 2024 by Vivaan | <a href="privacy-policy.html">Privacy Policy</a> | <a href="terms-of-service.html">Terms of Service</a></p>
+        </div>
     </footer>
 
 
