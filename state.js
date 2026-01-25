@@ -9,10 +9,10 @@ function authcheck(){
   Authcheck().then(user => {
       if (user) {
         localStorage.setItem("state", "signedin");
-        state = signedin;
+        state = 'signedin';
       } else {
         localStorage.setItem("state", "anonymous");
-        state = anonymous;
+        state = 'anonymous';
       }
       localStorage.setItem("lastcheck", today);
   });
