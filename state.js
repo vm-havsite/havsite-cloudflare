@@ -14,8 +14,8 @@ function authcheck(){
         localStorage.setItem("state", "anonymous");
         state = 'anonymous';
       }
-      return state;
       localStorage.setItem("lastcheck", today);
+      return state;
   });
 }
 
