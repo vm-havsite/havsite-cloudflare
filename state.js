@@ -14,6 +14,7 @@ function authcheck(){
         localStorage.setItem("state", "anonymous");
         state = 'anonymous';
       }
+      return state;
       localStorage.setItem("lastcheck", today);
   });
 }
@@ -27,7 +28,7 @@ if( userstate === null ){  // Use === for safety
   state = anonymous;
 }
 else if(userstate != null){
-  state = localStorage.getItem("userstate");
+  state = localStorage.getItem("state");
 }
 
 function getstate(){
