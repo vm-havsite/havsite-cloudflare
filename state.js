@@ -31,10 +31,7 @@ else if(userstate != null){
   state = localStorage.getItem("state");
 }
 
-async function getstate(){
-    if (today !== lastcheck) {
-        return await authcheck();
-    }
+function getstate(){
     return state;
 }
 
