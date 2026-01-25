@@ -1,7 +1,8 @@
 import { Authcheck } from './firebase_auth.js';
-const userstate = localStorage.getItem("state");
-const lastcheck = localStorage.getItem("lastcheck");
 let state;
+state = localStorage.getItem("state");
+userstate = localStorage.getItem("state");
+const lastcheck = localStorage.getItem("lastcheck");
 const now = new Date();
 const today = parseInt(now.toISOString().split('T')[0].replace(/-/g, ''));
 
