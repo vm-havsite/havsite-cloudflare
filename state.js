@@ -24,8 +24,7 @@ if (today != lastcheck) {
 }
 
 if( userstate === null ){  // Use === for safety
-  localStorage.setItem("state", "anonymous");
-  state = 'anonymous';
+  setTimeout(authcheck, 800);
 }
 else if(userstate != null){
   state = localStorage.getItem("state");
