@@ -735,6 +735,9 @@
 </script>
 <script type="module">
 import { getstate } from "./state.js"
+document.addEventListener("DOMContentLoaded", (event) => {
+  console.log(Date.now().toString());
+});
 console.log(Date.now().toString());
 const a = getstate();
 console.log(a);
