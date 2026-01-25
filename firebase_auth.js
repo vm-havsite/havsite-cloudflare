@@ -132,7 +132,15 @@ function checkAuthState2(destination, onAuthenticated, onUnauthenticated) {
   }, 1000); // Wait exactly 1 second, then run once
 }
 
-export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState, checkAuthState2 };
+function Authcheck() {
+    return new Promise((resolve) => {
+        onAuthStateChanged(auth, (user) => {
+            resolve(user); // This "fulfills" the promise with the user or null
+        });
+    });
+}
+
+export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState, checkAuthState2, Authcheck };
 export { app, db, auth };
 
 // Example usage
