@@ -31,9 +31,7 @@ else if(userstate != null){
 }
 
 function getstate(){
-  setTimeout(() => {
     return state;
-  }, 1200); // Wait exactly 1 second, then run once
 }
 
 function updatestate(newstate){
