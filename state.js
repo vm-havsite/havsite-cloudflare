@@ -20,7 +20,7 @@ function authcheck(){
 }
 
 if (today != lastcheck) {
-    setTimeout(authcheck, 1000); // wait 1 second then run
+    setTimeout(authcheck, 800); // wait 1 second then run
 }
 
 if( userstate === null ){  // Use === for safety
@@ -31,7 +31,9 @@ else if(userstate != null){
 }
 
 function getstate(){
+  setTimeout(() => {
     return state;
+  }, 1200); // Wait exactly 1 second, then run once
 }
 
 function updatestate(newstate){
