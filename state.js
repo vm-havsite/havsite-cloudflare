@@ -19,24 +19,22 @@ function authcheck(){
   });
 }
 
-if (today != lastcheck) {
-    setTimeout(authcheck, 800); // wait 1 second then run
+if (today != lastcheck || userstate === null) {
+    setTimeout(authcheck, 800); // optional buffer
+} else {
+    state = userstate;
 }
 
-if( userstate === null ){  // Use === for safety
-  setTimeout(authcheck, 800);
-}
-else if(userstate != null){
-  state = localStorage.getItem("state");
-}
-
-function getstate(){
-    return state;
+// make getstate async
+async function getstate() {
+    if (state !== undefined) return state; // already known
+    // wait until authcheck resolves
+    return await authcheck();
 }
 
 function updatestate(newstate){
-  localStorage.setItem("userstate", `${newstate}`);
-  state = localStorage.getItem("userstate");
+  localStorage.setItem("state", `${newstate}`);
+  state = localStorage.getItem("state");
 }
 
 export{ getstate, updatestate };

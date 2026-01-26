@@ -828,20 +828,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
   console.log(Date.now().toString());
 });
 console.log(Date.now().toString());
-const a = getstate();
-if( a === undefined ){
- setTimeout(() => {
-   let aa = localStorage.getItem("state");
-   console.log(aa);
-   document.getElementById('usrsta').innerText = aa;
-   console.log(Date.now().toString());
-  }, 200);
-}
-else{
+(async () => {
+  const a = await getstate(); // wait until resolved
   console.log(a);
   document.getElementById('usrsta').innerText = a;
-  console.log(Date.now().toString());
-}
+})();
+console.log(Date.now().toString());
 </script>
 <script>
 // Intro animation logic
