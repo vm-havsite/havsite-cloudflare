@@ -558,9 +558,96 @@
            background: var(--primary-gradient);
            border-radius: 2px;
    }
+
+  .logo-wrapper {
+    display: none;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-color);
+    overflow: hidden;
+    font-family: sans-serif;
+    z-index: 9999;
+  }
+
+  .logo-wrapper.active {
+    display: flex;
+  }
+
+  .h, .text {
+    /* Original Gradient and Styling */
+    background-image: linear-gradient(180deg, #c4a484, #b87333);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .h {
+    font-size: 8em;
+    z-index: 2;
+    /* Initial state: Centered and large */
+    transform: translateX(120px) scale(1.5); 
+    animation: moveH 1.4s ease-in-out forwards;
+  }
+
+  .text {
+    font-size: 9em;
+    position: relative;
+    z-index: 1;
+    /* Reveal Logic: Hidden behind the H mask */
+    clip-path: inset(0 100% 0 0); 
+    transform: translateX(-50px);
+    animation: slideOut 0.8s ease-out 1.4s forwards;
+  }
+
+  /* Movement for the 'H' */
+  @keyframes moveH {
+    0% {
+      transform: translateX(120px) scale(1.5);
+    }
+    100% {
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  /* Movement for the sliding text */
+  @keyframes slideOut {
+    0% {
+      clip-path: inset(0 100% 0 0);
+      transform: translateX(-100px);
+    }
+    100% {
+      clip-path: inset(0 0% 0 0);
+      transform: translateX(0);
+    }
+  }
+
+  #home {
+    display: block;
+  }
+
+  #home.hidden {
+    display: none;
+  }
 </style>
 </head>
 <body>
+<div class="logo-wrapper" id="intro">
+  <p class="h">H</p>
+  <p class="text">avsite</p>
+</div>
+<div class="" id="home">
     <div class="topnav" id="myTopnav">
         <a href="about tech bro.html" class="logo">
             <img src="images/logo_og.png" alt="Havsite Logo" height="40" width="40" style="border-radius: 8px;">
@@ -607,6 +694,7 @@
                 <div class="feature-content">
                     <h3>Connect with Classmates</h3>
                     <p>Stay in touch with your friends and classmates through our intuitive chat platform.</p>
+		    <p id="usrsta"></p>
                     <a href="ca-u2.html" class="btn" aria-label="chat room">Start Chatting</a>
                 </div>
             </div>
@@ -676,7 +764,7 @@
     <a href="#" class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
     </a>
-
+</div>
     <!-- Include external JS file -->
     <script src="myscript.js"></script>
     
@@ -735,13 +823,39 @@
 </script>
 <script type="module">
 import { getstate } from "./state.js"
+
 document.addEventListener("DOMContentLoaded", (event) => {
   console.log(Date.now().toString());
 });
 console.log(Date.now().toString());
 const a = getstate();
 console.log(a);
+document.getElementById('usrsta').innerText = a;
 console.log(Date.now().toString());
+</script>
+<script>
+// Intro animation logic
+(function() {
+    const introElement = document.getElementById('intro');
+    const homeElement = document.getElementById('home');
+    
+    // Check if intro has been shown before
+    const hasSeenIntro = sessionStorage.getItem('intro');
+    
+    if (!hasSeenIntro) {
+        // Show intro, hide home
+        introElement.classList.add('active');
+        homeElement.classList.add('hidden');
+        
+        // After 2.2 seconds, hide intro and show home
+        setTimeout(function() {
+            introElement.classList.remove('active');
+            homeElement.classList.remove('hidden');
+            // Mark intro as seen
+            sessionStorage.setItem('intro', 'true');
+        }, 2200);
+    }
+})();
 </script>
 </body>
 </html>
