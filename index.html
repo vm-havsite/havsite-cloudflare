@@ -845,7 +845,7 @@ console.log(Date.now().toString());
     const hasSeenIntro = sessionStorage.getItem('intro');
     const lastcheck = localStorage.getItem("lastcheck");
     
-    if (!hasSeenIntro || !lastcheck) {
+    if (!hasSeenIntro || lastcheck === null) {
         // Show intro, hide home
         introElement.classList.add('active');
         homeElement.classList.add('hidden');
