@@ -5,18 +5,22 @@ const lastcheck = localStorage.getItem("lastcheck");
 const now = new Date();
 const today = parseInt(now.toISOString().split('T')[0].replace(/-/g, ''));
 
-function authcheck(){
-  Authcheck().then(user => {
-      if (user) {
-        localStorage.setItem("state", "signedin");
+
+async function authcheck() {
+    // Wait for the actual Auth process to finish
+    const user = await Authcheck(); 
+
+    if (user) {
         state = 'signedin';
-      } else {
-        localStorage.setItem("state", "anonymous");
+    } else {
         state = 'anonymous';
-      }
-      localStorage.setItem("lastcheck", today);
-      return state;
-  });
+    }
+
+    // Update storage
+    localStorage.setItem("state", state);
+    localStorage.setItem("lastcheck", today);
+
+    return state; // Now this returns the actual value to getstate()
 }
 
 if (today != lastcheck || userstate === null) {
