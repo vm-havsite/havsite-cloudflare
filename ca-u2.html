@@ -906,6 +906,20 @@ const WORKER_URL = 'https://cloudinary.vm002248.workers.dev';
 let username = '';
 let currentChat = '';
 
+const ALLOWED_EXTENSIONS = new Set([
+  'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'tif', 'tiff', // Images
+  'mp3', 'wav', 'aac', 'm4a',                                     // Audio
+  'mp4', 'mov', 'avi', 'hevc', 'wmv',                             // Video
+  'heif', 'heic',                                                 // High-Efficiency
+  'pdf', 'epub', 'txt', 'rtf',                                    // Documents
+  'doc', 'docx', 'odt', 'ott',                                    // Word/OpenOffice Text
+  'ppt', 'pptx', 'odp',                                           // Slides
+  'xls', 'xlsx', 'ods',                                           // Sheets
+  'html', 'css', 'js', 'json', 'jsonc', 'xml', 'py',              // Code
+  'zip', 'rar', '7z', 'msi', 'apk', 'scr',                        // Archives/System
+  'pub', 'otf', 'ttf'                                             // Publishing/Fonts
+]);
+
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         const userDoc = await getDoc(doc(db, "users", user.uid));
@@ -921,7 +935,26 @@ onAuthStateChanged(auth, async (user) => {
 // File upload handler
 document.getElementById('fileInput').addEventListener('change', async (e) => {
     const file = e.target.files[0];
+
     if (!file || !currentChat) return;
+
+    const fileSizeInBytes = file.size; // The size property returns the file size in bytes
+
+    // 1. Get the extension (everything after the last dot)
+    const fileName = file.name.toLowerCase();
+    const extension = fileName.split('.').pop();
+    // 2. Check Extension
+    const isExtensionValid = ALLOWED_EXTENSIONS.has(extension);
+
+    if (!isExtensionValid) {
+        alert(`File type .${extension} is not supported.`);
+        return;
+    }
+
+    if ( fileSizeInBytes > 26214400 ){
+        alert('File Size is larger than 25MB.')
+      return;
+    }
 
     try {
         const uploadProgress = document.getElementById('uploadProgress');
