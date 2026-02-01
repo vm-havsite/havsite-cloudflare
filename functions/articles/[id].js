@@ -475,7 +475,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 <script type="module">
     import { doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
     import { db } from '/firebase_auth.js';
-    import { subpoints } from '/points.js';
+    import { getpoints, subpoints } from '/points.js';
     
     const articleId = document.getElementById('id').innerText;
     const summarizebtn = document.getElementById("summarize");
@@ -628,7 +628,8 @@ function formatMarkdown(text) {
         return html;
     }
     // Add event listener to summarize button
-    if (summarizebtn) {
+    points = getpoints();
+    if (summarizebtn && point > 3) {
         summarizebtn.addEventListener("click", (e) => {
             e.preventDefault(); // Prevent default link behavior
             fetchsummarizedArticles();
