@@ -30,12 +30,16 @@
         --img-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         --border-radius: 12px;
         --transition-speed: 0.3s;
+        --points-bg: #959595;
+	--points-color: #323232;
     }
 
     .dark-mode {
         --bg-color: #121212;
         --text-color: #f1f1f1;
         --card-bg: #1e1e1e;
+        --points-bg: #292929;
+	--points-color: #323232;
         --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         --img-box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
     }
@@ -536,7 +540,8 @@
     }
 
     .points{
-	background: #292929;
+	background: var(--points-bg);
+        color: var(--points-color) !important;
 	border-radius: 0.4rem;
 	height: max-content;
 	width: 90vw;
@@ -548,7 +553,7 @@
     }
 
     .points a {
-        color: white;
+        color: var(--points-color);
         text-align: center;
         padding: 14px 16px;
         text-decoration: none;
@@ -603,7 +608,7 @@
             <h2>Welcome, <span id="displayUsername"></span>!</h2>
             <p>Email: <span id="displayEmail"></span></p>
         </div>
-        <div class="points">
+        <div class="points" style="background: #6f6f6f; color: #f9f9f9;">
           <p>Havsite Points:  </p><p id="points"></p>
           <a href="points.html">earn points 💰</a>
         </div>
@@ -648,6 +653,7 @@
   import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
   import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
   import { app, db } from './firebase_auth.js';
+  import { signOutUser } from './firebase_auth.js';
   import { getpoints, addpoints, subpoints } from './points.js';
 
   const auth = getAuth(app);
@@ -675,7 +681,25 @@
       document.getElementById('userdetails').innerHTML += '<div class="cta-section"><h2>Join Our Community Today</h2><p>Become part of our growing community and experience the best way to connect with your classmates and friends.</p><a href="new auth.html" class="btn" aria-label="signup button">Sign Up Now</a></div>';
     }
   });
-  
+
+// The wrapper function to handle the async flow
+const handleSignOut = async () => {
+    try {
+        // Wait for the past-self's function to finish
+        await signOutUser(); 
+        
+        // Now it's safe to tell the user or redirect
+        alert('You signed out successfully!');
+        window.location.reload();
+    } catch (error) {
+        console.error("Sign out failed:", error);
+        alert('Oops, something went wrong. Try again!');
+    }
+};
+
+// Update the listener to use the wrapper
+signoutbutton.addEventListener('click', handleSignOut);
+
   let points = getpoints();
   document.getElementById('points').textContent = points || 0;
 </script>

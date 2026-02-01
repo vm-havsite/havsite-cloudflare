@@ -408,6 +408,7 @@
     const destination = params.get('p');
 
         import { signUp, signIn, signOutUser, signInWithGoogle, checkAuthState2 } from './firebase_auth.js';	
+        import { updatestate } from "./state.js"
 
 	checkAuthState2(destination);
 
@@ -441,6 +442,8 @@
 		            window.location.replace(destination);
 		        }
 		    }, 1000); // Wait exactly 1 second, then run once
+		    var newstate = signedin;
+		    updatestate(newstate);
                 } catch (error) {
                     Toast.show(error.message, 'error');
                 } finally {
@@ -465,6 +468,8 @@
 		            window.location.replace(destination);
 		        }
 		    }, 1000); // Wait exactly 1 second, then run once
+		    var newstate = signedin;
+		    updatestate(newstate);
                 } catch (error) {
                     Toast.show('Login failed: ' + error.message, 'error');
                 } finally {
@@ -482,6 +487,8 @@
 		            window.location.replace(destination);
 		        }
 		    }, 1000); // Wait exactly 1 second, then run once
+		    var newstate = signedin;
+		    updatestate(newstate);
                 } catch (error) {
                     Toast.show('Google Sign In failed', 'error');
                 }
@@ -497,6 +504,8 @@
 		            window.location.replace(destination);
 		        }
 		    }, 1000); // Wait exactly 1 second, then run once
+		    var newstate = signedin;
+		    updatestate(newstate);
                 } catch (error) {
                     Toast.show('Google Sign Up failed', 'error');
                 }
