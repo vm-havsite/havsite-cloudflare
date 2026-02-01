@@ -629,7 +629,7 @@ function formatMarkdown(text) {
     }
     // Add event listener to summarize button
     points = getpoints();
-    if (summarizebtn && point => 3) {
+    if (summarizebtn && point >= 3) {
         summarizebtn.addEventListener("click", (e) => {
             e.preventDefault(); // Prevent default link behavior
             fetchsummarizedArticles();
