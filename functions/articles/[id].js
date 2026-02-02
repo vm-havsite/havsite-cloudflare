@@ -636,7 +636,10 @@ function formatMarkdown(text) {
         });
     }
     else{
-      alert('insufficient points balance: ' + points);
+        summarizebtn.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            alert('insufficient points balance: ' + points);
+        });
     }
 </script>
 </body>
