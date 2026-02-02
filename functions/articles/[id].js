@@ -629,14 +629,14 @@ function formatMarkdown(text) {
     }
     // Add event listener to summarize button
     var points = getpoints();
-    if (summarizebtn && point >= 3) {
+    if (summarizebtn && points >= 3) {
         summarizebtn.addEventListener("click", (e) => {
             e.preventDefault(); // Prevent default link behavior
             fetchsummarizedArticles();
         });
     }
     else{
-      alert(`insufficient points balance: ${points}`);
+      alert('insufficient points balance: ' + points);
     }
 </script>
 </body>
