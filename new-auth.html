@@ -437,13 +437,13 @@
                 try {
                     await signUp(email, password, username);
                     Toast.show('Account created successfully!', 'success');
+		    var newstate = signedin;
+		    updatestate(newstate);
 		    setTimeout(() => {
         		if (destination) {
 		            window.location.replace(destination);
 		        }
 		    }, 1000); // Wait exactly 1 second, then run once
-		    var newstate = signedin;
-		    updatestate(newstate);
                 } catch (error) {
                     Toast.show(error.message, 'error');
                 } finally {
