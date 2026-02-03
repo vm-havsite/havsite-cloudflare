@@ -604,7 +604,7 @@
     <div class="container" id="userdetails">
         <h1>User Login</h1>
         <div id="profile">
-            <div><img src="images/user.png" style="height:24px; width:24px; border-radius:50%;"></div>
+            <div><img id="displaydp" src="images/user.png" style="height:24px; width:24px; border-radius:50%;"></div>
             <h2>Welcome, <span id="displayUsername"></span>!</h2>
             <p>Email: <span id="displayEmail"></span></p>
         </div>
@@ -665,12 +665,15 @@
         if (userDoc.exists()) {
           const useremail = userDoc.data().email;
           const username = userDoc.data().username;
+          const profilepic = userDoc.data().photoURL;
           document.getElementById('displayEmail').textContent = useremail;
           document.getElementById('displayUsername').textContent = username || "Unknown User";
+          document.getElementById('displaydp').src = `${profilepic}` || "images/user.png";
         } else {
           console.log("User document does not exist");
           document.getElementById('displayUsername').textContent = "Unknown User";
           document.getElementById('displayEmail').textContent = user.email || "No email";
+          document.getElementById('displaydp').src = `${profilepic}` || "images/user.png";
         }
       } catch (error) {
         console.error("Error fetching user document:", error);
