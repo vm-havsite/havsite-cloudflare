@@ -83,7 +83,7 @@ async function signInWithGoogle() {
         } else {
             console.log('Existing Google user signed in:', user);
         }
-        
+
         return user;
     } catch (error) {
         console.error('Error signing in with Google:', error.message);

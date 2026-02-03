@@ -41,4 +41,13 @@ function updatestate(newstate){
   state = localStorage.getItem("state");
 }
 
+function storeuserdp(picurl){
+  localStorage.setItem("dpurl", `${picurl}`);
+}
+
+function getuserdp(){
+  const userdp = localStorage.getItem("dpurl");
+  return dpurl;
+}
+
 export{ getstate, updatestate };

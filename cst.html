@@ -218,53 +218,6 @@
         color: var(--text-color);
     }
 
-    /* Featured content */
-    .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-        margin: 40px 0;
-    }
-
-    .feature-card {
-        background: var(--card-bg);
-        border-radius: var(--border-radius);
-        box-shadow: var(--card-shadow);
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .feature-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
-    }
-
-    .feature-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-radius: var(--border-radius) var(--border-radius) 0 0;
-        transition: transform 0.5s ease;
-    }
-
-    .feature-card:hover img {
-        transform: scale(1.05);
-    }
-
-    .feature-content {
-        padding: 20px;
-    }
-
-    .feature-content h3 {
-        margin-top: 0;
-        color: var(--accent-color);
-    }
-
-    .feature-content p {
-        margin-bottom: 15px;
-        text-align: left;
-    }
-
     .btn {
         display: inline-block;
         padding: 10px 20px;
@@ -613,6 +566,7 @@
           <a href="points.html">earn points 💰</a>
         </div>
     </div>
+    <div class="btn">signout</div>
 
     <footer>
         <div class="footer-content">
@@ -700,7 +654,7 @@ const handleSignOut = async () => {
     }
 };
 
-
+  document.getElementById('points').addEventListener("click", handleSignOut); 
 
   let points = getpoints();
   document.getElementById('points').textContent = points || 0;

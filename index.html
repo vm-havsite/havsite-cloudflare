@@ -686,7 +686,7 @@
         <div class="hero-section">
             <h1 id="title"></h1>
             <p class="tagline">Havsite is your quiet place on the internet to get things done — not doom-scroll.</p>
-            <a href="new-auth.html?p=index.html" class="btn">Join Now</a>
+            <a id="joinbtn" href="new-auth.html?p=index.html" class="btn">Join Now</a>
         </div>
 
         <div class="features-grid">
@@ -832,6 +832,10 @@ console.log(Date.now().toString());
   const a = await getstate(); // wait until resolved
   console.log(a);
   document.getElementById('usrsta').innerText = a;
+  if( a === 'signedin' ){
+    document.getElementById('cta-section').remove();
+    document.getElementById('joinbtn').remove();
+  }
 })();
 console.log(Date.now().toString());
 </script>
