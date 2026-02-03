@@ -566,7 +566,7 @@
           <a href="points.html">earn points 💰</a>
         </div>
     </div>
-    <div class="btn">signout</div>
+    <div id="signoutbtn" class="btn">signout</div>
 
     <footer>
         <div class="footer-content">
@@ -608,7 +608,8 @@
   import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
   import { app, db } from './firebase_auth.js';
   import { signOutUser } from './firebase_auth.js';
-  import { getpoints, addpoints, subpoints } from './points.js';
+  import { getpoints } from './points.js';
+  import { updatestate } from './points.js';
 
   const auth = getAuth(app);
 
@@ -645,6 +646,8 @@ const handleSignOut = async () => {
         // Wait for the past-self's function to finish
         await signOutUser(); 
         
+        const newstate = anonymous;
+        updatestate(newstate);
         // Now it's safe to tell the user or redirect
         alert('You signed out successfully!');
         window.location.reload();
@@ -654,7 +657,7 @@ const handleSignOut = async () => {
     }
 };
 
-  document.getElementById('points').addEventListener("click", handleSignOut); 
+  document.getElementById('signoutbtn').addEventListener("click", handleSignOut); 
 
   let points = getpoints();
   document.getElementById('points').textContent = points || 0;
