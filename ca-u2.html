@@ -1043,9 +1043,9 @@ async function loadContacts() {
             let contactDiv = document.createElement("div");
             contactDiv.classList.add("contact-item");
             
-            const avatar = document.createElement("div");
+            const avatar = document.createElement("img");
             avatar.classList.add("contact-avatar");
-            avatar.style.backgroundImage = `url(${userData.photoURL})`;
+            avatar.src = `${userData.photoURL}`;
             
             const contactInfo = document.createElement("div");
             contactInfo.classList.add("contact-info");
