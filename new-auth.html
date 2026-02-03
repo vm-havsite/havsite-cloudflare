@@ -437,7 +437,7 @@
                 try {
                     await signUp(email, password, username);
                     Toast.show('Account created successfully!', 'success');
-		    var newstate = signedin;
+		    var newstate = 'signedin';
 		    updatestate(newstate);
 		    setTimeout(() => {
         		if (destination) {
@@ -463,13 +463,13 @@
                 try {
                     await signIn(email, password);
                     Toast.show('Welcome back!', 'success');
+		    var newstate = 'signedin';
+		    updatestate(newstate);
 		    setTimeout(() => {
         		if (destination) {
 		            window.location.replace(destination);
 		        }
 		    }, 1000); // Wait exactly 1 second, then run once
-		    var newstate = signedin;
-		    updatestate(newstate);
                 } catch (error) {
                     Toast.show('Login failed: ' + error.message, 'error');
                 } finally {
@@ -482,7 +482,7 @@
                 try {
                     await signInWithGoogle();
                     Toast.show('Signed in with Google', 'success');
-		    var newstate = signedin;
+		    var newstate = 'signedin';
 		    updatestate(newstate);
 		    setTimeout(() => {
         		if (destination) {
@@ -499,7 +499,7 @@
                 try {
                     await signInWithGoogle();
                     Toast.show('Signed up with Google', 'success');
-		    var newstate = signedin;
+		    var newstate = 'signedin';
 		    updatestate(newstate);
 		    setTimeout(() => {
         		if (destination) {
