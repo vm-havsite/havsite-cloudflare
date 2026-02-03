@@ -482,13 +482,13 @@
                 try {
                     await signInWithGoogle();
                     Toast.show('Signed in with Google', 'success');
+		    var newstate = signedin;
+		    updatestate(newstate);
 		    setTimeout(() => {
         		if (destination) {
 		            window.location.replace(destination);
 		        }
 		    }, 1000); // Wait exactly 1 second, then run once
-		    var newstate = signedin;
-		    updatestate(newstate);
                 } catch (error) {
                     Toast.show('Google Sign In failed', 'error');
                 }
@@ -499,13 +499,13 @@
                 try {
                     await signInWithGoogle();
                     Toast.show('Signed up with Google', 'success');
+		    var newstate = signedin;
+		    updatestate(newstate);
 		    setTimeout(() => {
         		if (destination) {
 		            window.location.replace(destination);
 		        }
 		    }, 1000); // Wait exactly 1 second, then run once
-		    var newstate = signedin;
-		    updatestate(newstate);
                 } catch (error) {
                     Toast.show('Google Sign Up failed', 'error');
                 }
