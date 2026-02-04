@@ -140,7 +140,22 @@ function Authcheck() {
     });
 }
 
-export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState, checkAuthState2, Authcheck };
+export async function fetchUserPhotoURL() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) return null;
+
+  const db = getFirestore();
+  const userRef = doc(db, "users", user.uid);
+  const snap = await getDoc(userRef);
+
+  if (!snap.exists()) return null;
+
+  return snap.data().photoURL || null;
+}
+
+export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState, checkAuthState2, Authcheck, fetchUserPhotoURL };
 export { app, db, auth };
 
 // Example usage

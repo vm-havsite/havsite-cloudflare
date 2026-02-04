@@ -1,4 +1,4 @@
-import { Authcheck } from './firebase_auth.js';
+import { Authcheck, fetchUserPhotoURL } from './firebase_auth.js';
 let state;
 let userstate = localStorage.getItem("state");
 const lastcheck = localStorage.getItem("lastcheck");
@@ -23,6 +23,25 @@ async function authcheck() {
     return state; // Now this returns the actual value to getstate()
 }
 
+async function fetchdp() {
+    if(userstate === 'signedin'){
+      // Wait for the actual Auth process to finish
+      const dpurl = await fetchUserPhotoURL();
+
+      localStorage.setItem("dpurl", dpurl || "https://havsite2.pages.dev/images/user.png");
+
+      return dpurl;
+    }
+    else{
+      const dpurl = "https://havsite2.pages.dev/images/user.png";
+
+      localStorage.setItem("dpurl", `${dpurl}`);
+
+      return dpurl;
+    }
+}
+
+
 if (today != lastcheck || userstate === null) {
     setTimeout(authcheck, 800); // optional buffer
 } else {
@@ -41,13 +60,16 @@ function updatestate(newstate){
   state = localStorage.getItem("state");
 }
 
-function storeuserdp(picurl){
-  localStorage.setItem("dpurl", `${picurl}`);
-}
-
-function getuserdp(){
+async function getuserdp(){
   const userdp = localStorage.getItem("dpurl");
-  return dpurl;
+  if( userdp != null && today === lastcheck ){
+    const dpurl = userdp;
+    return dpurl;
+  }
+  else{
+    const dpurl = await fetchdp();
+    return dpurl;
+  }
 }
 
-export{ getstate, updatestate };
+export{ getstate, updatestate, getuserdp };

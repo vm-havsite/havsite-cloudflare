@@ -663,7 +663,7 @@
             <img src="images/home_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg">
         </a>
         <a href="cst.html" title="Profile">
-            <img src="images/user.png" alt="profile image" style="height:24px; width:24px; border-radius:50%;">
+            <img id="dp" src="images/user.png" alt="profile image" style="height:24px; width:24px; border-radius:50%;">
         </a>
         <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">
             <i class="fas fa-moon"></i>
@@ -822,7 +822,7 @@
     window.onload = typeLetter;
 </script>
 <script type="module">
-import { getstate } from "./state.js"
+import { getstate, getuserdp } from "./state.js"
 
 document.addEventListener("DOMContentLoaded", (event) => {
   console.log(Date.now().toString());
@@ -836,6 +836,8 @@ console.log(Date.now().toString());
     document.getElementById('cta-section').remove();
     document.getElementById('joinbtn').remove();
   }
+  const url = await getuserdp();
+  document.getElementById('dp').src = url;
 })();
 console.log(Date.now().toString());
 </script>
