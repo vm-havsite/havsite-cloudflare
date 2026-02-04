@@ -24,21 +24,18 @@ async function authcheck() {
 }
 
 async function fetchdp() {
-    if(userstate === 'signedin'){
-      // Wait for the actual Auth process to finish
-      const dpurl = await fetchUserPhotoURL();
+  let dpurl;
 
-      localStorage.setItem("dpurl", dpurl || "https://havsite2.pages.dev/images/user.png");
+  if (userstate === 'signedin') {
+    dpurl = await fetchUserPhotoURL();
+  }
 
-      return dpurl;
-    }
-    else{
-      const dpurl = "https://havsite2.pages.dev/images/user.png";
+  if (!dpurl) {
+    dpurl = "https://havsite2.pages.dev/images/user.png";
+  }
 
-      localStorage.setItem("dpurl", `${dpurl}`);
-
-      return dpurl;
-    }
+  localStorage.setItem("dpurl", dpurl);
+  return dpurl;
 }
 
 

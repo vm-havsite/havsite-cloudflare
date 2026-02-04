@@ -142,17 +142,26 @@ function Authcheck() {
 
 async function fetchUserPhotoURL() {
   const auth = getAuth();
-  const user = auth.currentUser;
 
-  if (!user) return null;
+  return new Promise((resolve) => {
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        resolve(null);
+        return;
+      }
 
-  const db = getFirestore();
-  const userRef = doc(db, "users", user.uid);
-  const snap = await getDoc(userRef);
+      const db = getFirestore();
+      const userRef = doc(db, "users", user.uid);
+      const snap = await getDoc(userRef);
 
-  if (!snap.exists()) return null;
+      if (!snap.exists()) {
+        resolve(null);
+        return;
+      }
 
-  return snap.data().photoURL || null;
+      resolve(snap.data().photoURL || null);
+    });
+  });
 }
 
 export { signUp, signIn, signInWithGoogle, signOutUser, checkAuthState, checkAuthState2, Authcheck, fetchUserPhotoURL };
