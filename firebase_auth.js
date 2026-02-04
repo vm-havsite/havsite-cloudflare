@@ -140,7 +140,7 @@ function Authcheck() {
     });
 }
 
-export async function fetchUserPhotoURL() {
+async function fetchUserPhotoURL() {
   const auth = getAuth();
   const user = auth.currentUser;
 
