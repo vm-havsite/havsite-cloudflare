@@ -646,7 +646,7 @@ const handleSignOut = async () => {
         // Wait for the past-self's function to finish
         await signOutUser(); 
         
-        const newstate = anonymous;
+        const newstate = 'anonymous';
         updatestate(newstate);
         // Now it's safe to tell the user or redirect
         alert('You signed out successfully!');
