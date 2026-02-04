@@ -234,7 +234,7 @@
                 </span>
         </a>
         <a href="cst.html">
-          <img src="images/user.png" style="height:30px; width:30px; border-radius:20px; margin-top:0px; ">
+          <img id="dp" src="images/user.png" style="height:30px; width:30px; border-radius:20px; margin-top:0px; ">
         </a>
         <div class="search-bar">
             <input type="text" id="sb" placeholder="Search...">
@@ -318,5 +318,11 @@
     <footer style="background-color: #333; height: 20px; margin-top: 440px;">
         <p style="color: white; text-align: center;">© 2024 by vivaan</p>
     </footer>
+<script type="module">
+import { getuserdp } from "./state.js";
+
+const dp = await getuserdp();
+document.getElementById("dp").src = dp;
+</script>
 </body>
 </html>

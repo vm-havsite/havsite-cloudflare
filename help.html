@@ -351,7 +351,7 @@
         <a href="our team.html">Team</a>
         <a href="download.html">Download</a>
         <a href="index.html">
-            <img src="images/home_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg">
+            <img id="dp" src="images/home_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.svg">
         </a>
         <a href="cst.html" title="Profile">
             <img src="images/user.png" alt="profile image" style="height:24px; width:24px; border-radius:50%;">
@@ -446,5 +446,11 @@
             }
         });
     </script>
+<script type="module">
+import { getuserdp } from "./state.js";
+
+const dp = await getuserdp();
+document.getElementById("dp").src = dp;
+</script>
 </body>
 </html>

@@ -470,7 +470,7 @@
             <span class="material-symbols-outlined">home</span>
         </a>
         <a href="cst.html" title="Profile">
-            <img src="images/user.png" style="height:24px; width:24px; border-radius:50%;">
+            <img id="dp" src="images/user.png" style="height:24px; width:24px; border-radius:50%;">
         </a>
         <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">
             <i class="fas fa-moon"></i>
@@ -765,5 +765,11 @@
             }
         });
     </script>
+<script type="module">
+import { getuserdp } from "./state.js";
+
+const dp = await getuserdp();
+document.getElementById("dp").src = dp;
+</script>
 </body>
 </html>
