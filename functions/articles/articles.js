@@ -579,7 +579,7 @@ function generateArticlesHTML(articles, errorMessage = null) {
             <span class="material-symbols-outlined">home</span>
         </a>
         <a href="https://havsite2.pages.dev/cst.html" title="Profile">
-            <img src="https://havsite2.pages.dev/images/user.png" style="height:24px; width:24px; border-radius:50%;">
+            <img id="dp" src="https://havsite2.pages.dev/images/user.png" style="height:24px; width:24px; border-radius:50%;">
         </a>
         <button class="theme-toggle" id="themeToggle" title="Toggle theme" onclick="toggleTheme()">
             <i class="fas fa-moon"></i>
@@ -693,6 +693,12 @@ function generateArticlesHTML(articles, errorMessage = null) {
             });
         });
     </script>
+<script type="module">
+import { getuserdp } from "/state.js";
+
+const dp = await getuserdp();
+document.getElementById("dp").src = dp;
+</script>
 </body>
 </html>`;
 }
