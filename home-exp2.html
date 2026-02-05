@@ -197,15 +197,34 @@
         padding: 40px 20px;
     }
 
+    .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 60px 20px;
+        min-height: 400px;
+    }
+
+    .hero-content {
+        max-width: 900px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     h1 {
         font-size: 3em;
-        margin: 20px 0;
+        margin: 20px auto;
         background: var(--primary-gradient);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
         position: relative;
         display: inline-block;
+        text-align: center;
     }
 
     h1::after {
@@ -220,11 +239,29 @@
         border-radius: 2px;
     }
 
+    h2 {
+        font-size: 2.5em;
+        margin: 40px auto 30px;
+        text-align: center;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+    }
+
+    h3 {
+        font-size: 1.5em;
+        margin: 15px 0;
+        color: var(--text-color);
+    }
+
     .tagline {
         font-size: 1.2em;
-        margin-bottom: 30px;
+        margin: 20px auto 30px;
         max-width: 800px;
         color: var(--text-color);
+        text-align: center;
     }
 
     .hero-subtext { 
@@ -232,6 +269,16 @@
 	margin: 30px auto; 
 	font-style: italic; 
 	opacity: 0.9;
+	text-align: center;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+        margin-top: 30px;
+        flex-wrap: wrap;
     }
 
     .btn-primary, .btn-primary-large { 
@@ -242,7 +289,12 @@
 	text-decoration: none; 
 	border-radius: 30px; 
 	font-weight: 600; 
-	transition: transform 0.3s; 
+	transition: transform 0.3s, box-shadow 0.3s; 
+    }
+
+    .btn-primary:hover, .btn-primary-large:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
     }
 
     .btn-secondary { 
@@ -252,13 +304,25 @@
 	color: var(--accent-color); 
 	text-decoration: none; 
 	border-radius: 30px; 
-	margin-left: 10px; 
+	transition: all 0.3s; 
+    }
+
+    .btn-secondary:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: translateY(-3px);
     }
 
     .philosophy-grid, .feature-cards, .student-benefits { 
 	display: grid; 
 	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
 	gap: 30px; 
+    }
+
+    .why-section, .features-section {
+        padding: 60px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     .principle, .feature, .benefit { 
@@ -309,6 +373,11 @@
     .cta-section h2 {
         margin-top: 0;
         font-size: 2.5em;
+        color: white;
+        font-family: 'Poppins', Arial, sans-serif;
+        background: none;
+        -webkit-background-clip: unset;
+        background-clip: unset;
     }
 
     .cta-section p {
@@ -460,6 +529,15 @@
             font-size: 2.5em;
         }
 
+        h2 {
+            font-size: 2em;
+        }
+
+        .hero {
+            padding: 40px 20px;
+            min-height: 300px;
+        }
+
         .features-grid {
             grid-template-columns: 1fr;
         }
@@ -477,6 +555,28 @@
         
         h1 {
             font-size: 2em;
+        }
+
+        h2 {
+            font-size: 1.8em;
+        }
+
+        .hero {
+            padding: 30px 15px;
+        }
+
+        .tagline {
+            font-size: 1em;
+        }
+
+        .cta-buttons {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-primary, .btn-secondary {
+            width: 100%;
+            max-width: 300px;
         }
         
         .footer-content {
