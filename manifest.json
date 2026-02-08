@@ -1,7 +1,7 @@
 {
   "name": "Havsite",
   "short_name": "Havsite",
-  "start_url": "homepagec.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2196f3",
