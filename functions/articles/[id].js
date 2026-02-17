@@ -475,7 +475,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 <script type="module">
     import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
     import { doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
-    import { db } from '/firebase_auth.js';
+    import { db, auth } from '/firebase_auth.js';
     import { getpoints, subpoints } from '/points.js';
     
     const articleId = document.getElementById('id').innerText;
