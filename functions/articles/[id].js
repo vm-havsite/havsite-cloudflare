@@ -494,10 +494,12 @@ function generateArticleHTML(article, thumbnail, articleId) {
                 console.log('User logged in:', username);
             }
         }
+	addediticon();
     });
-
-    if( username.trim() === author.trim() ){
-      document.getElementById('article-meta').innerHTML += '<span><i class="fa fa-edit"></i><strong>edit</strong></span>';
+    function addediticon(){
+      if( username.trim() === author.trim() ){
+        document.getElementById('article-meta').innerHTML += '<span><i class="fa fa-edit"></i><strong>edit</strong></span>';
+      }
     }
 
     
