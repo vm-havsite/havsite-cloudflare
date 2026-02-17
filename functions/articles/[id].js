@@ -481,9 +481,29 @@ function generateArticleHTML(article, thumbnail, articleId) {
     const articleId = document.getElementById('id').innerText;
     const summarizebtn = document.getElementById("summarize");
     const originalText = document.getElementById('content').innerText;
-    const author = ${escapeHtml(author || 'Unknown')};
+    const author = '${escapeHtml(author || 'Unknown')}';
     const WORKER_URL = 'https://summarizer.vm002248.workers.dev/';
-    console.log('author');
+    let username = '';
+
+    console.log('author'); //debug test
+
+    // Set up auth state listener ONCE when page loads
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            if (userDoc.exists()) {
+                username = userDoc.data().username;
+                console.log('User logged in:', username);
+            }
+        }
+	addediticon();
+    });
+
+    function addediticon(){
+      if( username.trim() === author.trim() ){
+        document.getElementById('article-meta').innerHTML += '<span><i class="fa fa-edit"></i><strong>edit</strong></span>';
+      }
+    }
 
     
     async function fetchsummarizedArticles() {
