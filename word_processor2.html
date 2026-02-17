@@ -542,6 +542,7 @@ onAuthStateChanged(auth, async (user) => {
         if (userDoc.exists()) {
             username = userDoc.data().username;
             console.log('User logged in:', username);
+            console.log('User logged in:', user.uid);
         }
     } else {
         window.location.href = "new-auth.html?p=word_processor2.html";
