@@ -418,10 +418,10 @@ function generateArticleHTML(article, thumbnail, articleId) {
     <div class="container">
         <div class="article-header">
             <h1 class="article-title">${escapeHtml(title || 'Untitled Article')}</h1>
-            <div class="article-meta">
+            <div class="article-meta" id="article-meta">
                 <span>
                     <i class="fas fa-user"></i>
-                    <strong>By:</strong> ${escapeHtml(author || 'Unknown')}
+                    <strong>By:</strong><p id="author"> ${escapeHtml(author || 'Unknown')}</p>
                 </span>
                 <span>
                     <i class="fas fa-calendar"></i>
@@ -473,6 +473,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         });
     </script>
 <script type="module">
+    import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
     import { doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
     import { db } from '/firebase_auth.js';
     import { getpoints, subpoints } from '/points.js';
@@ -480,7 +481,25 @@ function generateArticleHTML(article, thumbnail, articleId) {
     const articleId = document.getElementById('id').innerText;
     const summarizebtn = document.getElementById("summarize");
     const originalText = document.getElementById('content').innerText;
+    const author = document.getElementById('author').innerText;
     const WORKER_URL = 'https://summarizer.vm002248.workers.dev/';
+    let username = '';
+
+    // Set up auth state listener ONCE when page loads
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            if (userDoc.exists()) {
+                username = userDoc.data().username;
+                console.log('User logged in:', username);
+            }
+        }
+    });
+
+    if( username === author ){
+      document.getElementById('article-meta').innerHTML += '<span><i class="fa fa-edit"></i><strong>edit</strong></span>';
+    }
+
     
     async function fetchsummarizedArticles() {
         try {
