@@ -496,7 +496,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         }
     });
 
-    if( username === author ){
+    if( username.trim() === author.trim() ){
       document.getElementById('article-meta').innerHTML += '<span><i class="fa fa-edit"></i><strong>edit</strong></span>';
     }
 
