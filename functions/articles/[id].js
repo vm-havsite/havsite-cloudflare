@@ -478,6 +478,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
     import { getpoints, subpoints } from '/points.js';
     
     const summarizebtn = document.getElementById("summarize");
+    const deletebtn = document.getElementById("delete-btn");
     const originalText = document.getElementById('content').innerText;
     const author = '${escapeHtml(author || 'Unknown')}';
     const articleId = '${escapeHtml(articleId)}';
@@ -695,6 +696,11 @@ function formatMarkdown(text) {
             alert('insufficient points balance: ' + points);
         });
     }
+
+        deletebtn.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            deletearticle();
+        });
 </script>
 </body>
 </html>`;
