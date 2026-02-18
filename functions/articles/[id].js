@@ -442,7 +442,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
     <footer>
         <p>© 2024 Havsite | <a href="/arcticles.html">Browse More Articles</a></p>
-        <div id="id" style="height: 0px; width: 0px; font-size: 0px;">${escapeHtml(author || 'Unknown')}${escapeHtml(title || 'Untitled Article')}</div>
     </footer>
 
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
@@ -478,7 +477,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
     import { db, auth } from '/firebase_auth.js';
     import { getpoints, subpoints } from '/points.js';
     
-    const articleId = document.getElementById('id').innerText;
     const summarizebtn = document.getElementById("summarize");
     const originalText = document.getElementById('content').innerText;
     const author = '${escapeHtml(author || 'Unknown')}';
@@ -520,7 +518,7 @@ async function deletearticle() {
       console.log("Article successfully deleted!");
 
       // Step 3: Success UI - ONLY runs if BOTH deletions worked
-      alert("Articled deleted successfully! Redirecting..."); //delete this line after testing
+      alert("Articled deleted successfully! Redirecting...");
       setTimeout(() => {
         window.location.href = "https://havsite2.pages.dev/articles/articles";
       }, 1000);
