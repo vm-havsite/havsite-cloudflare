@@ -478,7 +478,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
     import { getpoints, subpoints } from '/points.js';
     
     const summarizebtn = document.getElementById("summarize");
-    const deletebtn = document.getElementById("delete-btn");
     const originalText = document.getElementById('content').innerText;
     const author = '${escapeHtml(author || 'Unknown')}';
     const articleId = '${escapeHtml(articleId)}';
@@ -502,6 +501,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
     function adddeleteicon(){
       if( username.trim() === author.trim() ){
         document.getElementById('article-meta').innerHTML += '<span id="delete-btn"><i class="fa fa-edit"></i><strong>delete</strong></span>';
+        const deletebtn = document.getElementById("delete-btn");
         deletebtn.addEventListener("click", (e) => {
             e.preventDefault(); // Prevent default link behavior
             deletearticle();
