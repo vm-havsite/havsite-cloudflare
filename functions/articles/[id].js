@@ -482,6 +482,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
     const summarizebtn = document.getElementById("summarize");
     const originalText = document.getElementById('content').innerText;
     const author = '${escapeHtml(author || 'Unknown')}';
+    const articleId = '${escapeHtml(articleId)}';
     const WORKER_URL = 'https://summarizer.vm002248.workers.dev/';
     let username = '';
 
@@ -496,15 +497,46 @@ function generateArticleHTML(article, thumbnail, articleId) {
                 console.log('User logged in:', username);
             }
         }
-	addediticon();
+	adddeleteicon();
     });
 
-    function addediticon(){
+    function adddeleteicon(){
       if( username.trim() === author.trim() ){
-        document.getElementById('article-meta').innerHTML += '<span><i class="fa fa-edit"></i><strong>edit</strong></span>';
+        document.getElementById('article-meta').innerHTML += '<span id="delete-btn"><i class="fa fa-edit"></i><strong>delete</strong></span>';
       }
     }
 
+async function deletearticle() {
+  try {
+    // Step 1: Attempt to delete summary
+    const summaryRef = doc(db, "summaries", articleId);
+    await deleteDoc(summaryRef);
+    console.log("Summary successfully deleted!");
+
+    try {
+      // Step 2: ONLY runs if Step 1 succeeded
+      const articleRef = doc(db, "articles", articleId);
+      await deleteDoc(articleRef);
+      console.log("Article successfully deleted!");
+
+      // Step 3: Success UI - ONLY runs if BOTH deletions worked
+      alert("Articled deleted successfully! Redirecting..."); //delete this line after testing
+      setTimeout(() => {
+        window.location.href = "https://havsite2.pages.dev/articles/articles";
+      }, 1000);
+
+    } catch (error) {
+      // Error specifically for the article deletion
+      console.error("Summary was deleted, but error removing article: ", error);
+      alert("Summary deleted, but failed to remove the article.");
+    }
+
+  } catch (error) {
+    // Error for the summary deletion (Article deletion is never even reached)
+    console.error("Error removing summary (Article deletion aborted): ", error);
+    alert("Failed to delete summary. Operation stopped.");
+  }
+}
     
     async function fetchsummarizedArticles() {
         try {

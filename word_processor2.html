@@ -530,6 +530,7 @@ const WORKER_URL = 'https://cloudinary.vm002248.workers.dev';
 // Global variables accessible to Firebase script
 let username = '';
 let currentUser = null;
+let useruid = '';
 
 // Store thumbnail file temporarily (in memory, not uploaded yet)
 let pendingThumbnailFile = null;
@@ -543,6 +544,7 @@ onAuthStateChanged(auth, async (user) => {
             username = userDoc.data().username;
             console.log('User logged in:', username);
             console.log('User logged in:', user.uid);
+            useruid = user.uid;
         }
     } else {
         window.location.href = "new-auth.html?p=word_processor2.html";
@@ -637,6 +639,7 @@ window.saveDocument = async function() {
                     // Step 3: Only after worker upload succeeds, save thumbnail metadata to Firestore
                     await setDoc(doc(db, "thumbnails", articleId), {
                         author: username,
+			authorId: useruid,
                         title: documentname,
                         articleid: articleId,
                         fileUrl: fileUrl,
