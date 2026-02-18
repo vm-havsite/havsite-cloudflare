@@ -502,6 +502,10 @@ function generateArticleHTML(article, thumbnail, articleId) {
     function adddeleteicon(){
       if( username.trim() === author.trim() ){
         document.getElementById('article-meta').innerHTML += '<span id="delete-btn"><i class="fa fa-edit"></i><strong>delete</strong></span>';
+        deletebtn.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            deletearticle();
+        });
       }
     }
 
@@ -696,11 +700,6 @@ function formatMarkdown(text) {
             alert('insufficient points balance: ' + points);
         });
     }
-
-        deletebtn.addEventListener("click", (e) => {
-            e.preventDefault(); // Prevent default link behavior
-            deletearticle();
-        });
 </script>
 </body>
 </html>`;
