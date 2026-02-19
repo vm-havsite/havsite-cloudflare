@@ -524,11 +524,23 @@ async function deletearticle() {
       await deleteDoc(articleRef);
       console.log("Article successfully deleted!");
 
-      // Step 3: Success UI - ONLY runs if BOTH deletions worked
-      alert("Articled deleted successfully! Redirecting...");
-      setTimeout(() => {
-        window.location.href = "https://havsite2.pages.dev/articles/articles";
-      }, 1000);
+        try {
+          // Step 3: ONLY runs if Step 2 succeeded
+          const articleRef = doc(db, "thumbnails", articleId);
+          await deleteDoc(articleRef);
+          console.log("Thumbnail successfully deleted!");
+
+          // Step 4: Success UI - ONLY runs if ALL 3 deletions worked
+          alert("Articled deleted successfully! Redirecting...");
+          setTimeout(() => {
+          window.location.href = "https://havsite2.pages.dev/articles/articles";
+        }, 1000);
+  
+        } catch (error) {
+          // Error specifically for the article deletion
+          console.error("Summary was deleted, but error removing article: ", error);
+          alert("Summary deleted, but failed to remove the article.");
+        }
 
     } catch (error) {
       // Error specifically for the article deletion

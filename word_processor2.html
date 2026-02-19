@@ -600,6 +600,7 @@ window.saveDocument = async function() {
             // Step 1: Save the article first
             await setDoc(doc(db, "articles", articleId), {
                 author: username,
+		authorId: useruid,
                 content: htmlContent,
                 title: documentname,
                 timestamp: serverTimestamp()
