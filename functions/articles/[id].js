@@ -500,7 +500,9 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
     function adddeleteicon(){
       if( username.trim() === author.trim() ){
-        document.getElementById('article-meta').innerHTML += '<span id="delete-btn"><i class="fa fa-edit"></i><strong>delete</strong></span>';
+        document.getElementById('article-meta').insertAdjacentHTML('beforeend', 
+      '<span id="delete-btn"><i class="fa fa-edit"></i><strong>delete</strong></span>'
+    );
         const deletebtn = document.getElementById("delete-btn");
         deletebtn.addEventListener("click", (e) => {
             e.preventDefault(); // Prevent default link behavior
