@@ -70,20 +70,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
     }
   }
 
-  return `function generateArticleHTML(article, thumbnail, articleId) {
-  const { title, content, author, timestamp } = article;
-  const thumbnailUrl = thumbnail?.fileUrl || '';
-  
-  let formattedDate = 'Unknown date';
-  if (timestamp) {
-    try {
-      const date = new Date(timestamp);
-      formattedDate = date.toLocaleDateString('en-US', {
-        year: 'numeric', month: 'long', day: 'numeric'
-      });
-    } catch (e) { console.error('Error formatting date:', e); }
-  }
-
   return `<!DOCTYPE html>
 <html lang="en" id="html-root">
 <head>
@@ -598,7 +584,6 @@ function formatMarkdown(text) {
 </body>
 </html>`;
 }
-
 
 function generateErrorHTML(message, articleId, details = '') {
   return `<!DOCTYPE html>
