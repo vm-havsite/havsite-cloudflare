@@ -576,7 +576,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
     if (document.getElementById('delete-popup')) return;
 
     document.getElementById('body').insertAdjacentHTML('beforeend', 
-      '<div id="delete-popup"><p class="conformation">Are you sure you want to delete this article? This action cannot be undone</p><button class="no-btn" id="cancel-delete">No</button><button class="yes-btn" id="delete-btn">Yes, Delete</button></div>'
+      '<div class="delete-popup" id="delete-popup"><p class="conformation">Are you sure you want to delete this article? This action cannot be undone</p><button class="no-btn" id="cancel-delete">No</button><button class="yes-btn" id="delete-btn">Yes, Delete</button></div>'
     );
 
     const cancelBtn = document.getElementById("cancel-delete");
