@@ -231,8 +231,8 @@ function generateArticleHTML(article, thumbnail, articleId) {
             border-radius: var(--border-radius);
             margin-bottom: 15px;
             box-shadow: var(--card-shadow);
-	    position: absolute;
-	    right: 4vw;
+	    float: right;
+	    margin-right: 4vw;
         }
 
         .article-content {
