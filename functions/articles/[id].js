@@ -91,7 +91,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             --accent-color: #6a11cb;
             --bg-color: #f9f9f9;
             --text-color: #333;
-            --bg-color-popup: rgba(255, 255, 255, 0.5);
+            --bg-color-popup: rgba(55, 65, 81, 0.3);
             --card-bg: #ffffff;
             --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             --border-radius: 12px;
