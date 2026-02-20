@@ -122,7 +122,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         .header {
             background: var(--primary-gradient);
             color: white;
-            padding: 20px;
+            padding: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -135,7 +135,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         }
 
         .header h1 {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -144,14 +144,14 @@ function generateArticleHTML(article, thumbnail, articleId) {
        .back-link {
             color: white;
             text-decoration: none;
-            padding: 12px 24px;
+            padding: 6px 12px;
             background: rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
+            border-radius: 5px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 500;
+            font-weight: 250;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
@@ -161,25 +161,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-       .summarize {
-            color: white;
-            text-decoration: none;
-            padding: 12px 24px;
-            background:  var(--primary-gradient);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .summarize:hover {
-            background:  var(--primary-gradient);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
 
         .container {
             max-width: 900px;
@@ -189,15 +170,15 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
         .article-header {
             background: var(--card-bg);
-            padding: 40px;
+            padding: 20px;
             border-radius: var(--border-radius);
             box-shadow: var(--card-shadow);
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
     .article-title {
-        font-size: 3em;
-        margin: 20px 0;
+        font-size: 1.5em;
+        margin: 10px 0;
         background: var(--primary-gradient);
         -webkit-background-clip: text;
         background-clip: text;
@@ -222,9 +203,9 @@ function generateArticleHTML(article, thumbnail, articleId) {
             color: #666;
             font-size: 0.95rem;
             display: flex;
-            gap: 25px;
+            gap: 12px;
             flex-wrap: wrap;
-            padding-top: 15px;
+            padding-top: 4px;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
         }
 
@@ -236,7 +217,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         .article-meta span {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 4px;
         }
 
         .article-meta i {
@@ -244,11 +225,11 @@ function generateArticleHTML(article, thumbnail, articleId) {
         }
 
         .thumbnail {
-            width: 100%;
-            max-height: 500px;
+            width: 30vw;
+            max-height: 35vw;
             object-fit: cover;
             border-radius: var(--border-radius);
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             box-shadow: var(--card-shadow);
         }
 
@@ -258,7 +239,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             border-radius: var(--border-radius);
             box-shadow: var(--card-shadow);
             font-size: 1.1rem;
-            line-height: 1.8;
+            line-height: 1.4;
         }
 
         .article-content h1,
@@ -270,7 +251,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             margin-top: 1.5em;
             margin-bottom: 0.75em;
             color: var(--text-color);
-            font-weight: 600;
+            font-weight: 500;
         }
 
         .article-content h1 { font-size: 2rem; }
@@ -479,6 +460,7 @@ body.modal-open > *:not(.delete-popup) {
     </div>
 
     <div class="container">
+
         <div class="article-header">
             <h1 class="article-title">${escapeHtml(title || 'Untitled Article')}</h1>
             <div class="article-meta" id="article-meta">
