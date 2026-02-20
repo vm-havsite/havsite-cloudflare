@@ -177,8 +177,8 @@ function generateArticleHTML(article, thumbnail, articleId) {
         }
 
     .article-title {
-        font-size: 1.5em;
-        margin: 10px 0;
+        font-size: 1.7em;
+        margin: 15px 0;
         background: var(--primary-gradient);
         -webkit-background-clip: text;
         background-clip: text;
@@ -232,7 +232,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             margin-bottom: 15px;
             box-shadow: var(--card-shadow);
 	    float: right;
-	    margin-right: 4vw;
+	    margin-right: 2vw;
         }
 
         .article-content {
