@@ -231,6 +231,8 @@ function generateArticleHTML(article, thumbnail, articleId) {
             border-radius: var(--border-radius);
             margin-bottom: 15px;
             box-shadow: var(--card-shadow);
+	    position: absolute;
+	    right: 4vw;
         }
 
         .article-content {
@@ -263,7 +265,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         }
 
         .article-content img {
-            max-width: 100%;
+            max-width: 90vw;
             height: auto;
             border-radius: 8px;
             margin: 25px 0;
@@ -475,12 +477,8 @@ body.modal-open > *:not(.delete-popup) {
             </div>
         </div>
 
-        ${thumbnailUrl ? `<img src="${escapeHtml(thumbnailUrl)}" alt="${escapeHtml(title || 'Article')}" class="thumbnail">` : ''}
-
         <div class="article-content" id="content">
-            <a href="#" class="summarize" id="summarize">
-                summarize
-            </a><br><br>
+            ${thumbnailUrl ? `<img src="${escapeHtml(thumbnailUrl)}" alt="${escapeHtml(title || 'Article')}" class="thumbnail">` : ''}
             ${content || '<p>No content available.</p>'}
         </div>
     </div>
