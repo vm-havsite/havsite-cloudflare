@@ -91,6 +91,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             --accent-color: #6a11cb;
             --bg-color: #f9f9f9;
             --text-color: #333;
+            --bg-color-popup: rgba(249, 249, 249, 0.6);
             --card-bg: #ffffff;
             --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             --border-radius: 12px;
@@ -99,6 +100,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
         .dark-mode {
             --bg-color: #121212;
             --text-color: #f1f1f1;
+            --bg-color-popup: rgba(18, 18, 18, 0.6);
             --card-bg: #1e1e1e;
             --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
@@ -416,12 +418,15 @@ function generateArticleHTML(article, thumbnail, articleId) {
     transform: translate(-50%, -50%); /* This perfectly centers it */
     
     /* Visuals */
-    background: var(--bg-color, #ffffff);
-    color: var(--text-color, #333333); /* Fixed from 'text' to 'color' */
+    background: var(--bg-color-popup, #ffffff);
+    color: var(--text-color, #333333);
     border-radius: 12px;
     padding: 20px;
     z-index: 1000;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px); /* Apply blur to the backdrop */
+    /* Add -webkit- prefix for wider compatibility, especially in older Safari versions */
+    -webkit-backdrop-filter: blur(10px);
 
     /* Flexbox to align buttons at the bottom */
     display: flex;
