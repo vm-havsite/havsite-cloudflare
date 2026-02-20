@@ -403,9 +403,69 @@ function generateArticleHTML(article, thumbnail, articleId) {
                 gap: 10px;
             }
         }
+
+.delete-popup {
+    /* Sizing */
+    height: 40vh;
+    width: 60vw;
+    
+    /* Centering the popup on screen */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* This perfectly centers it */
+    
+    /* Visuals */
+    background: var(--bg-color, #ffffff);
+    color: var(--text-color, #333333); /* Fixed from 'text' to 'color' */
+    border-radius: 12px;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+    /* Flexbox to align buttons at the bottom */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+/* Container for the buttons to sit side-by-side */
+.button-group {
+    display: flex;
+    justify-content: flex-end; /* Pushes buttons to the right */
+    gap: 15px; /* Space between buttons */
+}
+
+.no-btn {
+    padding: 10px 20px;
+    background: #e0e0e0; /* Neutral Light Gray */
+    color: #444;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.no-btn:hover {
+    background: #d5d5d5;
+}
+
+.yes-btn {
+    padding: 10px 20px;
+    background: #ff4d4d; /* Bright, clean "Danger" Red */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.yes-btn:hover {
+    background: #e63939;
+}
     </style>
 </head>
-<body>
+<body id="body">
     <div class="header">
         <div class="header-content">
             <h1>📄 Havsite Articles</h1>
@@ -501,7 +561,19 @@ function generateArticleHTML(article, thumbnail, articleId) {
     function adddeleteicon(){
       if( username.trim() === author.trim() ){
         document.getElementById('article-meta').insertAdjacentHTML('beforeend', 
-      '<span id="delete-btn"><i class="fa fa-edit"></i><strong>delete</strong></span>'
+      '<span id="delete"><i class="fa fa-edit"></i><strong>delete</strong></span>'
+    );
+        const deletebtn = document.getElementById("delete");
+        deletebtn.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            deletepopup();
+        });
+      }
+    }
+
+  function deletepopup(){
+    document.getElementById('article-meta').insertAdjacentHTML('beforeend', 
+      '<div id="delete-popup"><p class="conformation">Are you sure you want to delete this article? This action cannot be undone</p><button class="no-btn">No</button><button class="yes-btn" id="delete-btn"></button></div>'
     );
         const deletebtn = document.getElementById("delete-btn");
         deletebtn.addEventListener("click", (e) => {
@@ -509,7 +581,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             deletearticle();
         });
       }
-    }
+  }
 
 async function deletearticle() {
   try {
