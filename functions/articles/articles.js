@@ -640,7 +640,7 @@ function generateArticlesHTML(articles, errorMessage = null) {
         <i class="fas fa-arrow-up"></i>
     </a>
 
-    <script src="https://havsite2.pages.dev/myscript.js"></script>
+    <script src="/myscript.js"></script>
     
     <script>
         function myFunction() {

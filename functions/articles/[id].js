@@ -91,7 +91,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             --accent-color: #6a11cb;
             --bg-color: #f9f9f9;
             --text-color: #333;
-            --bg-color-popup: rgba(249, 249, 249, 0.6);
+            --bg-color-popup: rgba(255, 255, 255, 0.5);
             --card-bg: #ffffff;
             --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             --border-radius: 12px;
@@ -427,6 +427,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
     backdrop-filter: blur(10px); /* Apply blur to the backdrop */
     /* Add -webkit- prefix for wider compatibility, especially in older Safari versions */
     -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 
     /* Flexbox to align buttons at the bottom */
     display: flex;
@@ -510,6 +511,7 @@ body.modal-open > *:not(.delete-popup) {
         <i class="fas fa-moon"></i>
     </button>
 
+    <script src="/myscript.js"></script>
     <script>
         function toggleTheme() {
             document.getElementById('html-root').classList.toggle('dark-mode');
@@ -520,18 +522,6 @@ body.modal-open > *:not(.delete-popup) {
                 icon.className = 'fas fa-moon';
             }
         }
-
-        // Check for saved theme preference
-        if (localStorage.getItem('theme') === 'dark') {
-            document.getElementById('html-root').classList.add('dark-mode');
-            document.querySelector('#themeToggle i').className = 'fas fa-sun';
-        }
-
-        // Save theme preference
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            const isDark = document.getElementById('html-root').classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
     </script>
 <script type="module">
     import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
@@ -591,11 +581,13 @@ body.modal-open > *:not(.delete-popup) {
             e.preventDefault(); // Prevent default link behavior
             deletearticle();
             popup.remove();
+	    document.body.classList.remove("modal-open");
         });
 
     // Handle the "No" (Cancel) action
     cancelBtn.addEventListener("click", () => {
         popup.remove(); // Simply removes the popup from the DOM
+        document.body.classList.remove("modal-open");
     });
 }
 
