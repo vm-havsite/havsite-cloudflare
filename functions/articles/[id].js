@@ -594,7 +594,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
         popup.remove(); // Simply removes the popup from the DOM
     });
 }
-  }
 
 async function deletearticle() {
   try {
