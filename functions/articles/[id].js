@@ -146,12 +146,12 @@ function generateArticleHTML(article, thumbnail, articleId) {
             text-decoration: none;
             padding: 6px 12px;
             background: rgba(255, 255, 255, 0.15);
-            border-radius: 5px;
+            border-radius: 8px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 350;
+            font-weight: 450;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
@@ -227,12 +227,13 @@ function generateArticleHTML(article, thumbnail, articleId) {
         .thumbnail {
             width: 30vw;
             max-height: 35vw;
-            object-fit: cover;
             border-radius: var(--border-radius);
             margin-bottom: 15px;
             box-shadow: var(--card-shadow);
 	    float: right;
 	    margin-right: 2vw;
+	    margin-left: 2vw;
+	    margin-top: 32vw;
         }
 
         .article-content {
