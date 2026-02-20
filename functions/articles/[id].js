@@ -151,7 +151,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 250;
+            font-weight: 350;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
