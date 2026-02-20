@@ -434,13 +434,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
     justify-content: space-between; 
 }
 
-/* Container for the buttons to sit side-by-side */
-.button-group {
-    display: flex;
-    justify-content: flex-end; /* Pushes buttons to the right */
-    gap: 15px; /* Space between buttons */
-}
-
 .no-btn {
     padding: 10px 20px;
     background: #e0e0e0; /* Neutral Light Gray */
@@ -467,6 +460,10 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
 .yes-btn:hover {
     background: #e63939;
+}
+
+body.modal-open > *:not(.delete-popup) {
+  filter: blur(6px);
 }
     </style>
 </head>
@@ -584,10 +581,12 @@ function generateArticleHTML(article, thumbnail, articleId) {
       '<div class="delete-popup" id="delete-popup"><p class="conformation">Are you sure you want to delete this article? This action cannot be undone</p><button class="no-btn" id="cancel-delete">No</button><button class="yes-btn" id="delete-btn">Yes, Delete</button></div>'
     );
 
+    // Use parentheses () to call the function, not = to assign it
+    document.body.classList.add("modal-open");
     const cancelBtn = document.getElementById("cancel-delete");
     const popup = document.getElementById("delete-popup");
     const deletebtn = document.getElementById("delete-btn");
-
+    
         deletebtn.addEventListener("click", (e) => {
             e.preventDefault(); // Prevent default link behavior
             deletearticle();
