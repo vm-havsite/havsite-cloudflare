@@ -580,7 +580,6 @@ function generateArticleHTML(article, thumbnail, articleId) {
             e.preventDefault(); // Prevent default link behavior
             deletearticle();
         });
-      }
   }
 
 async function deletearticle() {
