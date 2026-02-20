@@ -80,18 +80,24 @@ function generateArticleHTML(article, thumbnail, articleId) {
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
+            --primary-gradient: linear-gradient(45deg, #6a11cb, #2575fc);
             --accent-color: #6a11cb;
             --bg-color: #ffffff;
             --text-color: #1a1a1a;
             --secondary-text: #666;
             --card-bg: #fdfdfd;
             --border-color: rgba(0,0,0,0.08);
+            --bg-color-popup: rgba(55, 65, 81, 0.3);
+            --card-bg: #ffffff;
+            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
         }
 
         .dark-mode {
             --bg-color: #0f0f0f;
             --text-color: #e0e0e0;
             --secondary-text: #a0a0a0;
+            --bg-color-popup: rgba(18, 18, 18, 0.6);
             --card-bg: #1a1a1a;
             --border-color: rgba(255,255,255,0.1);
         }
@@ -112,7 +118,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
             padding: 80px 40px 40px;
             text-align: center;
         }
-
+	
         .article-category {
             text-transform: uppercase;
             letter-spacing: 3px;
@@ -367,7 +373,7 @@ body.modal-open > *:not(.delete-popup) {
             <div class="action-box">
                 <h4>Reading Tools</h4>
                 <p style="font-size: 0.85rem; color: var(--secondary-text); margin-bottom: 20px;">
-                    Short on time? Use our AI to condense this article into key points.
+                    Short on time? Read only what truly matters.
                 </p>
                 <button id="summarize">
                     <i class="fas fa-bolt"></i> Summarize
