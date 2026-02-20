@@ -570,43 +570,32 @@ function generateArticleHTML(article, thumbnail, articleId) {
         });
       }
     }
-function deletepopup() {
-    // 1. Check if the popup already exists to prevent duplicates
+
+  function deletepopup(){
+    //Check if the popup already exists to prevent duplicates
     if (document.getElementById('delete-popup')) return;
 
-    const body = document.getElementById('body');
+    document.getElementById('body').insertAdjacentHTML('beforeend', 
+      '<div id="delete-popup"><p class="conformation">Are you sure you want to delete this article? This action cannot be undone</p><button class="no-btn" id="cancel-delete">No</button><button class="yes-btn" id="delete-btn">Yes, Delete</button></div>'
+    );
 
-    // 2. Inject the updated HTML structure
-    body.insertAdjacentHTML('beforeend', `
-        <div id="delete-popup" class="delete-popup">
-            <p class="conformation">
-                Are you sure you want to delete this article? 
-                <br><small>This action cannot be undone.</small>
-            </p>
-            <div class="button-group">
-                <button type="button" class="no-btn" id="cancel-delete">No</button>
-                <button type="button" class="yes-btn" id="confirm-delete">Yes, Delete</button>
-            </div>
-        </div>
-    `);
-
-    // 3. Select the new buttons
-    const confirmBtn = document.getElementById("confirm-delete");
     const cancelBtn = document.getElementById("cancel-delete");
     const popup = document.getElementById("delete-popup");
+    const deletebtn = document.getElementById("delete-btn");
 
-    // 4. Handle the "Yes" (Delete) action
-    confirmBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        deletearticle(); // Your existing delete function
-        popup.remove();  // Remove popup after clicking delete
-    });
+        deletebtn.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            deletearticle();
+            popup.remove();
+        });
 
-    // 5. Handle the "No" (Cancel) action
+    // Handle the "No" (Cancel) action
     cancelBtn.addEventListener("click", () => {
         popup.remove(); // Simply removes the popup from the DOM
     });
 }
+  }
+
 async function deletearticle() {
   try {
     // Step 1: Attempt to delete summary
