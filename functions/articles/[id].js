@@ -123,14 +123,29 @@ function generateArticleHTML(article, thumbnail, articleId) {
             display: block;
         }
 
-        .article-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 7vw, 4.5rem);
-            line-height: 1.1;
-            margin: 0 auto 30px;
-            font-weight: 900;
-            max-width: 900px;
-        }
+
+    .article-title {
+        font-size: 1.7em;
+        margin: 15px 0;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        position: relative;
+        display: inline-block;
+    }
+
+    .article-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: var(--primary-gradient);
+        border-radius: 2px;
+    }
 
         .article-meta-top {
             font-size: 0.9rem;
@@ -190,6 +205,29 @@ function generateArticleHTML(article, thumbnail, articleId) {
             font-size: 1.2rem;
         }
 
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
         /* THE SUMMARIZE BUTTON */
         #summarize {
             width: 100%;
@@ -236,28 +274,77 @@ function generateArticleHTML(article, thumbnail, articleId) {
             .article-hero { padding: 40px 20px; }
         }
 
-        /* Keeping your existing Delete Popup CSS */
-        .delete-popup {
-            height: 40vh; width: 60vw; position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); background: var(--bg-color-popup, #ffffff);
-            color: var(--text-color); border-radius: 12px; padding: 20px;
-            z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px); display: flex; flex-direction: column;
-            justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        body.modal-open > *:not(.delete-popup) { filter: blur(6px); }
+.delete-popup {
+    /* Sizing */
+    height: 40vh;
+    width: 60vw;
+    
+    /* Centering the popup on screen */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* This perfectly centers it */
+    
+    /* Visuals */
+    background: var(--bg-color-popup, #ffffff);
+    color: var(--text-color, #333333);
+    border-radius: 12px;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px); /* Apply blur to the backdrop */
+    /* Add -webkit- prefix for wider compatibility, especially in older Safari versions */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    /* Flexbox to align buttons at the bottom */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+.no-btn {
+    padding: 10px 20px;
+    background: #e0e0e0; /* Neutral Light Gray */
+    color: #444;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.no-btn:hover {
+    background: #d5d5d5;
+}
+
+.yes-btn {
+    padding: 10px 20px;
+    background: #ff4d4d; /* Bright, clean "Danger" Red */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.yes-btn:hover {
+    background: #e63939;
+}
+
+body.modal-open > *:not(.delete-popup) {
+  filter: blur(6px);
+}
     </style>
 </head>
 <body id="body">
     <header style="padding: 20px 40px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
         <div style="font-family: 'Playfair Display'; font-weight: 900; font-size: 1.4rem;">HAVSITE</div>
         <a href="/arcticles.html" style="text-decoration: none; color: var(--secondary-text); font-size: 0.8rem; font-weight: 600; letter-spacing: 1px;">
-            <i class="fas fa-arrow-left"></i> BACK TO FEED
+            <i class="fas fa-arrow-left"></i> BACK TO ARTICLES
         </a>
     </header>
 
     <div class="article-hero">
-        <span class="article-category">Digital Edition</span>
         <h1 class="article-title">${escapeHtml(title || 'Untitled Article')}</h1>
         <div class="article-meta-top" id="article-meta">
             <span>Written by <strong>${escapeHtml(author || 'Unknown')}</strong></span>
