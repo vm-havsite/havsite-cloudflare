@@ -70,425 +70,244 @@ function generateArticleHTML(article, thumbnail, articleId) {
     }
   }
 
+  return `function generateArticleHTML(article, thumbnail, articleId) {
+  const { title, content, author, timestamp } = article;
+  const thumbnailUrl = thumbnail?.fileUrl || '';
+  
+  let formattedDate = 'Unknown date';
+  if (timestamp) {
+    try {
+      const date = new Date(timestamp);
+      formattedDate = date.toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+    } catch (e) { console.error('Error formatting date:', e); }
+  }
+
   return `<!DOCTYPE html>
 <html lang="en" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Article by ${author || 'Unknown author'}">
-    <meta property="og:title" content="${escapeHtml(title || 'Untitled Article')}">
-    <meta property="og:description" content="Read this article on Havsite">
-    ${thumbnailUrl ? `<meta property="og:image" content="${escapeHtml(thumbnailUrl)}">` : ''}
-    <meta property="og:type" content="article">
     <title>${escapeHtml(title || 'Article')} - Havsite</title>
-    <link rel="icon" type="image/x-icon" href="/images/logo_og.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-gradient: linear-gradient(45deg, #6a11cb, #2575fc);
             --accent-color: #6a11cb;
-            --bg-color: #f9f9f9;
-            --text-color: #333;
-            --bg-color-popup: rgba(55, 65, 81, 0.3);
-            --card-bg: #ffffff;
-            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            --border-radius: 12px;
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --secondary-text: #666;
+            --card-bg: #fdfdfd;
+            --border-color: rgba(0,0,0,0.08);
         }
 
         .dark-mode {
-            --bg-color: #121212;
-            --text-color: #f1f1f1;
-            --bg-color-popup: rgba(18, 18, 18, 0.6);
-            --card-bg: #1e1e1e;
-            --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --bg-color: #0f0f0f;
+            --text-color: #e0e0e0;
+            --secondary-text: #a0a0a0;
+            --card-bg: #1a1a1a;
+            --border-color: rgba(255,255,255,0.1);
         }
 
         body {
-            font-family: 'Poppins', Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.8;
+            margin: 0;
+            transition: background 0.3s ease;
         }
 
-        .header {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-content {
-            max-width: 900px;
+        /* Hero Section */
+        .article-hero {
+            max-width: 1200px;
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 80px 40px 40px;
+            text-align: center;
         }
 
-        .header h1 {
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .article-category {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: block;
         }
 
-       .back-link {
-            color: white;
-            text-decoration: none;
-            padding: 6px 12px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 450;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .back-link:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-
-        .container {
+        .article-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            line-height: 1.1;
+            margin: 0 auto 30px;
+            font-weight: 900;
             max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
         }
 
-        .article-header {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            margin-bottom: 15px;
-        }
-
-    .article-title {
-        font-size: 1.7em;
-        margin: 15px 0;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        position: relative;
-        display: inline-block;
-    }
-
-    .article-title::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 4px;
-        background: var(--primary-gradient);
-        border-radius: 2px;
-    }
-
-        .article-meta {
-            color: #666;
-            font-size: 0.95rem;
+        .article-meta-top {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
             display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            padding-top: 4px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            justify-content: center;
+            gap: 20px;
+            font-style: italic;
+            margin-bottom: 40px;
         }
 
-        .dark-mode .article-meta {
-            color: #aaa;
-            border-top-color: rgba(255, 255, 255, 0.1);
+        /* Content Grid */
+        .magazine-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 50px;
+            padding: 0 40px;
         }
 
-        .article-meta span {
+        .featured-image-container {
+            grid-column: 1 / -1;
+            margin-bottom: 50px;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 70vh;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        .article-body {
+            font-size: 1.25rem;
+            color: var(--text-color);
+        }
+
+        /* Sidebar & Buttons */
+        .sidebar {
+            position: sticky;
+            top: 40px;
+            height: fit-content;
+        }
+
+        .action-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .action-box h4 {
+            font-family: 'Playfair Display', serif;
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+
+        /* THE SUMMARIZE BUTTON */
+        #summarize {
+            width: 100%;
+            background: var(--text-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
             display: flex;
             align-items: center;
-            gap: 4px;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 4px;
         }
 
-        .article-meta i {
+        #summarize:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        #summarize:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Typography Polish */
+        .article-body p:first-of-type::first-letter {
+            float: left;
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            line-height: 0.8;
+            padding: 10px 10px 0 0;
             color: var(--accent-color);
         }
 
-        .thumbnail {
-            width: 30vw;
-            max-height: 35vw;
-            border-radius: var(--border-radius);
-            margin-bottom: 15px;
-            box-shadow: var(--card-shadow);
-	    float: right;
-	    margin-right: 2vw;
-	    margin-left: 2vw;
-	    margin-top: 32vw;
+        /* Responsive */
+        @media (max-width: 950px) {
+            .magazine-grid { grid-template-columns: 1fr; }
+            .sidebar { position: static; margin-bottom: 40px; }
+            .article-hero { padding: 40px 20px; }
         }
 
-        .article-content {
-            background: var(--card-bg);
-            padding: 50px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            font-size: 1.1rem;
-            line-height: 1.4;
+        /* Keeping your existing Delete Popup CSS */
+        .delete-popup {
+            height: 40vh; width: 60vw; position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); background: var(--bg-color-popup, #ffffff);
+            color: var(--text-color); border-radius: 12px; padding: 20px;
+            z-index: 1000; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px); display: flex; flex-direction: column;
+            justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .article-content h1,
-        .article-content h2,
-        .article-content h3,
-        .article-content h4,
-        .article-content h5,
-        .article-content h6 {
-            margin-top: 1.5em;
-            margin-bottom: 0.75em;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        .article-content h1 { font-size: 2rem; }
-        .article-content h2 { font-size: 1.75rem; }
-        .article-content h3 { font-size: 1.5rem; }
-
-        .article-content p {
-            margin-bottom: 1.2em;
-        }
-
-        .article-content img {
-            max-width: 90vw;
-            height: auto;
-            border-radius: 8px;
-            margin: 25px 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .article-content ul,
-        .article-content ol {
-            margin-left: 2em;
-            margin-bottom: 1.2em;
-        }
-
-        .article-content li {
-            margin-bottom: 0.5em;
-        }
-
-        .article-content blockquote {
-            border-left: 4px solid var(--accent-color);
-            padding-left: 20px;
-            margin: 25px 0;
-            font-style: italic;
-            color: #666;
-            background: rgba(106, 17, 203, 0.05);
-            padding: 15px 20px;
-            border-radius: 4px;
-        }
-
-        .dark-mode .article-content blockquote {
-            color: #aaa;
-        }
-
-        .article-content code {
-            background: rgba(106, 17, 203, 0.1);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-        }
-
-        .article-content pre {
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 25px 0;
-        }
-
-        .dark-mode .article-content pre {
-            background: #2d2d2d;
-        }
-
-        .article-content a {
-            color: white;
-            text-decoration: none;
-            border-bottom: 1px solid var(--accent-color);
-            transition: opacity 0.3s ease;
-        }
-
-        .article-content a:hover {
-            opacity: 0.7;
-        }
-
-        footer {
-            background: var(--primary-gradient);
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: underline;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            z-index: 1000;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .article-title {
-                font-size: 2rem;
-            }
-
-            .article-header,
-            .article-content {
-                padding: 25px;
-            }
-
-            .container {
-                margin: 20px auto;
-            }
-
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-
-            .article-meta {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-
-.delete-popup {
-    /* Sizing */
-    height: 40vh;
-    width: 60vw;
-    
-    /* Centering the popup on screen */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* This perfectly centers it */
-    
-    /* Visuals */
-    background: var(--bg-color-popup, #ffffff);
-    color: var(--text-color, #333333);
-    border-radius: 12px;
-    padding: 20px;
-    z-index: 1000;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    backdrop-filter: blur(10px); /* Apply blur to the backdrop */
-    /* Add -webkit- prefix for wider compatibility, especially in older Safari versions */
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-
-    /* Flexbox to align buttons at the bottom */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
-}
-
-.no-btn {
-    padding: 10px 20px;
-    background: #e0e0e0; /* Neutral Light Gray */
-    color: #444;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.no-btn:hover {
-    background: #d5d5d5;
-}
-
-.yes-btn {
-    padding: 10px 20px;
-    background: #ff4d4d; /* Bright, clean "Danger" Red */
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.yes-btn:hover {
-    background: #e63939;
-}
-
-body.modal-open > *:not(.delete-popup) {
-  filter: blur(6px);
-}
+        body.modal-open > *:not(.delete-popup) { filter: blur(6px); }
     </style>
 </head>
 <body id="body">
-    <div class="header">
-        <div class="header-content">
-            <h1>📄 Havsite Articles</h1>
-            <a href="/arcticles.html" class="back-link">
-                <i class="fas fa-arrow-left"></i> Back to Articles
-            </a>
+    <header style="padding: 20px 40px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Playfair Display'; font-weight: 900; font-size: 1.4rem;">HAVSITE</div>
+        <a href="/arcticles.html" style="text-decoration: none; color: var(--secondary-text); font-size: 0.8rem; font-weight: 600; letter-spacing: 1px;">
+            <i class="fas fa-arrow-left"></i> BACK TO FEED
+        </a>
+    </header>
+
+    <div class="article-hero">
+        <span class="article-category">Digital Edition</span>
+        <h1 class="article-title">${escapeHtml(title || 'Untitled Article')}</h1>
+        <div class="article-meta-top" id="article-meta">
+            <span>Written by <strong>${escapeHtml(author || 'Unknown')}</strong></span>
+            <span>•</span>
+            <span>${formattedDate}</span>
         </div>
     </div>
 
-    <div class="container">
+    <main class="magazine-grid">
+        ${thumbnailUrl ? `
+        <div class="featured-image-container">
+            <img src="${escapeHtml(thumbnailUrl)}" alt="Cover" class="featured-image">
+        </div>` : ''}
 
-        <div class="article-header">
-            <h1 class="article-title">${escapeHtml(title || 'Untitled Article')}</h1>
-            <div class="article-meta" id="article-meta">
-                <span>
-                    <i class="fas fa-user"></i>
-                    <strong>By:</strong><p id="author"> ${escapeHtml(author || 'Unknown')}</p>
-                </span>
-                <span>
-                    <i class="fas fa-calendar"></i>
-                    <strong>Published:</strong> ${formattedDate}
-                </span>
-            </div>
-        </div>
-
-        <div class="article-content" id="content">
-            ${thumbnailUrl ? `<img src="${escapeHtml(thumbnailUrl)}" alt="${escapeHtml(title || 'Article')}" class="thumbnail">` : ''}
+        <div class="article-body" id="content">
             ${content || '<p>No content available.</p>'}
         </div>
-    </div>
 
-    <footer>
-        <p>© 2024 Havsite | <a href="/arcticles.html">Browse More Articles</a></p>
+        <aside class="sidebar">
+            <div class="action-box">
+                <h4>Reading Tools</h4>
+                <p style="font-size: 0.85rem; color: var(--secondary-text); margin-bottom: 20px;">
+                    Short on time? Use our AI to condense this article into key points.
+                </p>
+                <button id="summarize">
+                    <i class="fas fa-bolt"></i> Summarize
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <footer style="margin-top: 80px; padding: 60px; text-align: center; background: var(--card-bg); border-top: 1px solid var(--border-color);">
+        <p style="font-family: 'Playfair Display'; font-style: italic;">The Havsite Collective © 2026</p>
     </footer>
 
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" style="position:fixed; bottom:30px; left:30px; width:45px; height:45px; border-radius:50%; border:none; background:var(--text-color); color:var(--bg-color); cursor:pointer; z-index:999;">
         <i class="fas fa-moon"></i>
     </button>
 
@@ -779,6 +598,7 @@ function formatMarkdown(text) {
 </body>
 </html>`;
 }
+
 
 function generateErrorHTML(message, articleId, details = '') {
   return `<!DOCTYPE html>
