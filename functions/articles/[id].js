@@ -131,7 +131,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
 
 
     .article-title {
-        font-size: 1.7em;
+        font-size: 2.5em;
         margin: 15px 0;
         background: var(--primary-gradient);
         -webkit-background-clip: text;
