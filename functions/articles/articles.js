@@ -595,8 +595,8 @@ function generateArticlesHTML(articles, errorMessage = null) {
 
     <div class="articles" id="articlesContainer">
         ${hardcodedArticles}
-        ${dynamicArticles}
         ${newArticleCard}
+        ${dynamicArticles}
         ${errorHTML}
     </div>
 
@@ -668,22 +668,6 @@ function generateArticlesHTML(articles, errorMessage = null) {
             }
         });
         
-        function toggleTheme() {
-            document.getElementById('html-root').classList.toggle('dark-mode');
-            if (document.getElementById('html-root').classList.contains('dark-mode')) {
-                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            if (document.getElementById('html-root').classList.contains('dark-mode')) {
-                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
-            } else {
-                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
-            }
-        });
 
         document.getElementById('backToTop').addEventListener('click', function(e) {
             e.preventDefault();

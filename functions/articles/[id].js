@@ -391,17 +391,7 @@ body.modal-open > *:not(.delete-popup) {
     </button>
 
     <script src="/myscript.js"></script>
-    <script>
-        function toggleTheme() {
-            document.getElementById('html-root').classList.toggle('dark-mode');
-            const icon = document.querySelector('#themeToggle i');
-            if (document.getElementById('html-root').classList.contains('dark-mode')) {
-                icon.className = 'fas fa-sun';
-            } else {
-                icon.className = 'fas fa-moon';
-            }
-        }
-    </script>
+
 <script type="module">
     import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
     import { doc, getDoc, setDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
