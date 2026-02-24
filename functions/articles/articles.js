@@ -652,6 +652,17 @@ function generateArticlesHTML(articles, errorMessage = null) {
                 x.className = "topnav";
             }
         }
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.getElementById('themeToggle');
+            
+            if (savedTheme === 'dark') {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
 
         window.addEventListener('scroll', function() {
             var backToTopButton = document.getElementById('backToTop');
