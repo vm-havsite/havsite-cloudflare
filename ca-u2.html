@@ -188,6 +188,21 @@
             flex-shrink: 0;
         }
 
+        .contact-avatar-fallback {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2em;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
         .contact-info {
             flex: 1;
             min-width: 0;
@@ -661,6 +676,12 @@
                 height: 48px;
             }
 
+            .contact-avatar-fallback {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1em;
+            }
+
             .chat-header {
                 padding: 10px 15px;
             }
@@ -1043,14 +1064,15 @@ async function loadContacts() {
             let contactDiv = document.createElement("div");
             contactDiv.classList.add("contact-item");
             
+	    let avatar;
 	    let dp = userData.photoURL;
 	    if(!dp){
-              const avatar = document.createElement("div");
-              avatar.classList.add("contact-avatar");
-              avatar.textContent = userData.username.charAt(0).toUpperCase();
+              avatar = document.createElement("div");
+              avatar.classList.add("contact-avatar-fallback");
+              avatar.textContent = (userData.username?.charAt(0) || "?").toUpperCase();
 	    }
             else {
-              const avatar = document.createElement("img");
+              avatar = document.createElement("img");
               avatar.classList.add("contact-avatar");
 	      avatar.src = dp;
 	    }
