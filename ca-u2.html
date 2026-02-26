@@ -1043,9 +1043,17 @@ async function loadContacts() {
             let contactDiv = document.createElement("div");
             contactDiv.classList.add("contact-item");
             
-            const avatar = document.createElement("img");
-            avatar.classList.add("contact-avatar");
-            avatar.src = `${userData.photoURL}`;
+	    let dp = userData.photoURL;
+	    if(!dp){
+              const avatar = document.createElement("div");
+              avatar.classList.add("contact-avatar");
+              avatar.textContent = userData.username.charAt(0).toUpperCase();
+	    }
+            else {
+              const avatar = document.createElement("img");
+              avatar.classList.add("contact-avatar");
+	      avatar.src = dp;
+	    }
             
             const contactInfo = document.createElement("div");
             contactInfo.classList.add("contact-info");
