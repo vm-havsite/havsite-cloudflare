@@ -1,10 +1,8 @@
-// Apply theme on page load
-document.addEventListener('DOMContentLoaded', () => {
+// Apply theme
     const theme = localStorage.getItem('theme');
     if (theme === 'dark') {
       document.getElementById('html-root').classList.add('dark-mode');
     }
-  });
   
   // Toggle theme and save preference to localStorage
   function toggleTheme() {
