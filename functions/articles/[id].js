@@ -76,6 +76,7 @@ function generateArticleHTML(article, thumbnail, articleId) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${escapeHtml(title || 'Article')} - Havsite</title>
+    <script src="/myscript.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -389,8 +390,6 @@ body.modal-open > *:not(.delete-popup) {
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" style="position:fixed; bottom:30px; left:30px; width:45px; height:45px; border-radius:50%; border:none; background:var(--text-color); color:var(--bg-color); cursor:pointer; z-index:999;">
         <i class="fas fa-moon"></i>
     </button>
-
-    <script src="/myscript.js"></script>
 
     <script>
         // Load saved theme
