@@ -1055,11 +1055,11 @@ async function sendMessage() {
 }
 
 async function loadContacts() {
-console.log(username.uid);
+console.log(user.uid);
 
 const q = query(
   collection(db, "chats"),
-  where("participants", "array-contains", username.uid),
+  where("participants", "array-contains", user.uid),
   orderBy("lastTime", "desc")
 );
 
