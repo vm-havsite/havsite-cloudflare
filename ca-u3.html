@@ -1069,7 +1069,8 @@ const q = query(
 
 onSnapshot(q, (snapshot) => {
   snapshot.forEach((doc) => {
-    console.log(doc.id, doc.data());
+    const data = doc.data();
+    console.log(doc.id, data);
     const participants = data.participants;
     const otherUser = participants.filter((participantId) => participantId !== userId);    
     console.log("Other user(s) in chat:", otherUser);
