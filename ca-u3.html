@@ -946,6 +946,7 @@ onAuthStateChanged(auth, async (user) => {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
             username = userDoc.data().username;
+	    userId = user.uid;
             loadContacts();
         }
     } else {
@@ -1055,11 +1056,11 @@ async function sendMessage() {
 }
 
 async function loadContacts() {
-console.log(user.uid);
+console.log(userId);
 
 const q = query(
   collection(db, "chats"),
-  where("participants", "array-contains", user.uid),
+  where("participants", "array-contains", userId),
   orderBy("lastTime", "desc")
 );
 
