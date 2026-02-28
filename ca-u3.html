@@ -1055,86 +1055,19 @@ async function sendMessage() {
 }
 
 async function loadContacts() {
-    const contactsList = document.getElementById("contactsList");
-    contactsList.innerHTML = "";
+import { collection, query, where, orderBy, onSnapshot } from "firebase/firestore";
 
-    const q = query(
-      collection(db, "chats"),
-      where("participants", "array-contains", username.uid),
-      orderBy("lastTime", "desc")
-    );
+const q = query(
+  collection(db, "chats"),
+  where("participants", "array-contains", username.uid),
+  orderBy("lastTime", "desc")
+);
 
-    onSnapshot(q, (snapshot) => {
-      snapshot.forEach((doc) => {
-        console.log(doc.id, doc.data());
-        const userData = doc.data();
-        if (userData.username !== username) {
-            let contactDiv = document.createElement("div");
-            contactDiv.classList.add("contact-item");
-            
-	    let avatar;
-	    let dp = userData.photoURL;
-	    if(!dp){
-              avatar = document.createElement("div");
-              avatar.classList.add("contact-avatar-fallback");
-              avatar.textContent = (userData.username?.charAt(0) || "?").toUpperCase();
-	    }
-            else {
-              avatar = document.createElement("img");
-              avatar.classList.add("contact-avatar");
-	      avatar.src = dp;
-	    }
-            
-            const contactInfo = document.createElement("div");
-            contactInfo.classList.add("contact-info");
-            
-            const contactName = document.createElement("div");
-            contactName.classList.add("contact-name");
-            contactName.textContent = userData.username;
-            
-            const contactStatus = document.createElement("div");
-            contactStatus.classList.add("contact-status");
-            contactStatus.textContent = "Click to chat";
-            
-            contactInfo.appendChild(contactName);
-            contactInfo.appendChild(contactStatus);
-            contactDiv.appendChild(avatar);
-            contactDiv.appendChild(contactInfo);
-            
-            contactDiv.addEventListener("click", () => {
-                currentChat = userData.username;
-                
-                const chatHeader = document.getElementById("chatHeader");
-                chatHeader.innerHTML = `
-                    <button class="back-button" id="backButton">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <div class="chat-header-avatar">${userData.username.charAt(0).toUpperCase()}</div>
-                    <div class="chat-header-info">
-                        <div class="chat-header-name">${userData.username}</div>
-                        <div class="chat-header-status">online</div>
-                    </div>
-                `;
-                
-                document.getElementById('backButton')?.addEventListener('click', () => {
-                    document.getElementById('chatPanel').classList.remove('mobile-active');
-                    document.getElementById('contactsPanel').classList.add('mobile-active');
-                });
-                
-                document.querySelectorAll('.contact-item').forEach(item => item.classList.remove('active'));
-                contactDiv.classList.add('active');
-                
-                if (window.innerWidth <= 768) {
-                    document.getElementById('contactsPanel').classList.remove('mobile-active');
-                    document.getElementById('chatPanel').classList.add('mobile-active');
-                }
-                
-                listenForMessages();
-            });
-            contactsList.appendChild(contactDiv);
-        }
-      });
-    });
+onSnapshot(q, (snapshot) => {
+  snapshot.forEach((doc) => {
+    console.log(doc.id, doc.data());
+  });
+});
 }
 
 function listenForMessages() {
