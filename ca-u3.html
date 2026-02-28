@@ -1070,7 +1070,7 @@ async function loadContacts() {
     );
 
     onSnapshot(q, async (snapshot) => {
-
+	console.log("Chats returned:", snapshot.size);
         contactsList.innerHTML = "";
 
         for (const chatDoc of snapshot.docs) {
