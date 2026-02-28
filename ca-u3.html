@@ -1070,8 +1070,6 @@ const q = query(
 onSnapshot(q, (snapshot) => {
   snapshot.forEach((doc) => {
     console.log(doc.id, doc.data());
-    const users = doc.data().participants;
-    const otheruser = users.filter(username);
   });
 });
 }
