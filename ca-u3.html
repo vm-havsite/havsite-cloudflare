@@ -1074,7 +1074,7 @@ onSnapshot(q, (snapshot) => {
     const participants = data.participants;
     const otherUser = participants.filter((participantId) => participantId !== userId);    
     console.log("Other user(s) in chat:", otherUser);
-    userData = await getDoc(collection(db, "users", otherUser));
+    userData = await getDoc(collection(db, "users", `${otherUser}`));
     const contactsList = document.getElementById("contactsList");
     contactsList.innerHTML = "";
 
