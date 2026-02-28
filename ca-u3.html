@@ -1058,6 +1058,19 @@ async function sendMessage() {
 
 async function loadContacts() {
 
+const snapshot = await getDocs(collection(db, "chats"));
+
+console.log("Total chats in DB:", snapshot.size);
+
+snapshot.forEach(chatDoc => {
+    const data = chatDoc.data();
+
+    console.log("Chat:", chatDoc.id);
+    console.log("Participants:", data.participants);
+    console.log("Includes my UID:", data.participants?.includes(userId));
+});
+
+
     console.log(userId);
 
     const contactsList = document.getElementById("contactsList");
