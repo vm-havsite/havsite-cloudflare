@@ -1057,64 +1057,78 @@ async function sendMessage() {
 }
 
 async function loadContacts() {
-console.log(userId);
-const contactsList = document.getElementById("contactsList");
-contactsList.innerHTML = "";
 
-const q = query(
-  collection(db, "chats"),
-  where("participants", "array-contains", userId),
-  orderBy("lastTime", "desc")
-);
+    console.log(userId);
 
-onSnapshot(q, (snapshot) => {
-  snapshot.forEach((doc) => {
-    const data = doc.data();
-    console.log(doc.id, data);
-    const participants = data.participants;
-    const otherUser = participants.filter((participantId) => participantId !== userId);    
-    console.log("Other user(s) in chat:", otherUser);
-    userData = await getDoc(doc(db, "users", `${otherUser}`));
     const contactsList = document.getElementById("contactsList");
     contactsList.innerHTML = "";
 
+    const q = query(
+        collection(db, "chats"),
+        where("participants", "array-contains", userId),
+        orderBy("lastTime", "desc")
+    );
+
+    onSnapshot(q, async (snapshot) => {
+
+        contactsList.innerHTML = "";
+
+        for (const chatDoc of snapshot.docs) {
+
+            const data = chatDoc.data();
+            console.log(chatDoc.id, data);
+
+            const participants = data.participants;
+
+            const otherUser = participants.find(
+                participantId => participantId !== userId
+            );
+
+            console.log("Other user in chat:", otherUser);
+
+            const userDoc = await getDoc(doc(db, "users", otherUser));
+            const userData = userDoc.data();
 
             let contactDiv = document.createElement("div");
             contactDiv.classList.add("contact-item");
-            
-	    let avatar;
-	    let dp = userData.photoURL;
-	    if(!dp){
-              avatar = document.createElement("div");
-              avatar.classList.add("contact-avatar-fallback");
-              avatar.textContent = (userData.username?.charAt(0) || "?").toUpperCase();
-	    }
+
+            let avatar;
+            let dp = userData?.photoURL;
+
+            if (!dp) {
+                avatar = document.createElement("div");
+                avatar.classList.add("contact-avatar-fallback");
+                avatar.textContent = (userData?.username?.charAt(0) || "?").toUpperCase();
+            }
             else {
-              avatar = document.createElement("img");
-              avatar.classList.add("contact-avatar");
-	      avatar.src = dp;
-	    }
-            
+                avatar = document.createElement("img");
+                avatar.classList.add("contact-avatar");
+                avatar.src = dp;
+            }
+
             const contactInfo = document.createElement("div");
             contactInfo.classList.add("contact-info");
-            
+
             const contactName = document.createElement("div");
             contactName.classList.add("contact-name");
-            contactName.textContent = userData.username;
-            
+            contactName.textContent = userData?.username || "Unknown User";
+
             const contactStatus = document.createElement("div");
             contactStatus.classList.add("contact-status");
             contactStatus.textContent = "Click to chat";
-            
+
             contactInfo.appendChild(contactName);
             contactInfo.appendChild(contactStatus);
+
             contactDiv.appendChild(avatar);
             contactDiv.appendChild(contactInfo);
-            
+
             contactDiv.addEventListener("click", () => {
+
                 currentChat = userData.username;
-                
+
                 const chatHeader = document.getElementById("chatHeader");
+
                 chatHeader.innerHTML = `
                     <button class="back-button" id="backButton">
                         <i class="fas fa-arrow-left"></i>
@@ -1125,25 +1139,32 @@ onSnapshot(q, (snapshot) => {
                         <div class="chat-header-status">online</div>
                     </div>
                 `;
-                
+
                 document.getElementById('backButton')?.addEventListener('click', () => {
                     document.getElementById('chatPanel').classList.remove('mobile-active');
                     document.getElementById('contactsPanel').classList.add('mobile-active');
                 });
-                
-                document.querySelectorAll('.contact-item').forEach(item => item.classList.remove('active'));
+
+                document.querySelectorAll('.contact-item').forEach(
+                    item => item.classList.remove('active')
+                );
+
                 contactDiv.classList.add('active');
-                
+
                 if (window.innerWidth <= 768) {
                     document.getElementById('contactsPanel').classList.remove('mobile-active');
                     document.getElementById('chatPanel').classList.add('mobile-active');
                 }
-                
+
                 listenForMessages();
+
             });
+
             contactsList.appendChild(contactDiv);
-  });
-});
+        }
+
+    });
+
 }
 
 function listenForMessages() {
