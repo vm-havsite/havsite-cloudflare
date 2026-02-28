@@ -1055,6 +1055,7 @@ async function sendMessage() {
 }
 
 async function loadContacts() {
+console.log(username.uid);
 
 const q = query(
   collection(db, "chats"),
