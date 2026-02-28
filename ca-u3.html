@@ -1060,7 +1060,7 @@ async function loadContacts() {
 
     const q = query(
       collection(db, "chats"),
-      where("participants", "array-contains", currentUser.uid),
+      where("participants", "array-contains", username.uid),
       orderBy("lastTime", "desc")
     );
 
