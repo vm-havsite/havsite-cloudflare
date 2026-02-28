@@ -1072,9 +1072,9 @@ onSnapshot(q, (snapshot) => {
     console.log(doc.id, doc.data());
     const user = doc.id.split('_');
     const users = doc.data().participants;
-    const otheruser = users.filter(username);
-    const otheruser2 = user.filter(username);
+    const otheruser = user.filter( user = username );
     console.log(otheruser);
+    const otheruser2 = user.filter(username);
     console.log(otheruser2);
   });
 });
