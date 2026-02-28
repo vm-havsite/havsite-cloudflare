@@ -1066,7 +1066,6 @@ async function loadContacts() {
     const q = query(
         collection(db, "chats"),
         where("participants", "array-contains", userId),
-        orderBy("lastTime", "desc")
     );
 
     onSnapshot(q, async (snapshot) => {
