@@ -1058,6 +1058,8 @@ async function sendMessage() {
 
 async function loadContacts() {
 console.log(userId);
+const contactsList = document.getElementById("contactsList");
+contactsList.innerHTML = "";
 
 const q = query(
   collection(db, "chats"),
@@ -1068,6 +1070,14 @@ const q = query(
 onSnapshot(q, (snapshot) => {
   snapshot.forEach((doc) => {
     console.log(doc.id, doc.data());
+      const data = doc.data();
+
+      const otherUser = data.participants.find(
+        id => id !== uid
+      );
+
+      console.log("chat with:", otherUser);
+
   });
 });
 }
