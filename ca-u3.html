@@ -1081,7 +1081,7 @@ async function loadContacts() {
     const q = query(
         collection(db, "chats"),
         where("participants", "array-contains", userId),
-        orderBy("lastTime", "desc")
+        orderBy("lastTime", "desc"),
         limit(25)
     );
 
@@ -1096,6 +1096,7 @@ async function loadContacts() {
             console.log(chatDoc.id, data);
 
             const participants = data.participants;
+            const lastMsg = data.lastMessage;
 
             const otherUser = participants.find(
                 participantId => participantId !== userId
@@ -1132,7 +1133,7 @@ async function loadContacts() {
 
             const contactStatus = document.createElement("div");
             contactStatus.classList.add("contact-status");
-            contactStatus.textContent = "Click to chat";
+            contactStatus.textContent = lastMsg;
 
             contactInfo.appendChild(contactName);
             contactInfo.appendChild(contactStatus);
