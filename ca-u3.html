@@ -1099,10 +1099,6 @@ async function loadContacts() {
                 participantId => participantId !== userId
             );
 
-            const otherUser = participants.find(
-                participantId => participantId !== userId
-            );
-
             console.log("Other user in chat:", otherUser);
 
             const userDoc = await getDoc(doc(db, "users", otherUser));
