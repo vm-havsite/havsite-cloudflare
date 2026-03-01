@@ -1045,12 +1045,12 @@ async function sendMessage() {
     const messageInput = document.getElementById('messageInput');
     const message = messageInput.value.trim();
     let contactMsg;
-    if (messageInput.length > 12){
+    if (message.length > 12){
       const ending = "...";
-      contactMsg = messageInput.slice(0, limit - ending.length) + ending;
+      contactMsg = message.slice(0, limit - ending.length) + ending;
     }
     else{
-      contactMsg = messageInput;
+      contactMsg = message;
     }
     if (message && currentChat) {
         const chatId = getChatId(username, currentChat);
