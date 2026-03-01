@@ -917,7 +917,7 @@ window.downloadFile = downloadFile;
 
 <script type="module">
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
-import { getFirestore, doc, getDoc, collection, getDocs, addDoc, query, where, orderBy, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
 const auth = getAuth(app);
 
@@ -1044,13 +1044,27 @@ document.getElementById('messageInput').addEventListener('keydown', function(eve
 async function sendMessage() {
     const messageInput = document.getElementById('messageInput');
     const message = messageInput.value.trim();
+    let contactMsg;
+    if (messageInput.length > 12){
+      const ending = "...";
+      contactMsg = messageInput.slice(0, limit - ending.length) + ending;
+    }
+    else{
+      contactMsg = messageInput;
+    }
     if (message && currentChat) {
         const chatId = getChatId(username, currentChat);
+	const contactRef = doc(db, `chats/${chatId}`)
         await addDoc(collection(db, `chats/${chatId}/messages`), {
             sender: username,
             receiver: currentChat,
             message: message,
             timestamp: new Date()
+        });
+
+        await updateDoc(contactRef, {
+            message: contactMsg,
+            timestamp: serverTimestamp()
         });
         messageInput.value = '';
     }
@@ -1080,6 +1094,10 @@ async function loadContacts() {
             console.log(chatDoc.id, data);
 
             const participants = data.participants;
+
+            const otherUser = participants.find(
+                participantId => participantId !== userId
+            );
 
             const otherUser = participants.find(
                 participantId => participantId !== userId
