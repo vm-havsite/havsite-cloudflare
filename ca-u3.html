@@ -1063,8 +1063,8 @@ async function sendMessage() {
         });
 
         await updateDoc(contactRef, {
-            message: contactMsg,
-            timestamp: serverTimestamp()
+            lastMessage: contactMsg,
+            lastTime: serverTimestamp()
         });
         messageInput.value = '';
     }
