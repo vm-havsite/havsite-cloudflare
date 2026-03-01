@@ -917,7 +917,7 @@ window.downloadFile = downloadFile;
 
 <script type="module">
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
-import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc, query, where, orderBy, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
 const auth = getAuth(app);
 
@@ -1082,9 +1082,11 @@ async function loadContacts() {
         collection(db, "chats"),
         where("participants", "array-contains", userId),
         orderBy("lastTime", "desc")
+        limit(25)
     );
 
-    onSnapshot(q, async (snapshot) => {
+    const snapshot = await getDocs(q);
+
 	console.log("Chats returned:", snapshot.size);
         contactsList.innerHTML = "";
 
@@ -1144,16 +1146,31 @@ async function loadContacts() {
 
                 const chatHeader = document.getElementById("chatHeader");
 
-                chatHeader.innerHTML = `
-                    <button class="back-button" id="backButton">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                    <div class="chat-header-avatar">${userData.username.charAt(0).toUpperCase()}</div>
-                    <div class="chat-header-info">
-                        <div class="chat-header-name">${userData.username}</div>
-                        <div class="chat-header-status">online</div>
-                    </div>
-                `;
+                if (!dp) {
+                  chatHeader.innerHTML = `
+                      <button class="back-button" id="backButton">
+                          <i class="fas fa-arrow-left"></i>
+                      </button>
+                      <div class="chat-header-avatar">${userData.username.charAt(0).toUpperCase()}</div>
+                      <div class="chat-header-info">
+                          <div class="chat-header-name">${userData.username}</div>
+                          <div class="chat-header-status">online</div>
+                      </div>
+                  `;
+                }
+                else {
+                  chatHeader.innerHTML = `
+                      <button class="back-button" id="backButton">
+                          <i class="fas fa-arrow-left"></i>
+                      </button>
+                      <img src=dp class="chat-header-avatar">
+                      <div class="chat-header-info">
+                          <div class="chat-header-name">${userData.username}</div>
+                          <div class="chat-header-status">online</div>
+                      </div>
+                  `;
+                }
+
 
                 document.getElementById('backButton')?.addEventListener('click', () => {
                     document.getElementById('chatPanel').classList.remove('mobile-active');
@@ -1177,8 +1194,6 @@ async function loadContacts() {
 
             contactsList.appendChild(contactDiv);
         }
-
-    });
 
 }
 
