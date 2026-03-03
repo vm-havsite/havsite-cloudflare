@@ -921,7 +921,7 @@ import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc, quer
 import { app, db } from './firebase_auth.js';
 const auth = getAuth(app);
 
-// IMPORTANT: Replace with your Cloudflare Worker URL
+// IMPORTANT: Replace with Cloudflare Worker URL
 const WORKER_URL = 'https://cloudinary.vm002248.workers.dev';
 
 let username = '';
@@ -1010,13 +1010,19 @@ document.getElementById('fileInput').addEventListener('change', async (e) => {
         progressFill.style.width = '80%';
 
         const chatId = getChatId(username, currentChat);
+	const contactRef = doc(db, `chats/${chatId}`)
+        const contactmsg = `{file.name}` + `{file.type}`;
         await addDoc(collection(db, `chats/${chatId}/messages`), {
             sender: username,
             receiver: currentChat,
             fileUrl: data.url,
             fileName: file.name,
             fileType: file.type,
-            timestamp: new Date()
+            timestamp: serverTimestamp()
+        });
+        await updateDoc(contactRef, {
+            lastMessage: contactmsg,
+            lastTime: serverTimestamp()
         });
 
         progressFill.style.width = '100%';
@@ -1059,7 +1065,7 @@ async function sendMessage() {
             sender: username,
             receiver: currentChat,
             message: message,
-            timestamp: new Date()
+            timestamp: serverTimestamp()
         });
 
         await updateDoc(contactRef, {
