@@ -914,20 +914,6 @@ async function downloadFile(url, filename) {
 // Make downloadFile globally accessible
 window.downloadFile = downloadFile;
 
-
-function deleteFile(fileurl, resource_type){
-  const filetype = resource_type.split('/')[0];
-  let type = '';
-  if(filetype == 'image'){ 
-    type = 'image'
-  } else if(filetype == 'video'){
-    type = 'video'
-  } else{
-    type = 'raw'
-  }
-  alert('recived file: ' + `{fileurl}` + ' of file type: ' +`{resource_type}`);
-  console.log(type);
-}
 </script>
 
 <script type="module">
@@ -969,6 +955,27 @@ onAuthStateChanged(auth, async (user) => {
         window.location.href = "new-auth.html?p=ca-u2.html";
     }
 });
+
+function deleteFile(fileurl, resource_type){
+  const filetype = resource_type.split('/')[0];
+  let type = '';
+  if(filetype == 'image'){ 
+    type = 'image'
+  } else if(filetype == 'video'){
+    type = 'video'
+  } else{
+    type = 'raw'
+  }
+  alert('recived file: ' + `${fileurl}` + ' of file type: ' +`${resource_type}`);
+  console.log(type);
+  const response = await fetch('https://your-worker.workers.dev/delete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ file_url: fileurl, file_type: type })
+  });
+  console.log(deleted);
+}
+
 
 // File upload handler
 document.getElementById('fileInput').addEventListener('change', async (e) => {
@@ -1242,6 +1249,7 @@ function displayMessages(messages) {
                 const fileName = m.fileName || 'File';
 
                 if (fileType.startsWith('image/')) {
+		    const time = Date.now();
                     return `
                         <div class="message-wrapper ${wrapperClass}">
                             <div class="message-bubble">
@@ -1250,13 +1258,16 @@ function displayMessages(messages) {
                                   <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
                                         <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
                                     </a>
-                                  <a href="javascript:void(0)" onclick="deleteFile('${m.fileUrl}', '${m.fileType}')" style="color: #2575fc; text-decoration: none;">
+                                  <a href="javascript:void(0)" onclick="deleteFile('${m.fileUrl}', '${m.fileType}')" style="color: #2575fc; text-decoration: none;" id="${m.fileUrl + time}">
                                         <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
                                     </a>
                                 <div class="message-time">${time}</div>
                             </div>
                         </div>
                     `;
+		     document.getElementById('${m.fileUrl + time}').forEach(button => {
+                       button.addEventListener('click', deleteFile);
+		      });
                 } else if (fileType.startsWith('video/')) {
                     return `
                         <div class="message-wrapper ${wrapperClass}">
