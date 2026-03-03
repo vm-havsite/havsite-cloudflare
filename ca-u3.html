@@ -1011,7 +1011,7 @@ document.getElementById('fileInput').addEventListener('change', async (e) => {
 
         const chatId = getChatId(username, currentChat);
 	const contactRef = doc(db, `chats/${chatId}`)
-        const contactmsg = `${file.name + '.' + file.type}`;
+        const contactmsg = `${file.name}`;
         await addDoc(collection(db, `chats/${chatId}/messages`), {
             sender: username,
             receiver: currentChat,
