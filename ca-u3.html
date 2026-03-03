@@ -918,9 +918,13 @@ window.downloadFile = downloadFile;
 function deleteFile(fileurl, resource_type){
   const filetype = resource_type.split('/')[0];
   let type = '';
-  if(filetype == 'image'){ type = 'image' };
-  else if(filetype == 'video'){ type = 'video' };
-  else{ type = 'raw'};
+  if(filetype == 'image'){ 
+    type = 'image'
+  } else if(filetype == 'video'){
+    type = 'video'
+  } else{
+    type = 'raw'
+  }
   alert('recived file: ' + `{fileurl}` + ' of file type: ' +`{resource_type}`);
   console.log(type);
 }
