@@ -913,6 +913,11 @@ async function downloadFile(url, filename) {
 
 // Make downloadFile globally accessible
 window.downloadFile = downloadFile;
+
+
+function deleteFile(fileurl, resource_type){
+  alert('recived file: ' + `{fileurl}` + ' of file type: ' +`{resource_type}`);
+}
 </script>
 
 <script type="module">
@@ -1046,10 +1051,6 @@ document.getElementById('messageInput').addEventListener('keydown', function(eve
         sendMessage();
     }
 });
-
-async function deleteFile(fileurl, resource_type){
-  alert('recived file: ' + `{fileurl}` + ' of file type: ' +`{resource_type}`);
-}
 
 async function sendMessage() {
     const messageInput = document.getElementById('messageInput');
