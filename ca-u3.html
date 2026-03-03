@@ -1047,6 +1047,10 @@ document.getElementById('messageInput').addEventListener('keydown', function(eve
     }
 });
 
+async function deleteFile(fileurl, resource_type){
+  alert('recived file: ' + `{fileurl}` + ' of file type: ' +`{resource_type}`);
+}
+
 async function sendMessage() {
     const messageInput = document.getElementById('messageInput');
     const message = messageInput.value.trim();
@@ -1234,6 +1238,9 @@ function displayMessages(messages) {
                                 <img src="${m.fileUrl}" alt="${fileName}" loading="lazy"><br>
                                   <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
                                         <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
+                                    </a>
+                                  <a href="javascript:void(0)" onclick="deleteFile('${m.fileUrl}', '${m.fileType}')" style="color: #2575fc; text-decoration: none;">
+                                        <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
                                     </a>
                                 <div class="message-time">${time}</div>
                             </div>
