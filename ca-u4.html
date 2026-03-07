@@ -958,7 +958,7 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-function deleteFile(fileurl, resource_type, id){
+async function deleteFile(fileurl, resource_type, id){
   const filetype = resource_type.split('/')[0];
   let type = '';
   if(filetype == 'image'){ 
