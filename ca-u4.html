@@ -1274,7 +1274,7 @@ function displayMessages(messages) {
                         </div>
                     `;
 		     document.getElementById('${fileName + time}').forEach(button => {
-                       button.addEventListener('click', () => deleteFile('${fileName}', '${m.fileType}', '${m.fileUrl + time}'));
+                       button.addEventListener('click', () => async deleteFile('${fileName}', '${m.fileType}', '${m.fileUrl + time}'));
 		      });
                 } else if (fileType.startsWith('video/')) {
                     return `
