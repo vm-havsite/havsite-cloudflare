@@ -216,4 +216,4 @@
 // Utility function to check cookie consent status (optional - for other scripts)
 function getHavsiteCookieConsent() {
     return localStorage.getItem('havsiteCookieConsent');
-}ss
+}

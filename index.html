@@ -852,7 +852,8 @@ console.log(Date.now().toString());
 (function() {
     const introElement = document.getElementById('intro');
     const homeElement = document.getElementById('home');
-	const today = parseInt(now.toISOString().split('T')[0].replace(/-/g, ''));
+    const now = new Date();
+    const today = parseInt(now.toISOString().split('T')[0].replace(/-/g, ''));
     
     // Check if intro has been shown before
     const hasSeenIntro = sessionStorage.getItem('intro');
