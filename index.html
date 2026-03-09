@@ -852,12 +852,13 @@ console.log(Date.now().toString());
 (function() {
     const introElement = document.getElementById('intro');
     const homeElement = document.getElementById('home');
+	const today = parseInt(now.toISOString().split('T')[0].replace(/-/g, ''));
     
     // Check if intro has been shown before
     const hasSeenIntro = sessionStorage.getItem('intro');
     const lastcheck = localStorage.getItem("lastcheck");
     
-    if (!hasSeenIntro || lastcheck === null) {
+    if (!hasSeenIntro || today != lastcheck) {
         // Show intro, hide home
         introElement.classList.add('active');
         homeElement.classList.add('hidden');
