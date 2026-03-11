@@ -1273,7 +1273,6 @@ function displayMessages(messages) {
                             </div>
                         </div>
                     `;
-		     document.getElementById('${fileName + time}').addEventListener('click', () => async deleteFile('${fileName}', '${m.fileType}', '${m.fileUrl + time}'));
                 } else if (fileType.startsWith('video/')) {
                     return `
                         <div class="message-wrapper ${wrapperClass}">
@@ -1317,6 +1316,7 @@ function displayMessages(messages) {
         })
         .join('');
     
+    document.getElementById('${fileName + time}').addEventListener('click', () => async deleteFile('${fileName}', '${m.fileType}', '${m.fileUrl + time}'));
     chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
