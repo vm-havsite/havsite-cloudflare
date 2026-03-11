@@ -795,6 +795,11 @@
                 min-height: 56px;
             }
         }
+
+	.delete-btn{
+	    color: #2575fc;
+	    text-decoration: none;
+	}
     </style>
 </head>
 <body>
@@ -1266,8 +1271,8 @@ function displayMessages(messages) {
                                   <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
                                         <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
                                     </a>
-                                  <a href="javascript:void(0)" style="color: #2575fc; text-decoration: none;" id="${fileName + time}">
-                                        <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}"></i>
+                                  <a href="javascript:void(0)" class="delete-btn" id="${fileName + time}">
+                                        <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
                                     </a>
                                 <div class="message-time">${time}</div>
                             </div>
@@ -1294,7 +1299,7 @@ function displayMessages(messages) {
                             <div class="message-bubble">
                                 ${!isSent ? `<div class="message-sender">${m.sender}</div>` : ''}
                                 <div class="message-text">
-                                    <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
+                                    <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}">
                                         <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
                                     </a>
                                 </div>
