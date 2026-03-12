@@ -977,7 +977,7 @@ async function deleteFile(fileurl, resource_type, id){
   console.log(type);
   const user = auth.currentUser;
   const idToken = await user.getIdToken();
-  const response = await fetch('https://your-worker.workers.dev/delete', {
+  const response = await fetch(`${WORKER_URL}/delete`, {
     method: 'POST',
     headers: { 
       'Content-Type': 'application/json',
