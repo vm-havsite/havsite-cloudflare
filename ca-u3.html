@@ -985,6 +985,10 @@ async function deleteFile(fileurl, resource_type, id){
     },
     body: JSON.stringify({ file_url: fileurl, file_type: type })
   });
+  const result = await response.text();
+  console.log("status:", response.status);
+  console.log("server response:", result);
+	
   document.getElementById(`${id}`).remove();
   console.log('deleted');
 }
