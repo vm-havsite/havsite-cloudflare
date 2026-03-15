@@ -1264,7 +1264,8 @@ function displayMessages(messages) {
             if (m.fileUrl) {
                 const fileType = m.fileType || '';
                 const fileName = m.fileName || 'File';
-				const afterUpload = m.fileurl.split('/upload/')[1];
+				const fileUrl = m.fileurl;
+				const afterUpload = fileUrl.split('/upload/')[1];
 				const withoutVersion = afterUpload.replace(/^v\d+\//, ''); 
                 const publicId = withoutVersion.replace(/\.[^/.]+$/, '');
 
