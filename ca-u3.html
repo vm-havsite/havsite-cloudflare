@@ -925,7 +925,7 @@ window.downloadFile = downloadFile;
 
 <script type="module">
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
-import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
 const auth = getAuth(app);
 
