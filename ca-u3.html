@@ -966,6 +966,7 @@ onAuthStateChanged(auth, async (user) => {
 async function deleteFile(fileName, resource_type, fileurl, id){
   const filetype = resource_type.split('/')[0];
   console.log("Full URL received:", fileurl);
+  console.log(id);
   let type = '';
   if(filetype == 'image'){ 
     type = 'image'
@@ -1265,9 +1266,9 @@ function displayMessages(messages) {
             if (m.fileUrl) {
                 const fileType = m.fileType || '';
                 const fileName = m.fileName || 'File';
+				const trimmedfilename = fileName.trim().replaceAll('.', 'dot');
 
                 if (fileType.startsWith('image/')) {
-		            const timeForId = Date.now();
                     return `
                         <div class="message-wrapper ${wrapperClass}">
                             <div class="message-bubble">
@@ -1276,7 +1277,7 @@ function displayMessages(messages) {
                                   <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
                                         <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
                                     </a>
-                                  <a href="javascript:void(0)" class="delete-btn" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}" data-id="${fileName + timeForId}">
+                                  <a href="javascript:void(0)" class="delete-btn" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}" data-id="${fileName + time}">
                                         <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
                                     </a>
                                 <div class="message-time">${time}</div>
