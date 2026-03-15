@@ -963,7 +963,7 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-async function deleteFile(id, resource_type, fileurl){
+async function deleteFile(fileName, resource_type, fileurl, id){
   const filetype = resource_type.split('/')[0];
   console.log("Full URL received:", fileurl);
   let type = '';
@@ -974,7 +974,7 @@ async function deleteFile(id, resource_type, fileurl){
   } else{
     type = 'raw'
   }
-  alert('recived file: ' + `${fileurl}` + ' of file type: ' +`${resource_type}`);
+  alert('recived file: ' + `${fileName}` + ' of file type: ' +`${resource_type} + ' with url' + `${fileurl}`);
   console.log(type);
   const user = auth.currentUser;
   const idToken = await user.getIdToken();
@@ -1267,7 +1267,7 @@ function displayMessages(messages) {
                 const fileName = m.fileName || 'File';
 
                 if (fileType.startsWith('image/')) {
-		    const time = Date.now();
+		            const timeForId = Date.now();
                     return `
                         <div class="message-wrapper ${wrapperClass}">
                             <div class="message-bubble">
@@ -1276,7 +1276,7 @@ function displayMessages(messages) {
                                   <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
                                         <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
                                     </a>
-                                  <a href="javascript:void(0)" class="delete-btn" id="${fileName + time}" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}">
+                                  <a href="javascript:void(0)" class="delete-btn" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}" data-id="${fileName + timeForId}">
                                         <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
                                     </a>
                                 <div class="message-time">${time}</div>
@@ -1329,9 +1329,9 @@ function displayMessages(messages) {
   document.getElementById('chatWindow').addEventListener('click', (event) => {
       if (event.target.closest('.delete-btn')) {
           const btn = event.target.closest('.delete-btn');
-          const { filename, filetype, fileurl } = btn.dataset;
+          const { filename, filetype, fileurl, id } = btn.dataset;
 		  console.log(btn.dataset);
-          deleteFile(filename, filetype, fileurl);
+          deleteFile(filename, filetype, fileurl, id);
       }
   });
     chatWindow.scrollTop = chatWindow.scrollHeight;
