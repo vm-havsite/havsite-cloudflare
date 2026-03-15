@@ -1266,7 +1266,6 @@ function displayMessages(messages) {
             if (m.fileUrl) {
                 const fileType = m.fileType || '';
                 const fileName = m.fileName || 'File';
-				const trimmedfilename = fileName.trim().replaceAll('.', 'dot');
 
                 if (fileType.startsWith('image/')) {
                     return `
@@ -1277,7 +1276,7 @@ function displayMessages(messages) {
                                   <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
                                         <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
                                     </a>
-                                  <a href="javascript:void(0)" class="delete-btn" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}" data-id="${fileName + time}">
+                                  <a href="javascript:void(0)" class="delete-btn" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}" data-id="${Date.now()}">
                                         <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
                                     </a>
                                 <div class="message-time">${time}</div>
