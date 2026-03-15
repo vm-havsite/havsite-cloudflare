@@ -991,6 +991,15 @@ async function deleteFile(fileName, resource_type, fileurl, id){
   console.log("status:", response.status);
   console.log("server response:", result);
 	
+	try {
+	  const chatId = getChatId(username, currentChat);
+	  const docRef = doc(db, `chats/${chatId}/messages`, `${id}`);
+    	await deleteDoc(docRef);
+    	console.log("Document successfully deleted!");
+  	} catch (error) {
+    	console.error("Error removing document: ", error);
+	};
+	
   document.getElementById(`${id}`).remove();
   console.log('deleted');
 }
@@ -1250,7 +1259,10 @@ function listenForMessages() {
     const messagesRef = collection(db, `chats/${chatId}/messages`);
     const q = query(messagesRef, orderBy('timestamp'));
     onSnapshot(q, (snapshot) => {
-        const messages = snapshot.docs.map(doc => doc.data());
+    const messages = snapshot.docs.map(doc => ({
+        id: doc.id, 
+        ...doc.data()
+    }));
         displayMessages(messages);
     });
 }
@@ -1266,18 +1278,17 @@ function displayMessages(messages) {
             if (m.fileUrl) {
                 const fileType = m.fileType || '';
                 const fileName = m.fileName || 'File';
-				const timeForId = Date.now();
 
                 if (fileType.startsWith('image/')) {
                     return `
-                        <div class="message-wrapper ${wrapperClass}" id="${timeForId}">
+                        <div class="message-wrapper ${wrapperClass}" id="${m.id}">
                             <div class="message-bubble">
                                 ${!isSent ? `<div class="message-sender">${m.sender}</div>` : ''}
                                 <img src="${m.fileUrl}" alt="${fileName}" loading="lazy"><br>
                                   <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
                                         <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
                                     </a>
-                                  <a href="javascript:void(0)" class="delete-btn" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}" data-id="${Date.now()}">
+                                  <a href="javascript:void(0)" class="delete-btn" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}" data-id="${m.id}">
                                         <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
                                     </a>
                                 <div class="message-time">${time}</div>
