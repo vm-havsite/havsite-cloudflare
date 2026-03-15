@@ -974,7 +974,7 @@ async function deleteFile(fileName, resource_type, fileurl, id){
   } else{
     type = 'raw'
   }
-  alert('recived file: ' + `${fileName}` + ' of file type: ' +`${resource_type} + ' with url' + `${fileurl}`);
+  alert('recived file: ' + `${fileName}` + ' of file type: ' +`${resource_type}` + ' with url' + `${fileurl}`);
   console.log(type);
   const user = auth.currentUser;
   const idToken = await user.getIdToken();
