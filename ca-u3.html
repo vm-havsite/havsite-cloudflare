@@ -963,10 +963,9 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-async function deleteFile(fileurl, resource_type, id){
+async function deleteFile(id, resource_type, fileurl){
   const filetype = resource_type.split('/')[0];
   console.log("Full URL received:", fileurl);
-  console.log(fileurl);
   const spliturl = fileurl.split('/upload/')[1];
   console.log(spliturl);
   const Replace = spliturl.replace(/^v\d+\//, '');
@@ -1333,22 +1332,14 @@ function displayMessages(messages) {
         })
         .join('');
     
-document.getElementById('chatWindow').addEventListener('click', (event) => {
-    const btn = event.target.closest('.delete-btn');
-    if (btn) {
-        // Debug: Log all keys to see if it is 'fileurl' or 'fileurl' (or something else)
-        console.log("Available keys:", Object.keys(btn.dataset));
-        
-        // Use bracket notation if destructuring fails, or to be safe
-        const filename = btn.dataset.filename;
-        const filetype = btn.dataset.filetype;
-        const fileurl = btn.dataset.fileurl; // Force the exact lowercase key
-
-        console.log("Extracted:", { filename, filetype, fileurl });
-        
-        deleteFile(filename, filetype, fileurl);
-    }
-});
+  document.getElementById('chatWindow').addEventListener('click', (event) => {
+      if (event.target.closest('.delete-btn')) {
+          const btn = event.target.closest('.delete-btn');
+          const { filename, filetype, fileurl } = btn.dataset;
+		  console.log(btn.dataset);
+          deleteFile(filename, filetype, fileurl);
+      }
+  });
     chatWindow.scrollTop = chatWindow.scrollHeight;
 }
 
