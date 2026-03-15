@@ -965,9 +965,13 @@ onAuthStateChanged(auth, async (user) => {
 
 async function deleteFile(fileurl, resource_type, id){
   const filetype = resource_type.split('/')[0];
+  console.log(fileurl);
   const spliturl = fileurl.split('/upload/')[1];
+  console.log(spliturl);
   const Replace = spliturl.replace(/^v\d+\//, '');
+  console.log(Replace);
   const publicId = Replace.replace(/\.[^/.]+$/, '');
+  console.log(publicId);
   let type = '';
   if(filetype == 'image'){ 
     type = 'image'
