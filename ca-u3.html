@@ -1266,10 +1266,11 @@ function displayMessages(messages) {
             if (m.fileUrl) {
                 const fileType = m.fileType || '';
                 const fileName = m.fileName || 'File';
+				const timeForId = Date.now();
 
                 if (fileType.startsWith('image/')) {
                     return `
-                        <div class="message-wrapper ${wrapperClass}">
+                        <div class="message-wrapper ${wrapperClass}" id="${timeForId}">
                             <div class="message-bubble">
                                 ${!isSent ? `<div class="message-sender">${m.sender}</div>` : ''}
                                 <img src="${m.fileUrl}" alt="${fileName}" loading="lazy"><br>
