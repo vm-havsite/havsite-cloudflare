@@ -965,6 +965,9 @@ onAuthStateChanged(auth, async (user) => {
 
 async function deleteFile(fileurl, resource_type, id){
   const filetype = resource_type.split('/')[0];
+  const spliturl = fileurl.split('/upload/')[1];
+  const Replace = spliturl.replace(/^v\d+\//, '');
+  const publicId = Replace.replace(/\.[^/.]+$/, '');
   let type = '';
   if(filetype == 'image'){ 
     type = 'image'
@@ -983,7 +986,7 @@ async function deleteFile(fileurl, resource_type, id){
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
     },
-    body: JSON.stringify({ file_url: fileurl, file_type: type })
+    body: JSON.stringify({ file_url: publicId, file_type: type })
   });
   const result = await response.text();
   console.log("status:", response.status);
