@@ -1278,21 +1278,37 @@ function displayMessages(messages) {
                 const fileName = m.fileName || 'File';
 
                 if (fileType.startsWith('image/')) {
-                    return `
-                        <div class="message-wrapper ${wrapperClass}" id="${m.id}">
-                            <div class="message-bubble">
-                                ${!isSent ? `<div class="message-sender">${m.sender}</div>` : ''}
-                                <img src="${m.fileUrl}" alt="${fileName}" loading="lazy"><br>
-                                  <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
-                                        <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
-                                    </a>
-                                  <a href="javascript:void(0)" class="delete-btn" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}" data-id="${m.id}">
-                                        <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
-                                    </a>
-                                <div class="message-time">${time}</div>
-                            </div>
-                        </div>
-                    `;
+					if(m.sender = username){
+                      return `
+                          <div class="message-wrapper ${wrapperClass}" id="${m.id}">
+                              <div class="message-bubble">
+                                  ${!isSent ? `<div class="message-sender">${m.sender}</div>` : ''}
+                                  <img src="${m.fileUrl}" alt="${fileName}" loading="lazy"><br>
+                                    <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
+                                          <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
+                                      </a>
+                                    <a href="javascript:void(0)" class="delete-btn" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}" data-id="${m.id}">
+                                          <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
+                                      </a>
+                                  <div class="message-time">${time}</div>
+                              </div>
+                          </div>
+                      `;
+					}
+					else{
+                      return `
+                          <div class="message-wrapper ${wrapperClass}" id="${m.id}">
+                              <div class="message-bubble">
+                                  ${!isSent ? `<div class="message-sender">${m.sender}</div>` : ''}
+                                  <img src="${m.fileUrl}" alt="${fileName}" loading="lazy"><br>
+                                    <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
+                                          <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
+                                      </a>
+                                  <div class="message-time">${time}</div>
+                              </div>
+                          </div>
+                      `;
+					}
                 } else if (fileType.startsWith('video/')) {
                     return `
                         <div class="message-wrapper ${wrapperClass}">
@@ -1335,7 +1351,7 @@ function displayMessages(messages) {
             `;
         })
         .join('');
-    
+
   document.getElementById('chatWindow').addEventListener('click', (event) => {
       if (event.target.closest('.delete-btn')) {
           const btn = event.target.closest('.delete-btn');
