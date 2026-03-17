@@ -1278,7 +1278,7 @@ function displayMessages(messages) {
                 const fileName = m.fileName || 'File';
 
                 if (fileType.startsWith('image/')) {
-					if(m.sender = username){
+					if(m.sender === username){
                       return `
                           <div class="message-wrapper ${wrapperClass}" id="${m.id}">
                               <div class="message-bubble">
