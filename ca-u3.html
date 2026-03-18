@@ -495,7 +495,7 @@
             height: 100%;
             color: #667781;
             text-align: center;
-            padding: 40px;
+            padding: 100px;
         }
 
         .empty-state i {
@@ -925,7 +925,7 @@ window.downloadFile = downloadFile;
 
 <script type="module">
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
-import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
 const auth = getAuth(app);
 
@@ -963,15 +963,10 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-async function deleteFile(fileurl, resource_type, id){
+async function deleteFile(fileName, resource_type, fileurl, id){
   const filetype = resource_type.split('/')[0];
-  console.log(fileurl);
-  const spliturl = fileurl.split('/upload/')[1];
-  console.log(spliturl);
-  const Replace = spliturl.replace(/^v\d+\//, '');
-  console.log(Replace);
-  const publicId = Replace.replace(/\.[^/.]+$/, '');
-  console.log(publicId);
+  console.log("Full URL received:", fileurl);
+  console.log(id);
   let type = '';
   if(filetype == 'image'){ 
     type = 'image'
@@ -980,7 +975,7 @@ async function deleteFile(fileurl, resource_type, id){
   } else{
     type = 'raw'
   }
-  alert('recived file: ' + `${fileurl}` + ' of file type: ' +`${resource_type}`);
+  alert('recived file: ' + `${fileName}` + ' of file type: ' +`${resource_type}` + ' with url' + `${fileurl}`);
   console.log(type);
   const user = auth.currentUser;
   const idToken = await user.getIdToken();
@@ -990,13 +985,20 @@ async function deleteFile(fileurl, resource_type, id){
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
     },
-    body: JSON.stringify({ file_url: publicId, file_type: type })
+    body: JSON.stringify({ file_url: fileurl, file_type: type })
   });
   const result = await response.text();
   console.log("status:", response.status);
   console.log("server response:", result);
 	
-  document.getElementById(`${id}`).remove();
+	try {
+	  const chatId = getChatId(username, currentChat);
+	  const docRef = doc(db, `chats/${chatId}/messages`, `${id}`);
+    	await deleteDoc(docRef);
+    	console.log("Document successfully deleted!");
+  	} catch (error) {
+    	console.error("Error removing document: ", error);
+	};
   console.log('deleted');
 }
 
@@ -1255,7 +1257,10 @@ function listenForMessages() {
     const messagesRef = collection(db, `chats/${chatId}/messages`);
     const q = query(messagesRef, orderBy('timestamp'));
     onSnapshot(q, (snapshot) => {
-        const messages = snapshot.docs.map(doc => doc.data());
+    const messages = snapshot.docs.map(doc => ({
+        id: doc.id, 
+        ...doc.data()
+    }));
         displayMessages(messages);
     });
 }
@@ -1273,22 +1278,37 @@ function displayMessages(messages) {
                 const fileName = m.fileName || 'File';
 
                 if (fileType.startsWith('image/')) {
-		    const time = Date.now();
-                    return `
-                        <div class="message-wrapper ${wrapperClass}">
-                            <div class="message-bubble">
-                                ${!isSent ? `<div class="message-sender">${m.sender}</div>` : ''}
-                                <img src="${m.fileUrl}" alt="${fileName}" loading="lazy"><br>
-                                  <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
-                                        <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
-                                    </a>
-                                  <a href="javascript:void(0)" class="delete-btn" id="${fileName + time}" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}">
-                                        <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
-                                    </a>
-                                <div class="message-time">${time}</div>
-                            </div>
-                        </div>
-                    `;
+					if(m.sender === username){
+                      return `
+                          <div class="message-wrapper ${wrapperClass}" id="${m.id}">
+                              <div class="message-bubble">
+                                  ${!isSent ? `<div class="message-sender">${m.sender}</div>` : ''}
+                                  <img src="${m.fileUrl}" alt="${fileName}" loading="lazy"><br>
+                                    <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
+                                          <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
+                                      </a>
+                                    <a href="javascript:void(0)" class="delete-btn" data-filename="${fileName}" data-filetype="${m.fileType}" data-fileurl="${m.fileUrl}" data-id="${m.id}">
+                                          <i class="fa-solid fa-trash"style="color: #fa2f19; text-decoration: none;"></i>
+                                      </a>
+                                  <div class="message-time">${time}</div>
+                              </div>
+                          </div>
+                      `;
+					}
+					else{
+                      return `
+                          <div class="message-wrapper ${wrapperClass}" id="${m.id}">
+                              <div class="message-bubble">
+                                  ${!isSent ? `<div class="message-sender">${m.sender}</div>` : ''}
+                                  <img src="${m.fileUrl}" alt="${fileName}" loading="lazy"><br>
+                                    <a href="javascript:void(0)" onclick="window.downloadFile('${m.fileUrl}', '${fileName}')" style="color: #2575fc; text-decoration: none;">
+                                          <i class="fa-solid fa-download"style="color: #1e5ec9; text-decoration: none;"></i> ${fileName}
+                                      </a>
+                                  <div class="message-time">${time}</div>
+                              </div>
+                          </div>
+                      `;
+					}
                 } else if (fileType.startsWith('video/')) {
                     return `
                         <div class="message-wrapper ${wrapperClass}">
@@ -1331,12 +1351,13 @@ function displayMessages(messages) {
             `;
         })
         .join('');
-    
+
   document.getElementById('chatWindow').addEventListener('click', (event) => {
       if (event.target.closest('.delete-btn')) {
           const btn = event.target.closest('.delete-btn');
-          const { filename, filetype, fileurl } = btn.dataset;
-          deleteFile(filename, filetype, fileurl);
+          const { filename, filetype, fileurl, id } = btn.dataset;
+		  console.log(btn.dataset);
+          deleteFile(filename, filetype, fileurl, id);
       }
   });
     chatWindow.scrollTop = chatWindow.scrollHeight;
