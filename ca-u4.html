@@ -1248,7 +1248,7 @@ async function loadContacts() {
 		if (currentStatusUnsub) currentStatusUnsub();
 
 		// start new one
-		currentStatusUnsub = listenToUserStatus(user.uid, (data) => {
+		currentStatusUnsub = listenToUserStatus(userData.uid, (data) => {
 		  const statusEl = document.querySelector(".chat-header-status");
 
 		  if (!data) return;
