@@ -971,27 +971,18 @@ async function setpresence(){
   const userStatusRef = ref(rtdb, "status/" + userId);
   const connectedRef = ref(rtdb, ".info/connected");
 
-  onValue(connectedRef, (snapshot) => {
+  onValue(connectedRef, async (snapshot) => {
     if (snapshot.val() === false) return;
 
-    onDisconnect(userStatusRef).set({
+    await onDisconnect(userStatusRef).set({
       state: "offline",
-      last_changed: serverTimestamp()
+      last_changed: Date.now()
     });
-  
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") {
-      set(userStatusRef, {
-        state: "idle",
-        last_changed: serverTimestamp()
-      });
-    } else {
-      set(userStatusRef, {
-        state: "online",
-        last_changed: serverTimestamp()
-      });
-    }
-  });
+
+    await set(userStatusRef, {
+      state: "online",
+      last_changed: Date.now()
+    });
   });
 }
 
