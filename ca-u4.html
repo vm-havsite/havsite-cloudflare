@@ -1241,7 +1241,7 @@ async function loadContacts() {
             contactDiv.addEventListener("click", () => {
 
                 currentChat = userData.username;
-                const statusEl = '';
+                let statusEl;
 
                 const chatHeader = document.getElementById("chatHeader");
 		
@@ -1283,7 +1283,7 @@ async function loadContacts() {
                       <img src=${dp} class="chat-header-avatar">
                       <div class="chat-header-info">
                           <div class="chat-header-name">${userData.username}</div>
-                          <div class="chat-header-status">online</div>
+                          <div class="chat-header-status">${statusEl}</div>
                       </div>
                   `;
                 }
