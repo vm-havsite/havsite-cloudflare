@@ -960,7 +960,7 @@ onAuthStateChanged(auth, async (user) => {
             username = userDoc.data().username;
 	    userId = user.uid;
             loadContacts();
-	    setpresence();
+	    setpresence(userId);
         }
     } else {
         window.location.href = "new-auth.html?p=ca-u2.html";
