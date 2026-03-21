@@ -990,6 +990,7 @@ async function setpresence(){
 }
 
 function listenToUserStatus(otherUserId, callback) {
+  console.log("Listening to UID:", otherUserId);
   const statusRef = ref(rtdb, "status/" + otherUserId);
 
   const listener = onValue(statusRef, (snapshot) => {
@@ -1243,7 +1244,7 @@ async function loadContacts() {
 		// remove previous listener
 		if (currentStatusUnsub) currentStatusUnsub();
 
-		currentStatusUnsub = listenToUserStatus(userData.uid, (data) => {
+		currentStatusUnsub = listenToUserStatus(otherUser, (data) => {
 		  const statusEl = document.querySelector(".chat-header-status");
 
 		  if (!statusEl || !data) return;
