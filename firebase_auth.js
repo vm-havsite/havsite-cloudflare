@@ -18,6 +18,7 @@ const firebaseConfig = {
   storageBucket: "havsite-pwa.firebasestorage.app",
   messagingSenderId: "994396465347",
   appId: "1:994396465347:web:16939fceebfb70368e1a76",
+  databaseURL: "https://havsite-pwa-default-rtdb.asia-southeast1.firebasedatabase.app"
 };
 
 
