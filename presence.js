@@ -2,7 +2,7 @@ import { onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/
 import { getDatabase, ref, onValue, set, off, onDisconnect } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 import { app, db } from './firebase_auth.js';
 
-async function setpresence(){
+async function setpresence(userId){
   console.log("userId:", userId);
   console.log("rtdb:", rtdb);
   console.log("auth.currentUser:", auth.currentUser);
