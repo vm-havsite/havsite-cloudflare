@@ -968,6 +968,9 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 async function setpresence(){
+  console.log("userId:", userId);
+  console.log("rtdb:", rtdb);
+  console.log("auth.currentUser:", auth.currentUser);
   const userStatusRef = ref(rtdb, "status/" + userId);
   const connectedRef = ref(rtdb, ".info/connected");
 
@@ -987,6 +990,7 @@ async function setpresence(){
 }
 
 function listenToUserStatus(otherUserId, callback) {
+  console.log("snapshot:", snapshot.val());
   const statusRef = ref(rtdb, "status/" + otherUserId);
 
   const listener = onValue(statusRef, (snapshot) => {
