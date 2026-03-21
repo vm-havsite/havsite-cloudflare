@@ -1,11 +1,11 @@
 import { onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { getDatabase, ref, onValue, set, off, onDisconnect } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 import { app, db } from './firebase_auth.js';
+const rtdb = getDatabase(app)
 
 async function setpresence(userId){
   console.log("userId:", userId);
   console.log("rtdb:", rtdb);
-  console.log("auth.currentUser:", auth.currentUser);
   const userStatusRef = ref(rtdb, "status/" + userId);
   const connectedRef = ref(rtdb, ".info/connected");
 
