@@ -990,10 +990,10 @@ async function setpresence(){
 }
 
 function listenToUserStatus(otherUserId, callback) {
-  console.log("snapshot:", snapshot.val());
   const statusRef = ref(rtdb, "status/" + otherUserId);
 
   const listener = onValue(statusRef, (snapshot) => {
+    console.log("snapshot:", snapshot.val());
     callback(snapshot.val());
   });
 
@@ -1243,18 +1243,18 @@ async function loadContacts() {
 		// remove previous listener
 		if (currentStatusUnsub) currentStatusUnsub();
 
-		// start new one
 		currentStatusUnsub = listenToUserStatus(userData.uid, (data) => {
+		  const statusEl = document.querySelector(".chat-header-status");
 
-		  if (!data) return;
+		  if (!statusEl || !data) return;
 
 		  if (data.state === "online") {
-		    statusEl = "online";
+		    statusEl.textContent = "online";
 		  } else if (data.state === "idle") {
-		    statusEl = "idle";
+		    statusEl.textContent = "idle";
 		  } else {
 		    const lastSeen = new Date(data.last_changed);
-		    statusEl = "last seen " + lastSeen.toLocaleTimeString();
+		    statusEl.textContent = "last seen " + lastSeen.toLocaleTimeString();
 		  }
 		});
 
@@ -1266,7 +1266,7 @@ async function loadContacts() {
                       <div class="chat-header-avatar">${userData.username.charAt(0).toUpperCase()}</div>
                       <div class="chat-header-info">
                           <div class="chat-header-name">${userData.username}</div>
-                          <div class="chat-header-status">${statusEl}</div>
+                          <div class="chat-header-status">...</div>
                       </div>
                   `;
                 }
@@ -1278,7 +1278,7 @@ async function loadContacts() {
                       <img src=${dp} class="chat-header-avatar">
                       <div class="chat-header-info">
                           <div class="chat-header-name">${userData.username}</div>
-                          <div class="chat-header-status">${statusEl}</div>
+                          <div class="chat-header-status">...</div>
                       </div>
                   `;
                 }
