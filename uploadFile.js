@@ -82,3 +82,5 @@ async function uploadFile(e){
         document.getElementById('progressFill').style.width = '0%';
     }
 }
+
+export { uploadFile };
