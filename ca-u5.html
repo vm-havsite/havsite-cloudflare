@@ -1012,6 +1012,13 @@ async function deleteFile(fileName, resource_type, fileurl, id){
 document.getElementById('fileInput').addEventListener('change', uploadFile);
 
 
+document.getElementById('fileInput').addEventListener('change', (e) => {
+    //pass 'e' AND your custom variables here
+    const config = { currentChat, extensions: ALLOWED_EXTENSIONS, username, auth };
+    uploadFile(e, config); 
+});
+
+
 document.getElementById('messageInput').addEventListener('keydown', function(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
