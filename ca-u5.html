@@ -1014,7 +1014,7 @@ document.getElementById('fileInput').addEventListener('change', uploadFile);
 
 document.getElementById('fileInput').addEventListener('change', (e) => {
     //pass 'e' AND your custom variables here
-    uploadFile(e, currentChat, ALLOWED_EXTENSIONS, username, auth ); 
+    uploadFile(e, currentChat, ALLOWED_EXTENSIONS, username, auth, WORKER_URL ); 
 });
 
 
