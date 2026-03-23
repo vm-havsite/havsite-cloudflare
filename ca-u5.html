@@ -1014,8 +1014,7 @@ document.getElementById('fileInput').addEventListener('change', uploadFile);
 
 document.getElementById('fileInput').addEventListener('change', (e) => {
     //pass 'e' AND your custom variables here
-    const config = { currentChat, extensions: ALLOWED_EXTENSIONS, username, auth };
-    uploadFile(e, config); 
+    uploadFile(e, currentChat, ALLOWED_EXTENSIONS, username, auth ); 
 });
 
 

@@ -1,5 +1,5 @@
 // File upload handler
-async function uploadFile(e, {currentChat, extensions, username, auth }){
+async function uploadFile(e, currentChat, ALLOWED_EXTENSIONS, username, auth ){
     const file = e.target.files[0];
 
     if (!file || !currentChat) return;
