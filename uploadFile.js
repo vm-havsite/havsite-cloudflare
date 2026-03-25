@@ -1,3 +1,7 @@
+function getChatId(user1, user2) {
+    return [user1, user2].sort().join('_');
+}
+
 // File upload handler
 async function uploadFile(e, currentChat, ALLOWED_EXTENSIONS, username, auth, WORKER_URL ){
     const file = e.target.files[0];
