@@ -1217,11 +1217,8 @@ async function loadContacts() {
 
 		  if (data.state === "online") {
 		    statusEl.textContent = "online";
-		  } else if (data.state === "idle") {
-		    statusEl.textContent = "idle";
-		  } else {
-		    const lastSeen = new Date(data.last_changed);
-		    statusEl.textContent = "last seen " + lastSeen.toLocaleTimeString();
+		  } else if (data.state === "offline") {
+		    statusEl.textContent = "offline";
 		  }
 		});
 
