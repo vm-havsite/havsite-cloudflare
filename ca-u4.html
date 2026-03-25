@@ -1218,7 +1218,8 @@ async function loadContacts() {
 		  if (data.state === "online") {
 		    statusEl.textContent = "online";
 		  } else if (data.state === "offline") {
-		    statusEl.textContent = "offline";
+		    const lastSeen = new Date(data.last_changed);
+		    statusEl.textContent = "last seen " + lastSeen.toLocaleTimeString();
 		  }
 		});
 
