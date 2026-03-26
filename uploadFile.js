@@ -1,3 +1,6 @@
+import { doc, collection, addDoc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+
+
 function getChatId(user1, user2) {
     return [user1, user2].sort().join('_');
 }
