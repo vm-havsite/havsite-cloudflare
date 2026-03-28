@@ -1145,8 +1145,8 @@ async function loadContacts() {
 		  } else if (data.state === "idle") {
 		    statusEl.textContent = "idle";
 		  } else {
-		    const lastSeen = new Date(data.last_changed*100).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) || '';
-		    statusEl.textContent = "last seen " + lastSeen.toLocaleTimeString();
+		    const lastSeen = data.last_changed;
+		    statusEl.textContent = "last seen " + new Date(lastSeen.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 		  }
 		});
 
