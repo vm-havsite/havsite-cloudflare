@@ -1205,7 +1205,7 @@ async function listenForMessages() {
     const chatId = getChatId(username, currentChat);
     const messagesRef = collection(db, `chats/${chatId}/messages`);
     const q = query(
-      messageRef, 
+      messagesRef, 
       orderBy("timestamp", "desc"), 
       limit(20)
     );
