@@ -1214,9 +1214,6 @@ async function listenForMessages() {
         .reverse(); 
 
     displayMessages(messages);
-    } (error) => {
-        console.error("Snapshot failed:", error);
-    };
 }
 
 function displayMessages(messages) {
