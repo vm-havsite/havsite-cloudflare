@@ -1204,7 +1204,12 @@ async function loadContacts() {
 function listenForMessages() {
     const chatId = getChatId(username, currentChat);
     const messagesRef = collection(db, `chats/${chatId}/messages`);
-    const q = query(messagesRef, orderBy('timestamp'));
+    const q = query(
+      messageRef, 
+      orderBy("timestamp", "desc"), 
+      limit(20)
+    );
+    const snapshot = await getDocs(q);
     onSnapshot(q, (snapshot) => {
     const messages = snapshot.docs.map(doc => ({
         id: doc.id, 
