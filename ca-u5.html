@@ -1201,7 +1201,7 @@ async function loadContacts() {
 
 }
 
-function listenForMessages() {
+async function listenForMessages() {
     const chatId = getChatId(username, currentChat);
     const messagesRef = collection(db, `chats/${chatId}/messages`);
     const q = query(
