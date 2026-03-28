@@ -1209,17 +1209,15 @@ async function listenForMessages() {
       orderBy("timestamp", "desc"), 
       limit(20)
     );
-    const snapshot = await getDocs(q);
-    onSnapshot(q, (snapshot) => {
-    const messages = snapshot.docs.map(doc => ({
-        id: doc.id, 
-        ...doc.data()
-    }));
-        displayMessages(messages);
-    });
-}
+      const messages = snapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .reverse(); 
 
-function displayMessages(messages) {
+    displayMessages(messages);
+    }, (error) => {
+        console.error("Snapshot failed:", error);
+    });
+}function displayMessages(messages) {
     const chatWindow = document.getElementById('chatWindow');
     chatWindow.innerHTML = messages
         .map(m => {
