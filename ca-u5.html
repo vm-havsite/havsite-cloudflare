@@ -939,6 +939,7 @@ let username = '';
 let currentChat = '';
 let userId = '';
 let currentStatusUnsub = null;
+let listeningtochat = null;
 
 const ALLOWED_EXTENSIONS = new Set([
   'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'tif', 'tiff', // Images
@@ -1128,6 +1129,7 @@ async function loadContacts() {
             contactDiv.addEventListener("click", () => {
 
                 currentChat = userData.username;
+                if (listeningtochat) stoplisteningtochat();
                 let statusEl;
 
                 const chatHeader = document.getElementById("chatHeader");
@@ -1201,7 +1203,7 @@ async function loadContacts() {
 
 }
 
-async function listenForMessages() {
+function listenForMessages() {
     const chatId = getChatId(username, currentChat);
     const messagesRef = collection(db, `chats/${chatId}/messages`);
     const q = query(
@@ -1209,11 +1211,21 @@ async function listenForMessages() {
       orderBy("timestamp", "desc"), 
       limit(20)
     );
+    
+    // onSnapshot takes the query AND a callback function
+    const stoplisteningtochat = onSnapshot(q, (snapshot) => {
       const messages = snapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() }))
         .reverse(); 
 
-    displayMessages(messages);
+      listeningtochat = 'true';
+      displayMessages(messages);
+    }, (error) => {
+      console.error("Listening failed:", error);
+    });
+
+    // Return this to stop the listener
+    return stoplisteningtochat;
 }
 
 function displayMessages(messages) {
