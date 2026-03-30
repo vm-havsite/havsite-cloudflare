@@ -940,6 +940,7 @@ let currentChat = '';
 let userId = '';
 let currentStatusUnsub = null;
 let listeningtochat = null;
+let stoplisteningtochat;
 
 const ALLOWED_EXTENSIONS = new Set([
   'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'tif', 'tiff', // Images
@@ -1130,6 +1131,8 @@ async function loadContacts() {
 
                 currentChat = userData.username;
                 if (listeningtochat) stoplisteningtochat();
+		stoplisteningtochat = null;
+
                 let statusEl;
 
                 const chatHeader = document.getElementById("chatHeader");
