@@ -1130,7 +1130,7 @@ async function loadContacts() {
             contactDiv.addEventListener("click", () => {
 
                 currentChat = userData.username;
-                if (listeningtochat) stoplisteningtochat();
+                if (listeningtochat) stoplisteningtocurrentchat();
                 let statusEl;
 
                 const chatHeader = document.getElementById("chatHeader");
