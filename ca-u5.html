@@ -1195,8 +1195,7 @@ async function loadContacts() {
                     document.getElementById('chatPanel').classList.add('mobile-active');
                 }
 
-                listenForMessages();
-		stoplisteningtocurrentchat = stoplisteningtochat();
+                let stoplisteningtocurrentchat = listenForMessages();
 
             });
 
