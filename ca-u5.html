@@ -940,7 +940,7 @@ let currentChat = '';
 let userId = '';
 let currentStatusUnsub = null;
 let listeningtochat = null;
-let stoplisteningtocurrentchat;
+let stoplisteningtocurrentchat = null;
 
 const ALLOWED_EXTENSIONS = new Set([
   'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'tif', 'tiff', // Images
@@ -1195,7 +1195,7 @@ async function loadContacts() {
                     document.getElementById('chatPanel').classList.add('mobile-active');
                 }
 
-                let stoplisteningtocurrentchat = listenForMessages();
+                stoplisteningtocurrentchat = listenForMessages();
 
             });
 
