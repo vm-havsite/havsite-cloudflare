@@ -25,16 +25,13 @@ async function setpresence(userId){
 }
 
 function listenToUserStatus(otherUserId, callback) {
-  console.log("Listening to UID:", otherUserId);
   const statusRef = ref(rtdb, "status/" + otherUserId);
 
-  const listener = onValue(statusRef, (snapshot) => {
-    console.log("snapshot:", snapshot.val());
+  const unsubscribe = onValue(statusRef, (snapshot) => {
     callback(snapshot.val());
   });
 
-  // return cleanup
-  return () => off(statusRef, "value", listener);
+  return unsubscribe; 
 }
 
 export { setpresence, listenToUserStatus };

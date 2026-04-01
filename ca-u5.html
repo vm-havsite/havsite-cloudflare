@@ -1151,8 +1151,6 @@ async function loadContacts() {
 		    const lastSeen = data.last_changed;
 		    statusEl.textContent = "last seen " + new Date(lastSeen).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 		  }
-
-		  let currentStatusUnsub = true;
 		});
 
                 if (!dp) {
