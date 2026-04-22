@@ -1091,6 +1091,8 @@ async function loadContacts() {
             console.log("Other user in chat:", otherUser);
 
             const userDoc = await getDoc(doc(db, "users", otherUser));
+            reciverid = userDoc.id;
+	    console.log(reciverid);
             const userData = userDoc.data();
 
             let contactDiv = document.createElement("div");
