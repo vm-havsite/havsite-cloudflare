@@ -1,3 +1,4 @@
 03/05/2026(dd/mm/yyyy):
  - added the fonts national parks and Poppins as older folder was deleted due to some reason.
  - note that the national park font name says v1 but it is actually v4, I renamed as otherwise I would have to correct every instance in every file.
+ - added space mono (Monospace) for articles.
