@@ -104,6 +104,13 @@ function generateArticleHTML(article, thumbnail, articleId) {
             --border-color: rgba(255,255,255,0.1);
         }
 
+        @font-face {
+           font-family: 'Monospace';
+           src: url('/fonts/SpaceMono-Regular.woff') format('woff');
+           font-weight: normal;
+           font-style: normal;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
@@ -281,6 +288,11 @@ function generateArticleHTML(article, thumbnail, articleId) {
             .sidebar { position: static; margin-bottom: 40px; }
             .article-hero { padding: 40px 20px; }
         }
+
+.ql-font-monospace {
+  font-family: 'Monospace', 'Courier New', Courier !important;
+}
+
 
 .delete-popup {
     /* Sizing */
