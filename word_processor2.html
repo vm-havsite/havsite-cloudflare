@@ -545,9 +545,6 @@ onAuthStateChanged(auth, async (user) => {
             console.log('User logged in:', username);
             console.log('User logged in:', user.uid);
             useruid = user.uid;
-   	    const addval = 12;
-	    addpoints(addval);
-	    console.log('added 12 point');
         }
     } else {
         window.location.href = "new-auth.html?p=word_processor2.html";
