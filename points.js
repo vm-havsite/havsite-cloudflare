@@ -7,11 +7,11 @@ if( isnew === null ){  // Use === for safety
   pointsbalance = 6;
 }
 else if( isnew === "no" ){  // Use === for safety
-  pointsbalance = parseInt(localStorage.getItem("points"));
+  pointsbalance = Number(localStorage.getItem("points"));
 }
 
 function getpoints(){
-  return pointsbalance;  // ✓ Fixed
+  return pointsbalance;
 }
 
 function addpoints(addval){
