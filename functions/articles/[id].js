@@ -76,10 +76,13 @@ function generateArticleHTML(article, thumbnail, articleId) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${escapeHtml(title || 'Article')} - Havsite</title>
+    <link rel="icon" type="image/x-icon" href="/images/logo_og.png">
     <script src="/myscript.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YQTP4PZKP5"></script>
+    <script async src="/analytics.js"></script>
     <style>
         :root {
             --primary-gradient: linear-gradient(45deg, #6a11cb, #2575fc);
@@ -701,6 +704,7 @@ function generateErrorHTML(message, articleId, details = '') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error - Havsite</title>
+    <link rel="icon" type="image/x-icon" href="/images/logo_og.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
     <style>
