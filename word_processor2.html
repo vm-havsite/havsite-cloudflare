@@ -597,7 +597,7 @@ window.saveDocument = async function() {
     
     if (htmlContent) {
         try {
-            const articleId = username + documentname;
+            const articleId = useruid + documentname;
             
             // Step 1: Save the article first
             await setDoc(doc(db, "articles", articleId), {
@@ -619,7 +619,7 @@ window.saveDocument = async function() {
 
                     const formData = new FormData();
                     formData.append('file', pendingThumbnailFile);
-                    formData.append('username', username);
+                    formData.append('username', useruid);
 
                     const response = await fetch(`${WORKER_URL}/upload`, {
                         method: 'POST',
