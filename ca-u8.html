@@ -1072,6 +1072,7 @@
         </div>
     </div>
 
+<script src="myscript.js"></script>
 <script>
 const fileBtn = document.getElementById('fileBtn');
 const fileInput = document.getElementById('fileInput');
@@ -1263,7 +1264,7 @@ async function sendMessage() {
         });
 
         await setDoc(contactRef, {
-	    participants: [userId, reciver]
+	    participants: [userId, reciver],
             lastMessage: contactMsg,
             lastTime: serverTimestamp()
         },  { merge: true });
