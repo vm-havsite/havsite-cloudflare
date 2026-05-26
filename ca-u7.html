@@ -1563,7 +1563,7 @@ searchModalInput.addEventListener('input', () => {
                     const dp = userSnap.exists() ? userSnap.data()?.photoURL : null;
 
                     const chatHeader = document.getElementById('chatHeader');
-		    chatHeader..setAttribute('ReciverId', uid);
+		    chatHeader.setAttribute('ReciverId', uid);
                     chatHeader.innerHTML = `
                         <button class="back-button" id="backButton">
                             <i class="fas fa-arrow-left"></i>
