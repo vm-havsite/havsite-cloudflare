@@ -1498,7 +1498,7 @@ function getChatId(user1, user2) {
 
 
 // ── Search New Users Modal ──────────────────────────────────────────────────
-const SEARCH_WORKER_URL = 'https://havsite-user-search.vm002248.workers.dev';
+const WORKER_URL = 'https://your-worker.workers.dev'; // ← replace with your worker URL
 
 const addContactBtn   = document.getElementById('add-contact');
 const searchOverlay   = document.getElementById('searchOverlay');
@@ -1548,7 +1548,7 @@ searchModalInput.addEventListener('input', () => {
 
     searchDebounce = setTimeout(async () => {
         try {
-            const res = await fetch(`${SEARCH_WORKER_URL}/?mode=fuzzy&username=${encodeURIComponent(q)}`);
+            const res = await fetch(`${WORKER_URL}/?mode=fuzzy&username=${encodeURIComponent(q)}`);
             const data = await res.json();
 
             if (!data.results || data.results.length === 0) {
@@ -1571,14 +1571,65 @@ searchModalInput.addEventListener('input', () => {
                 </div>
             `).join('');
 
-            // Clicking a result starts a chat with that user
+            // Clicking a result opens the chat directly
             searchModalResults.querySelectorAll('.search-result-item').forEach(item => {
-                item.addEventListener('click', () => {
+                item.addEventListener('click', async () => {
                     const uname = item.dataset.username;
+                    const uid   = item.dataset.uid;
                     closeSearchModal();
-                    // Trigger opening the chat — reuse the same flow as contact clicks
-                    // by dispatching a custom event that the app can listen to
-                    document.dispatchEvent(new CustomEvent('open-chat', { detail: { username: uname } }));
+
+                    // Stop any existing chat listener
+                    if (listeningtochat) stoplisteningtocurrentchat();
+                    if (currentStatusUnsub) currentStatusUnsub();
+
+                    currentChat = uname;
+
+                    // Quick Firestore fetch to get photoURL
+                    const chatHeader = document.getElementById('chatHeader');
+                    const userSnap = await getDoc(doc(db, 'users', uid));
+                    const dp = userSnap.exists() ? userSnap.data()?.photoURL : null;
+
+                    const avatarHtml = dp
+                        ? `<img src="${dp}" class="chat-header-avatar">`
+                        : `<div class="chat-header-avatar">${uname.charAt(0).toUpperCase()}</div>`;
+
+                    chatHeader.innerHTML = `
+                        <button class="back-button" id="backButton">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        ${avatarHtml}
+                        <div class="chat-header-info">
+                            <div class="chat-header-name">${uname}</div>
+                            <div class="chat-header-status">...</div>
+                        </div>
+                    `;
+
+                    document.getElementById('backButton')?.addEventListener('click', () => {
+                        document.getElementById('chatPanel').classList.remove('mobile-active');
+                        document.getElementById('contactsPanel').classList.add('mobile-active');
+                    });
+
+                    // Listen to presence using the uid from the search result
+                    currentStatusUnsub = listenToUserStatus(uid, (data) => {
+                        const statusEl = document.querySelector('.chat-header-status');
+                        if (!statusEl || !data) return;
+                        if (data.state === 'online') {
+                            statusEl.textContent = 'online';
+                        } else if (data.state === 'idle') {
+                            statusEl.textContent = 'idle';
+                        } else {
+                            statusEl.textContent = 'last seen ' + new Date(data.last_changed).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        }
+                    });
+
+                    document.querySelectorAll('.contact-item').forEach(i => i.classList.remove('active'));
+
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('contactsPanel').classList.remove('mobile-active');
+                        document.getElementById('chatPanel').classList.add('mobile-active');
+                    }
+
+                    stoplisteningtocurrentchat = listenForMessages();
                 });
             });
 
