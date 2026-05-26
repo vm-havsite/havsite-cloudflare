@@ -1596,6 +1596,7 @@ searchModalInput.addEventListener('input', () => {
             });
 
         } catch (err) {
+            console.log(err)
             searchModalResults.innerHTML = `
                 <div class="search-modal-empty">
                     <i class="fas fa-exclamation-triangle"></i>
