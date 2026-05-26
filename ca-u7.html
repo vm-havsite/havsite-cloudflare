@@ -1500,6 +1500,7 @@ const searchModalInput   = document.getElementById('searchModalInput');
 const searchModalResults = document.getElementById('searchModalResults');
 
 let searchDebounce = null;
+let finalResults = '';
 
 searchModalInput.addEventListener('input', () => {
     const q = searchModalInput.value.trim();
