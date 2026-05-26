@@ -1530,7 +1530,9 @@ searchModalInput.addEventListener('input', () => {
                 return;
             }
 
-            searchModalResults.innerHTML = data.results.map(user => `
+	    finalResults = data.results.filter(user => user.uid !== userId);
+
+            searchModalResults.innerHTML = finalResults.map(user => `
                 <div class="search-result-item" data-username="${user.username}" data-uid="${user.uid}">
                     <div class="search-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
                     <div class="search-result-info">
