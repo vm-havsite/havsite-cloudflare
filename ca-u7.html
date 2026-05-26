@@ -1085,7 +1085,7 @@ window.downloadFile = downloadFile;
 
 <script type="module">
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
-import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
 import { setpresence, listenToUserStatus } from './presence.js'
 import { uploadFile } from './uploadFile.js'
@@ -1127,7 +1127,7 @@ onAuthStateChanged(auth, async (user) => {
 	    setpresence(userId);
         }
     } else {
-        window.location.href = "new-auth.html?p=ca-u2.html";
+        window.location.href = "new-auth.html?p=ca-u7.html";
     }
 });
 
@@ -1191,6 +1191,7 @@ document.getElementById('messageInput').addEventListener('keydown', function(eve
 async function sendMessage() {
     const messageInput = document.getElementById('messageInput');
     const message = messageInput.value.trim();
+    reciver = document.getElementById('chatHeader').getAttribute('ReciverId');
     let contactMsg;
     if (message.length > 12){
       const ending = "...";
@@ -1209,10 +1210,11 @@ async function sendMessage() {
             timestamp: serverTimestamp()
         });
 
-        await updateDoc(contactRef, {
+        await setDoc(contactRef, {
+	    participants: [userId, reciver]
             lastMessage: contactMsg,
             lastTime: serverTimestamp()
-        });
+        },  { merge: true });
         messageInput.value = '';
     }
 }
@@ -1297,6 +1299,7 @@ async function loadContacts() {
                 let statusEl;
 
                 const chatHeader = document.getElementById("chatHeader");
+                chatHeader.setAttribute('ReciverId', reciverid);
 		
 		// remove previous listener
 		if (currentStatusUnsub) currentStatusUnsub();
@@ -1494,8 +1497,7 @@ document.getElementById('sendButton').addEventListener('click', sendMessage);
 
 
 // ── Search modal: fuzzy search + chat open (needs module scope) ─────────────
-const USER_INDEX_URL = 'https://havsite-user-search.vm002248.workers.dev/'; // ← replace with your user-index worker URL
-
+const USER_INDEX_URL = 'https://havsite-user-search.vm002248.workers.dev/';
 const searchModalInput   = document.getElementById('searchModalInput');
 const searchModalResults = document.getElementById('searchModalResults');
 
@@ -1561,6 +1563,7 @@ searchModalInput.addEventListener('input', () => {
                     const dp = userSnap.exists() ? userSnap.data()?.photoURL : null;
 
                     const chatHeader = document.getElementById('chatHeader');
+		    chatHeader..setAttribute('ReciverId', uid);
                     chatHeader.innerHTML = `
                         <button class="back-button" id="backButton">
                             <i class="fas fa-arrow-left"></i>
