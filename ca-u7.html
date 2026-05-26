@@ -1492,45 +1492,15 @@ function displayMessages(messages) {
 
 document.getElementById('sendButton').addEventListener('click', sendMessage);
 
-function getChatId(user1, user2) {
-    return [user1, user2].sort().join('_');
-}
 
+// ── Search modal: fuzzy search + chat open (needs module scope) ─────────────
+const USER_INDEX_URL = 'https://your-worker.workers.dev'; // ← replace with your user-index worker URL
 
-// ── Search New Users Modal ──────────────────────────────────────────────────
-const WORKER_URL = 'https://your-worker.workers.dev'; // ← replace with your worker URL
-
-const addContactBtn   = document.getElementById('add-contact');
-const searchOverlay   = document.getElementById('searchOverlay');
-const searchModal     = document.getElementById('searchModal');
-const searchModalClose = document.getElementById('searchModalClose');
-const searchModalInput = document.getElementById('searchModalInput');
+const searchModalInput   = document.getElementById('searchModalInput');
 const searchModalResults = document.getElementById('searchModalResults');
 
-function openSearchModal() {
-    searchOverlay.classList.add('active');
-    searchModal.classList.add('active');
-    setTimeout(() => searchModalInput.focus(), 100);
-}
-
-function closeSearchModal() {
-    searchOverlay.classList.remove('active');
-    searchModal.classList.remove('active');
-    searchModalInput.value = '';
-    searchModalResults.innerHTML = `
-        <div class="search-modal-empty">
-            <i class="fas fa-search"></i>
-            Start typing to find users
-        </div>`;
-}
-
-addContactBtn.addEventListener('click', openSearchModal);
-searchOverlay.addEventListener('click', closeSearchModal);
-searchModalClose.addEventListener('click', closeSearchModal);
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSearchModal(); });
-
-// Debounced fuzzy search
 let searchDebounce = null;
+
 searchModalInput.addEventListener('input', () => {
     const q = searchModalInput.value.trim();
     clearTimeout(searchDebounce);
@@ -1548,7 +1518,7 @@ searchModalInput.addEventListener('input', () => {
 
     searchDebounce = setTimeout(async () => {
         try {
-            const res = await fetch(`${WORKER_URL}/?mode=fuzzy&username=${encodeURIComponent(q)}`);
+            const res  = await fetch(`${USER_INDEX_URL}/?mode=fuzzy&username=${encodeURIComponent(q)}`);
             const data = await res.json();
 
             if (!data.results || data.results.length === 0) {
@@ -1565,39 +1535,34 @@ searchModalInput.addEventListener('input', () => {
                     <div class="search-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
                     <div class="search-result-info">
                         <div class="search-result-name">${user.username}</div>
-                        <div class="search-result-score">Match score: ${(user.score * 100).toFixed(0)}%</div>
+                        <div class="search-result-score">Match: ${(user.score * 100).toFixed(0)}%</div>
                     </div>
                     <i class="fas fa-comment" style="color: var(--accent-color); opacity: 0.6; font-size: 0.9em;"></i>
                 </div>
             `).join('');
 
-            // Clicking a result opens the chat directly
             searchModalResults.querySelectorAll('.search-result-item').forEach(item => {
                 item.addEventListener('click', async () => {
                     const uname = item.dataset.username;
                     const uid   = item.dataset.uid;
-                    closeSearchModal();
 
-                    // Stop any existing chat listener
+                    window._closeSearchModal();
+
                     if (listeningtochat) stoplisteningtocurrentchat();
                     if (currentStatusUnsub) currentStatusUnsub();
 
                     currentChat = uname;
 
-                    // Quick Firestore fetch to get photoURL
-                    const chatHeader = document.getElementById('chatHeader');
+                    // Fetch photoURL from Firestore using uid from search result
                     const userSnap = await getDoc(doc(db, 'users', uid));
                     const dp = userSnap.exists() ? userSnap.data()?.photoURL : null;
 
-                    const avatarHtml = dp
-                        ? `<img src="${dp}" class="chat-header-avatar">`
-                        : `<div class="chat-header-avatar">${uname.charAt(0).toUpperCase()}</div>`;
-
+                    const chatHeader = document.getElementById('chatHeader');
                     chatHeader.innerHTML = `
                         <button class="back-button" id="backButton">
                             <i class="fas fa-arrow-left"></i>
                         </button>
-                        ${avatarHtml}
+                        ${dp ? `<img src="${dp}" class="chat-header-avatar">` : `<div class="chat-header-avatar">${uname.charAt(0).toUpperCase()}</div>`}
                         <div class="chat-header-info">
                             <div class="chat-header-name">${uname}</div>
                             <div class="chat-header-status">...</div>
@@ -1609,17 +1574,12 @@ searchModalInput.addEventListener('input', () => {
                         document.getElementById('contactsPanel').classList.add('mobile-active');
                     });
 
-                    // Listen to presence using the uid from the search result
-                    currentStatusUnsub = listenToUserStatus(uid, (data) => {
+                    currentStatusUnsub = listenToUserStatus(uid, (statusData) => {
                         const statusEl = document.querySelector('.chat-header-status');
-                        if (!statusEl || !data) return;
-                        if (data.state === 'online') {
-                            statusEl.textContent = 'online';
-                        } else if (data.state === 'idle') {
-                            statusEl.textContent = 'idle';
-                        } else {
-                            statusEl.textContent = 'last seen ' + new Date(data.last_changed).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                        }
+                        if (!statusEl || !statusData) return;
+                        if (statusData.state === 'online') statusEl.textContent = 'online';
+                        else if (statusData.state === 'idle') statusEl.textContent = 'idle';
+                        else statusEl.textContent = 'last seen ' + new Date(statusData.last_changed).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                     });
 
                     document.querySelectorAll('.contact-item').forEach(i => i.classList.remove('active'));
@@ -1642,6 +1602,42 @@ searchModalInput.addEventListener('input', () => {
         }
     }, 350);
 });
+
+function getChatId(user1, user2) {
+    return [user1, user2].sort().join('_');
+}
+
+
+// ── Search New Users Modal (open/close only) ────────────────────────────────
+const addContactBtn    = document.getElementById('add-contact');
+const searchOverlay    = document.getElementById('searchOverlay');
+const searchModal      = document.getElementById('searchModal');
+const searchModalClose = document.getElementById('searchModalClose');
+
+function openSearchModal() {
+    searchOverlay.classList.add('active');
+    searchModal.classList.add('active');
+    setTimeout(() => document.getElementById('searchModalInput').focus(), 100);
+}
+
+function closeSearchModal() {
+    searchOverlay.classList.remove('active');
+    searchModal.classList.remove('active');
+    document.getElementById('searchModalInput').value = '';
+    document.getElementById('searchModalResults').innerHTML = `
+        <div class="search-modal-empty">
+            <i class="fas fa-search"></i>
+            Start typing to find users
+        </div>`;
+}
+
+// expose so module script can call closeSearchModal too
+window._closeSearchModal = closeSearchModal;
+
+addContactBtn.addEventListener('click', openSearchModal);
+searchOverlay.addEventListener('click', closeSearchModal);
+searchModalClose.addEventListener('click', closeSearchModal);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSearchModal(); });
 
 </script>
 
