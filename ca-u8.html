@@ -1244,7 +1244,7 @@ document.getElementById('messageInput').addEventListener('keydown', function(eve
 async function sendMessage() {
     const messageInput = document.getElementById('messageInput');
     const message = messageInput.value.trim();
-    reciver = document.getElementById('chatHeader').getAttribute('ReciverId');
+    let reciver = document.getElementById('chatHeader').getAttribute('ReciverId');
     let contactMsg;
     if (message.length > 12){
       const ending = "...";
