@@ -1543,7 +1543,9 @@ function displayMessages(messages) {
           deleteFile(filename, filetype, fileurl, id);
       }
   });
-    chatWindow.scrollTop = chatWindow.scrollHeight;
+    requestAnimationFrame(() => {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    });
 }
 
 document.getElementById('sendButton').addEventListener('click', sendMessage);
