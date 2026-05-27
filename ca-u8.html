@@ -1154,7 +1154,6 @@ let userId = '';
 let currentStatusUnsub = null;
 let listeningtochat = null;
 let stoplisteningtocurrentchat = null;
-let reciverid = '';
 
 const ALLOWED_EXTENSIONS = new Set([
   'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'tif', 'tiff', // Images
@@ -1244,7 +1243,8 @@ document.getElementById('messageInput').addEventListener('keydown', function(eve
 async function sendMessage() {
     const messageInput = document.getElementById('messageInput');
     const message = messageInput.value.trim();
-    let reciver = document.getElementById('chatHeader').getAttribute('ReciverId');
+    let reciver = document.getElementById('chatHeader').getAttribute('reciverid');
+    console.log(reciver)
     let contactMsg;
     if (message.length > 12){
       const ending = "...";
@@ -1307,7 +1307,7 @@ async function loadContacts() {
             console.log("Other user in chat:", otherUser);
 
             const userDoc = await getDoc(doc(db, "users", otherUser));
-            reciverid = userDoc.id;
+            let reciverid = userDoc.id;
 	    console.log(reciverid);
             const userData = userDoc.data();
 
@@ -1352,7 +1352,7 @@ async function loadContacts() {
                 let statusEl;
 
                 const chatHeader = document.getElementById("chatHeader");
-                chatHeader.setAttribute('ReciverId', reciverid);
+                chatHeader.setAttribute('reciverid', reciverid);
 		
 		// remove previous listener
 		if (currentStatusUnsub) currentStatusUnsub();
@@ -1543,9 +1543,7 @@ function displayMessages(messages) {
           deleteFile(filename, filetype, fileurl, id);
       }
   });
-    setTimeout(() => {
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    }, 0);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
 document.getElementById('sendButton').addEventListener('click', sendMessage);
@@ -1618,7 +1616,7 @@ searchModalInput.addEventListener('input', () => {
                     const dp = userSnap.exists() ? userSnap.data()?.photoURL : null;
 
                     const chatHeader = document.getElementById('chatHeader');
-		    chatHeader.setAttribute('ReciverId', uid);
+		    chatHeader.setAttribute('reciverid', uid);
                     chatHeader.innerHTML = `
                         <button class="back-button" id="backButton">
                             <i class="fas fa-arrow-left"></i>
