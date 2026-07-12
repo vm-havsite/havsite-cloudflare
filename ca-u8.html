@@ -1269,7 +1269,7 @@ async function sendMessage() {
 	}
 	
 	try{
-          await setDoc(doc(contactRef), {
+          await setDoc(doc(db, `chats/${chatId}`), {
 	      participants: [userId, reciver],
               lastMessage: contactMsg,
               lastTime: serverTimestamp()
