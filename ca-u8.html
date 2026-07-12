@@ -1257,7 +1257,7 @@ async function sendMessage() {
         const chatId = getChatId(userId, reciver);
 	const contactRef = doc(db, `chats/${chatId}`)
         await addDoc(collection(db, `chats/${chatId}/messages`), {
-            sender: UserId,
+            sender: userId,
             receiver: reciver,
             message: message,
             timestamp: serverTimestamp()
