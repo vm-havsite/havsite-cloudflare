@@ -1268,16 +1268,13 @@ async function sendMessage() {
 	  console.error('msg:', err.stack);
 	}
 	
-	try{
-          await setDoc(doc(db, `chats/${chatId}`), {
-	      participants: [userId, reciver],
-              lastMessage: contactMsg,
-              lastTime: serverTimestamp()
-          },  { merge: true });
-	}
-	catch(err){
-	  console.error('meta:', err.stack);
-	}
+	console.log(b'before meta')
+        await setDoc(doc(db, `chats/${chatId}`), {
+	    participants: [userId, reciver],
+            lastMessage: contactMsg,
+            lastTime: serverTimestamp()
+        },  { merge: true });
+	console.log('after meta')
         messageInput.value = '';
     }
 }
