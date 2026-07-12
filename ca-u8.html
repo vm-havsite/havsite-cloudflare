@@ -1268,16 +1268,21 @@ async function sendMessage() {
 	  console.error('msg:', err.stack);
 	}
 	
-	const snap = await getDoc(contactRef);
-	console.log("Exists:", snap.exists());
-	console.log("Data:", snap.data());
-	console.log('before meta')
-        await setDoc(doc(db, `chats/${chatId}`), {
-	    participants: [userId, reciver],
-            lastMessage: contactMsg,
-            lastTime: serverTimestamp()
-        },  { merge: true });
-	console.log('after meta')
+
+	try{
+	  const snap = await getDoc(contactRef);
+	  console.log("Exists:", snap.exists());
+	  console.log("Data:", snap.data());
+	  console.log('before meta')
+          await setDoc(doc(db, `chats/${chatId}`), {
+	      participants: [userId, reciver],
+              lastMessage: contactMsg,
+              lastTime: serverTimestamp()
+          },  { merge: true });
+	}
+	catch(err){
+	  console.error('meta:', err.stack);
+	}
         messageInput.value = '';
     }
 }
