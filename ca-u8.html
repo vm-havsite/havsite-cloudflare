@@ -1265,7 +1265,7 @@ async function sendMessage() {
           });
 	}
 	catch(err){
-	  console.error('msg:', err);
+	  console.error('msg:', err.stack);
 	}
 	
 	try{
@@ -1276,7 +1276,7 @@ async function sendMessage() {
           },  { merge: true });
 	}
 	catch(err){
-	  console.error('meta:', err);
+	  console.error('meta:', err.stack);
 	}
         messageInput.value = '';
     }
