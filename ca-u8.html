@@ -1254,15 +1254,15 @@ async function sendMessage() {
       contactMsg = message;
     }
     if (message && currentChat) {
-        const chatId = getChatId(username, currentChat);
+        const chatId = getChatId(UserId, reciver);
 	const contactRef = doc(db, `chats/${chatId}`)
         await addDoc(collection(db, `chats/${chatId}/messages`), {
-            sender: username,
-            receiver: currentChat,
+            sender: UserId,
+            receiver: reciver,
             message: message,
             timestamp: serverTimestamp()
         });
-
+	
         await setDoc(contactRef, {
 	    participants: [userId, reciver],
             lastMessage: contactMsg,
