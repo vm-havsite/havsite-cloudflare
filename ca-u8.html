@@ -1267,12 +1267,13 @@ async function sendMessage() {
 	catch(err){
 	  console.error('msg:', err.stack);
 	}
-	
 
 	try{
-	  let snap = await getDoc(contactRef);
-	  console.log("Exists:", snap.exists());
-	  console.log("Data:", snap.data());
+          await setDoc(doc(db, `chats/${chatId}`), {
+	      participants: [userId, reciver],
+              lastMessage: contactMsg,
+              lastTime: serverTimestamp()
+          },  { merge: true });
 	}
 	catch(err){
 	  console.error('meta:', err.stack);
