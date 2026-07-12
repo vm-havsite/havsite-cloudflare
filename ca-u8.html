@@ -1268,6 +1268,9 @@ async function sendMessage() {
 	  console.error('msg:', err.stack);
 	}
 	
+	const snap = await getDoc(contactRef);
+	console.log("Exists:", snap.exists());
+	console.log("Data:", snap.data());
 	console.log(b'before meta')
         await setDoc(doc(db, `chats/${chatId}`), {
 	    participants: [userId, reciver],
