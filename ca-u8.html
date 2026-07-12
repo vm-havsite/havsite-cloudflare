@@ -1273,6 +1273,7 @@ async function sendMessage() {
 	  let snap = await getDoc(contactRef);
 	  console.log("Exists:", snap.exists());
 	  console.log("Data:", snap.data());
+	}
 	catch(err){
 	  console.error('meta:', err.stack);
 	}
