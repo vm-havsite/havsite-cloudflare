@@ -1256,18 +1256,28 @@ async function sendMessage() {
     if (message && currentChat) {
         const chatId = getChatId(userId, reciver);
 	const contactRef = doc(db, `chats/${chatId}`)
-        await addDoc(collection(db, `chats/${chatId}/messages`), {
-            sender: userId,
-            receiver: reciver,
-            message: message,
-            timestamp: serverTimestamp()
-        });
+	try{
+          await addDoc(collection(db, `chats/${chatId}/messages`), {
+              sender: userId,
+              receiver: reciver,
+              message: message,
+              timestamp: serverTimestamp()
+          });
+	}
+	catch(err){
+	  console.error('msg:', err);
+	}
 	
-        await setDoc(contactRef, {
-	    participants: [userId, reciver],
-            lastMessage: contactMsg,
-            lastTime: serverTimestamp()
-        },  { merge: true });
+	try{
+          await setDoc(contactRef, {
+	      participants: [userId, reciver],
+              lastMessage: contactMsg,
+              lastTime: serverTimestamp()
+          },  { merge: true });
+	}
+	catch(err){
+	  console.error('meta:', err);
+	}
         messageInput.value = '';
     }
 }
