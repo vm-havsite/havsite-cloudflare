@@ -1434,7 +1434,7 @@ async function loadContacts() {
 
 function listenForMessages() {
     let reciver = document.getElementById('chatHeader').getAttribute('reciverid');
-    const chatId = getChatId(userId, reciverid);
+    const chatId = getChatId(userId, reciver);
     const messagesRef = collection(db, `chats/${chatId}/messages`);
     const q = query(
       messagesRef, 
