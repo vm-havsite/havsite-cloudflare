@@ -1462,7 +1462,7 @@ function displayMessages(messages) {
     const chatWindow = document.getElementById('chatWindow');
     chatWindow.innerHTML = messages
         .map(m => {
-            const isSent = m.sender === username;
+            const isSent = m.sender === userId;
             const wrapperClass = isSent ? 'sent' : 'received';
             const time = m.timestamp ? new Date(m.timestamp.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
             
