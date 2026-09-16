@@ -1247,7 +1247,8 @@ async function sendMessage() {
     console.log(reciver)
     let contactMsg;
     if (message.length > 12){
-      const ending = "...";
+      const ending = "..."; 
+      const limit = 12;
       contactMsg = message.slice(0, limit - ending.length) + ending;
     }
     else{
