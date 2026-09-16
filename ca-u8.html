@@ -1278,6 +1278,8 @@ async function sendMessage() {
 	catch(err){
 	  console.error('meta:', err.stack);
 	}
+
+	document.getElementById(reciver).textContent = contactMsg;
         messageInput.value = '';
     }
 }
@@ -1347,6 +1349,7 @@ async function loadContacts() {
 
             const contactStatus = document.createElement("div");
             contactStatus.classList.add("contact-status");
+	    contactStatus.id = reciverid;
             contactStatus.textContent = lastMsg;
 
             contactInfo.appendChild(contactName);
