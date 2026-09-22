@@ -7,7 +7,7 @@ let userStatusRef = "";
 async function setpresence(userId){
   console.log("userId:", userId);
   console.log("rtdb:", rtdb);
-  const userStatusRef = ref(rtdb, "status/" + userId);
+  userStatusRef = ref(rtdb, "status/" + userId);
   const connectedRef = ref(rtdb, ".info/connected");
 
   onValue(connectedRef, async (snapshot) => {
