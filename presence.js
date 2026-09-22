@@ -27,12 +27,24 @@ async function setpresence(userId){
   });
 }
 
-async function setCurrentRoom(roomId) {
-  if (!userStatusRef) return;
+export async function setCurrentRoom(roomId) {
+    console.log("setCurrentRoom called:", roomId);
+    console.log("userStatusRef:", userStatusRef);
 
-  await update(userStatusRef, {
-    currentRoom: roomId
-  });
+    if (!userStatusRef) {
+        console.error("userStatusRef is not initialized!");
+        return;
+    }
+
+    try {
+        await update(userStatusRef, {
+            currentRoom: roomId
+        });
+
+        console.log("currentRoom updated:", roomId);
+    } catch (error) {
+        console.error("Failed to update currentRoom:", error);
+    }
 }
 
 function listenToUserStatus(otherUserId, callback) {
