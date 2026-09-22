@@ -1138,7 +1138,7 @@ window.downloadFile = downloadFile;
 
 <script type="module">
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp, deleteDoc, increment } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
 import { setpresence, listenToUserStatus, setCurrentRoom } from './presence.js'
 import { uploadFile } from './uploadFile.js'
@@ -1254,6 +1254,9 @@ async function sendMessage() {
     else{
       contactMsg = message;
     }
+
+    const counterToUpdate = reciver + "_unreadCounter"
+
     if (message && currentChat) {
         const chatId = getChatId(userId, reciver);
 	try{
@@ -1268,16 +1271,33 @@ async function sendMessage() {
 	  console.error('msg:', err.stack);
 	}
 
-	try{
-          await setDoc(doc(db, `chats/${chatId}`), {
-	      participants: [userId, reciver],
-              lastMessage: contactMsg,
-              lastTime: serverTimestamp()
-          },  { merge: true });
-	}
-	catch(err){
-	  console.error('meta:', err.stack);
-	}
+        listenToUserStatus(otherUserId, (status) => {
+            if (status?.currentRoom === roomId) {
+	        try{
+                  await setDoc(doc(db, `chats/${chatId}`), {
+	              participants: [userId, reciver],
+                      lastMessage: contactMsg,
+                      lastTime: serverTimestamp(),
+		      [counterToUpdate]: 0
+                  },  { merge: true });
+ 	        }
+	        catch(err){
+	          console.error('meta:', err.stack);
+	        }
+            } else {
+	        try{
+                  await setDoc(doc(db, `chats/${chatId}`), {
+	              participants: [userId, reciver],
+                      lastMessage: contactMsg,
+                      lastTime: serverTimestamp(),
+		      [counterToUpdate]: increment(1)
+                  },  { merge: true });
+   	        }
+	        catch(err){
+	          console.error('meta:', err.stack);
+	        }
+            }
+        });
 
 	document.getElementById(reciver).textContent = contactMsg;
 
