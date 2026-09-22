@@ -1,7 +1,8 @@
 import { onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { getDatabase, ref, onValue, set, off, onDisconnect } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 import { app, db } from './firebase_auth.js';
-const rtdb = getDatabase(app)
+const rtdb = getDatabase(app);
+let userStatusRef = "";
 
 async function setpresence(userId){
   console.log("userId:", userId);
@@ -14,13 +15,23 @@ async function setpresence(userId){
 
     await onDisconnect(userStatusRef).set({
       state: "offline",
+      currentRoom: null,
       last_changed: Date.now()
     });
 
     await set(userStatusRef, {
       state: "online",
+      currentRoom: null,
       last_changed: Date.now()
     });
+  });
+}
+
+async function setCurrentRoom(roomId) {
+  if (!userStatusRef) return;
+
+  await update(userStatusRef, {
+    currentRoom: roomId
   });
 }
 
@@ -34,4 +45,4 @@ function listenToUserStatus(otherUserId, callback) {
   return unsubscribe; 
 }
 
-export { setpresence, listenToUserStatus };
+export { setpresence, listenToUserStatus, setCurrentRoom };

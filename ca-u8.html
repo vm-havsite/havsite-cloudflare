@@ -1140,7 +1140,7 @@ window.downloadFile = downloadFile;
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
-import { setpresence, listenToUserStatus } from './presence.js'
+import { setpresence, listenToUserStatus, setCurrentRoom } from './presence.js'
 import { uploadFile } from './uploadFile.js'
 const auth = getAuth(app);
 
@@ -1386,6 +1386,9 @@ async function loadContacts() {
 		  }
 		});
 
+		const chatId = getChatId(userId, reciverid);
+		setCurrentRoom(chatId);
+
                 if (!dp) {
                   chatHeader.innerHTML = `
                       <button class="back-button" id="backButton">
@@ -1415,6 +1418,7 @@ async function loadContacts() {
                 document.getElementById('backButton')?.addEventListener('click', () => {
                     document.getElementById('chatPanel').classList.remove('mobile-active');
                     document.getElementById('contactsPanel').classList.add('mobile-active');
+		    setCurrentRoom(null);
                 });
 
                 document.querySelectorAll('.contact-item').forEach(
