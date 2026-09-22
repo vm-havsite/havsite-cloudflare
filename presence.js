@@ -1,5 +1,5 @@
 import { onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
-import { getDatabase, ref, onValue, set, off, onDisconnect } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+import { getDatabase, ref, onValue, set, off, onDisconnect, update } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 import { app, db } from './firebase_auth.js';
 const rtdb = getDatabase(app);
 let userStatusRef = "";
