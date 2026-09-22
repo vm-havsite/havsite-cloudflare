@@ -27,7 +27,7 @@ async function setpresence(userId){
   });
 }
 
-export async function setCurrentRoom(roomId) {
+async function setCurrentRoom(roomId) {
     console.log("setCurrentRoom called:", roomId);
     console.log("userStatusRef:", userStatusRef);
 
