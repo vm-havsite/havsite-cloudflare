@@ -15,13 +15,13 @@ async function setpresence(userId){
 
     await onDisconnect(userStatusRef).set({
       state: "offline",
-      currentRoom: null,
+      currentRoom: "none",
       last_changed: Date.now()
     });
 
     await set(userStatusRef, {
       state: "online",
-      currentRoom: null,
+      currentRoom: "none",
       last_changed: Date.now()
     });
   });

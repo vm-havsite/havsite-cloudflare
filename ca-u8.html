@@ -1418,7 +1418,7 @@ async function loadContacts() {
                 document.getElementById('backButton')?.addEventListener('click', () => {
                     document.getElementById('chatPanel').classList.remove('mobile-active');
                     document.getElementById('contactsPanel').classList.add('mobile-active');
-		    setCurrentRoom(null);
+		    setCurrentRoom("none");
                 });
 
                 document.querySelectorAll('.contact-item').forEach(
