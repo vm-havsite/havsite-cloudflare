@@ -1,4 +1,5 @@
 import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import { db } from './firebase_auth.js';
 
 async function setUnreadCounterToZero(chatId, counterToUpdate){
   try{
