@@ -1142,6 +1142,7 @@ import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, updateD
 import { app, db } from './firebase_auth.js';
 import { setpresence, listenToUserStatus, setCurrentRoom } from './presence.js'
 import { uploadFile } from './uploadFile.js'
+import { setUnreadCounterToZero } from './setUnreadCounterToZero.js'
 const auth = getAuth(app);
 
 
@@ -1410,16 +1411,7 @@ async function loadContacts() {
 		const chatId = getChatId(userId, reciverid);
 		setCurrentRoom(chatId);
 		const counterToUpdate = userId + "_unreadCounter"
-
-
-	        try{
-                  await setDoc(doc(db, `chats/${chatId}`), {
-		      [counterToUpdate]: 0
-                  },  { merge: true });
- 	        }
-	        catch(err){
-	          console.error('meta:', err.stack);
-	        }
+		setUnreadCounterToZero(chatId, counterToUpdate)
 
                 if (!dp) {
                   chatHeader.innerHTML = `
