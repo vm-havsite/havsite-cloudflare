@@ -1246,6 +1246,7 @@ async function sendMessage() {
     let reciver = document.getElementById('chatHeader').getAttribute('reciverid');
     console.log(reciver)
     let contactMsg;
+    let chatId;
     if (message.length > 12){
       const ending = "..."; 
       const limit = 12;
@@ -1258,7 +1259,7 @@ async function sendMessage() {
     const counterToUpdate = reciver + "_unreadCounter"
 
     if (message && currentChat) {
-        const chatId = getChatId(userId, reciver);
+        chatId = getChatId(userId, reciver);
 	try{
           await addDoc(collection(db, `chats/${chatId}/messages`), {
               sender: userId,
@@ -1272,7 +1273,7 @@ async function sendMessage() {
 	}
 
         listenToUserStatus(reciver, async (status) => {
-            if (status?.currentRoom === roomId) {
+            if (status?.currentRoom === chatId) {
 	        try{
                   await setDoc(doc(db, `chats/${chatId}`), {
 	              participants: [userId, reciver],
