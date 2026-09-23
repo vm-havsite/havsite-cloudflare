@@ -1409,6 +1409,17 @@ async function loadContacts() {
 
 		const chatId = getChatId(userId, reciverid);
 		setCurrentRoom(chatId);
+		const counterToUpdate = userId + "_unreadCounter"
+
+
+	        try{
+                  await setDoc(doc(db, `chats/${chatId}`), {
+		      [counterToUpdate]: 0
+                  },  { merge: true });
+ 	        }
+	        catch(err){
+	          console.error('meta:', err.stack);
+	        }
 
                 if (!dp) {
                   chatHeader.innerHTML = `
