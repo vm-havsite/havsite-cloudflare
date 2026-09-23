@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="html-root">
 <head>
     <title>HavChat</title>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=send" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Theme Variables */
+        /* ── Light mode (default) ── */
         :root {
             --primary-gradient: linear-gradient(45deg, #6a11cb, #2575fc);
             --secondary-gradient: linear-gradient(to right, #3494e6, #ec6ead);
@@ -19,13 +19,42 @@
             --bg-color: #f0f2f5;
             --text-color: #333;
             --card-bg: #ffffff;
-            --chat-bg: #e5ddd5;
-            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-            --border-radius: 12px;
-            --transition-speed: 0.3s;
             --contact-hover: #f5f5f5;
             --message-sent: #DCF8C6;
             --message-received: #ffffff;
+            --panel-bg: #ffffff;
+            --panel-header-bg: #f0f2f5;
+            --panel-border: #e9edef;
+            --search-bg: #f0f2f5;
+            --input-bar-bg: #f0f2f5;
+            --input-bg: #ffffff;
+            --contact-active: #f0f2f5;
+            --status-text: #667781;
+            --chat-bg-color: #e5ddd5;
+            --chat-pattern: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23e5ddd5" width="100" height="100"/><path d="M0 0L50 50M50 0L0 50M50 50L100 100M100 50L50 100" stroke="%23d1d7db" stroke-width="0.5" opacity="0.3"/></svg>');
+            --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --transition-speed: 0.3s;
+        }
+
+        /* ── Dark mode overrides ── */
+        #html-root.dark-mode {
+            --bg-color: #111b21;
+            --text-color: #e9edef;
+            --card-bg: #202c33;
+            --contact-hover: #2a3942;
+            --message-sent: #005c4b;
+            --message-received: #202c33;
+            --panel-bg: #202c33;
+            --panel-header-bg: #202c33;
+            --panel-border: #2a3942;
+            --search-bg: #2a3942;
+            --input-bar-bg: #202c33;
+            --input-bg: #2a3942;
+            --contact-active: #2a3942;
+            --status-text: #8696a0;
+            --chat-bg-color: #0b141a;
+            --chat-pattern: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%230b141a" width="100" height="100"/><path d="M0 0L50 50M50 0L0 50M50 50L100 100M100 50L50 100" stroke="%23182229" stroke-width="0.5" opacity="0.4"/></svg>');
         }
 
         @font-face {
@@ -52,6 +81,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             overflow: hidden;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         .header {
@@ -103,26 +133,29 @@
             margin: 0 auto;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color var(--transition-speed);
         }
 
         .contacts {
             width: 35%;
-            background: white;
-            border-right: 1px solid #e9edef;
+            background: var(--panel-bg);
+            border-right: 1px solid var(--panel-border);
             display: flex;
             flex-direction: column;
+            transition: background-color var(--transition-speed);
         }
 
         .contacts-header {
             padding: 15px 20px;
-            background: #f0f2f5;
+            background: var(--panel-header-bg);
             color: var(--text-color);
             font-weight: 600;
             font-size: 1.1em;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #e9edef;
+            border-bottom: 1px solid var(--panel-border);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         .contacts-header-left {
@@ -133,25 +166,31 @@
 
         .contacts-search {
             padding: 10px 15px;
-            background: white;
-            border-bottom: 1px solid #e9edef;
+            background: var(--panel-bg);
+            border-bottom: 1px solid var(--panel-border);
+            transition: background-color var(--transition-speed);
         }
 
         .contacts-search input {
             width: 100%;
             padding: 10px 15px;
             border: none;
-            background: #f0f2f5;
+            background: var(--search-bg);
             border-radius: 8px;
             outline: none;
             font-family: 'Poppins', sans-serif;
             font-size: 15px;
+            color: var(--text-color);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
+
+        .contacts-search input::placeholder { color: var(--status-text); }
 
         .contacts-list {
             flex: 1;
             overflow-y: auto;
-            background: white;
+            background: var(--panel-bg);
+            transition: background-color var(--transition-speed);
         }
 
         .contact-item {
@@ -159,14 +198,13 @@
             align-items: center;
             padding: 14px 15px;
             cursor: pointer;
-            transition: background-color 0.2s ease;
-            border-bottom: 1px solid #f0f2f5;
+            transition: background-color 0.2s ease, transform 0.2s;
+            border-bottom: 1px solid var(--panel-border);
             position: relative;
-            transition: transform 0.2s;
         }
 
         .contact-item:active {
-            background: #e8e8e8;
+            background: var(--search-bg);
         }
 
         .contact-item:hover {
@@ -175,7 +213,7 @@
         }
 
         .contact-item.active {
-            background: #f0f2f5;
+            background: var(--contact-active);
         }
 
         .contact-avatar {
@@ -219,19 +257,21 @@
 
         .contact-status {
             font-size: 0.85em;
-            color: #667781;
+            color: var(--status-text);
+            transition: color var(--transition-speed);
         }
 
         .chat {
             width: 65%;
             display: flex;
             flex-direction: column;
-            background: white;
+            background: var(--panel-bg);
+            transition: background-color var(--transition-speed);
         }
 
         .chat-header {
             padding: 12px 20px;
-            background: #f0f2f5;
+            background: var(--panel-header-bg);
             color: var(--text-color);
             font-size: 1.1em;
             font-weight: 500;
@@ -239,8 +279,9 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            border-bottom: 1px solid #e9edef;
+            border-bottom: 1px solid var(--panel-border);
             min-height: 60px;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         .chat-header-avatar {
@@ -266,20 +307,22 @@
 
         .chat-header-status {
             font-size: 0.8em;
-            color: #667781;
+            color: var(--status-text);
             margin-top: 2px;
+            transition: color var(--transition-speed);
         }
 
         #chatWindow {
             flex-grow: 1;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23e5ddd5" width="100" height="100"/><path d="M0 0L50 50M50 0L0 50M50 50L100 100M100 50L50 100" stroke="%23d1d7db" stroke-width="0.5" opacity="0.3"/></svg>');
-            background-color: #e5ddd5;
+            background-image: var(--chat-pattern);
+            background-color: var(--chat-bg-color);
             padding: 20px;
             overflow-y: auto;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            transition: background-color var(--transition-speed);
         }
 
         .message-wrapper {
@@ -315,6 +358,7 @@
             box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
             word-wrap: break-word;
             word-break: break-word;
+            transition: background-color var(--transition-speed);
         }
 
         .message-wrapper.sent .message-bubble {
@@ -342,17 +386,18 @@
 
         .message-time {
             font-size: 0.7em;
-            color: #667781;
+            color: var(--status-text);
             text-align: right;
             margin-top: 4px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
             gap: 3px;
+            transition: color var(--transition-speed);
         }
 
         .message-wrapper.sent .message-time {
-            color: #667781;
+            color: var(--status-text);
         }
 
         #chatWindow img {
@@ -366,11 +411,12 @@
         .message-input {
             display: flex;
             padding: 12px 20px;
-            background: #f0f2f5;
-            border-top: 1px solid #e9edef;
+            background: var(--input-bar-bg);
+            border-top: 1px solid var(--panel-border);
             gap: 10px;
             align-items: center;
             min-height: 68px;
+            transition: background-color var(--transition-speed);
         }
 
         #messageInput {
@@ -381,12 +427,15 @@
             outline: none;
             font-family: 'Poppins', Arial, sans-serif;
             font-size: 16px;
-            background: white;
-            transition: all var(--transition-speed) ease;
+            background: var(--input-bg);
+            color: var(--text-color);
+            transition: background-color var(--transition-speed), color var(--transition-speed), box-shadow var(--transition-speed);
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
             max-height: 120px;
             resize: none;
         }
+
+        #messageInput::placeholder { color: var(--status-text); }
 
         #messageInput:focus {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -440,13 +489,15 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: white;
+            background: var(--panel-bg);
+            color: var(--text-color);
             padding: 15px 20px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             display: none;
             z-index: 1000;
             min-width: 200px;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
         }
 
         .upload-progress.show {
@@ -456,7 +507,7 @@
         .progress-bar {
             width: 100%;
             height: 4px;
-            background: #e0e0e0;
+            background: var(--search-bg);
             border-radius: 2px;
             overflow: hidden;
             margin-top: 8px;
@@ -493,7 +544,7 @@
             align-items: center;
             justify-content: center;
             height: 100%;
-            color: #667781;
+            color: var(--status-text);
             text-align: center;
             padding: 100px;
         }
@@ -518,7 +569,7 @@
         .typing-indicator {
             display: none;
             padding: 8px 12px;
-            background: white;
+            background: var(--message-received);
             border-radius: 8px 8px 8px 0;
             width: fit-content;
             box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
@@ -670,7 +721,7 @@
             }
 
             .contact-item {
-                padding: 12px 15px;
+                padding: 12px 14px;
             }
 
             .contact-avatar {
@@ -800,6 +851,176 @@
 	    color: #2575fc;
 	    text-decoration: none;
 	}
+
+        /* ── Search New Users Modal ── */
+        .blur-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            background: rgba(0,0,0,0.35);
+            animation: fadeIn 0.2s ease;
+        }
+        .blur-overlay.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .search-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -60%);
+            z-index: 600;
+            background: var(--panel-bg);
+            border-radius: 16px;
+            width: min(92vw, 420px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            overflow: hidden;
+            animation: slideUp 0.25s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .search-modal.active {
+            display: flex;
+            flex-direction: column;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translate(-50%, -40%); }
+            to   { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        .search-modal-header {
+            padding: 16px 18px 12px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .search-modal-header span {
+            color: white;
+            font-weight: 600;
+            font-size: 1em;
+        }
+        .search-modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            min-height: 28px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+            box-shadow: none;
+        }
+        .search-modal-close:hover {
+            background: rgba(255,255,255,0.35);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .search-modal-input-wrap {
+            padding: 14px 16px 10px;
+            border-bottom: 1px solid var(--panel-border);
+        }
+        .search-modal-input-wrap input {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1.5px solid var(--panel-border);
+            border-radius: 24px;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.2s;
+            background: var(--search-bg);
+            color: var(--text-color);
+        }
+        .search-modal-input-wrap input:focus {
+            border-color: var(--accent-color);
+            background: var(--input-bg);
+        }
+
+        .search-modal-results {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--panel-border);
+            transition: background 0.15s;
+        }
+        .search-result-item:hover { background: var(--contact-hover); }
+        .search-result-item:last-child { border-bottom: none; }
+
+        .search-result-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+            flex-shrink: 0;
+        }
+
+        .search-result-info { flex: 1; min-width: 0; }
+        .search-result-name {
+            font-weight: 500;
+            font-size: 0.95em;
+            color: var(--text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .search-result-score {
+            font-size: 0.75em;
+            color: var(--status-text);
+            margin-top: 1px;
+        }
+
+        .search-modal-empty {
+            padding: 36px 20px;
+            text-align: center;
+            color: var(--status-text);
+            font-size: 0.9em;
+        }
+        .search-modal-empty i { font-size: 2.5em; display: block; margin-bottom: 10px; opacity: 0.4; }
+
+        .search-modal-loading {
+            padding: 28px;
+            text-align: center;
+            color: var(--status-text);
+            font-size: 0.85em;
+        }
+
+	#unreadBadge{
+	    left: 85%;
+	    top: 40%;
+	    height: 10%;
+	    width: 5%;
+	    background: #89f533;
+	    broder-radius: 20%;
+	}
+
     </style>
 </head>
 <body>
@@ -820,7 +1041,7 @@
                 <div class="contacts-header-left">
                     <i class="fas fa-users"></i> Chats
                 </div>
-                <img src="images/new-chat.svg" title="add a contact" height="20px" width="20px">
+                <img src="images/new-chat.svg" title="add a contact" height="20px" width="20px" id="add-contact" style="cursor:pointer;">
             </div>
             <div class="contacts-search">
                 <input type="text" placeholder="Search contacts..." id="contactSearch">
@@ -860,6 +1081,7 @@
         </div>
     </div>
 
+<script src="myscript.js"></script>
 <script>
 const fileBtn = document.getElementById('fileBtn');
 const fileInput = document.getElementById('fileInput');
@@ -925,9 +1147,13 @@ window.downloadFile = downloadFile;
 
 <script type="module">
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js';
-import { getFirestore, doc, getDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs, addDoc, updateDoc, query, where, limit, orderBy, onSnapshot, serverTimestamp, deleteDoc, increment } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 import { app, db } from './firebase_auth.js';
+import { setpresence, listenToUserStatus, setCurrentRoom } from './presence.js'
+import { uploadFile } from './uploadFile.js'
+import { setUnreadCounterToZero } from './setUnreadCounterToZero.js'
 const auth = getAuth(app);
+
 
 // IMPORTANT: Replace with Cloudflare Worker URL
 const WORKER_URL = 'https://cloudinary.vm002248.workers.dev';
@@ -935,6 +1161,9 @@ const WORKER_URL = 'https://cloudinary.vm002248.workers.dev';
 let username = '';
 let currentChat = '';
 let userId = '';
+let currentStatusUnsub = null;
+let listeningtochat = null;
+let stoplisteningtocurrentchat = null;
 
 const ALLOWED_EXTENSIONS = new Set([
   'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'ico', 'tif', 'tiff', // Images
@@ -957,11 +1186,13 @@ onAuthStateChanged(auth, async (user) => {
             username = userDoc.data().username;
 	    userId = user.uid;
             loadContacts();
+	    setpresence(userId);
         }
     } else {
-        window.location.href = "new-auth.html?p=ca-u2.html";
+        window.location.href = "new-auth.html?p=ca-u8.html";
     }
 });
+
 
 async function deleteFile(fileName, resource_type, fileurl, id){
   const filetype = resource_type.split('/')[0];
@@ -1003,90 +1234,14 @@ async function deleteFile(fileName, resource_type, fileurl, id){
 }
 
 
-// File upload handler
-document.getElementById('fileInput').addEventListener('change', async (e) => {
-    const file = e.target.files[0];
+document.getElementById('fileInput').addEventListener('change', uploadFile);
 
-    if (!file || !currentChat) return;
 
-    const fileSizeInBytes = file.size; // The size property returns the file size in bytes
-
-    // 1. Get the extension (everything after the last dot)
-    const fileName = file.name.toLowerCase();
-    const extension = fileName.split('.').pop();
-    // 2. Check Extension
-    const isExtensionValid = ALLOWED_EXTENSIONS.has(extension);
-
-    if (!isExtensionValid) {
-        alert(`File type .${extension} is not supported.`);
-        return;
-    }
-
-    if ( fileSizeInBytes > 26214400 ){
-        alert('File Size is larger than 25MB.')
-      return;
-    }
-
-    try {
-        const uploadProgress = document.getElementById('uploadProgress');
-        const progressFill = document.getElementById('progressFill');
-        uploadProgress.classList.add('show');
-        progressFill.style.width = '30%';
-
-        const user = auth.currentUser;
-        const idToken = await user.getIdToken();
-
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('username', username);
-
-        const response = await fetch(`${WORKER_URL}/upload`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${idToken}`
-            },
-            body: formData
-        });
-
-        progressFill.style.width = '60%';
-
-        if (!response.ok) {
-            throw new Error('Upload failed');
-        }
-
-        const data = await response.json();
-        progressFill.style.width = '80%';
-
-        const chatId = getChatId(username, currentChat);
-	const contactRef = doc(db, `chats/${chatId}`)
-        const contactmsg = `${file.name}`;
-        await addDoc(collection(db, `chats/${chatId}/messages`), {
-            sender: username,
-            receiver: currentChat,
-            fileUrl: data.url,
-            fileName: file.name,
-            fileType: file.type,
-            timestamp: serverTimestamp()
-        });
-        await updateDoc(contactRef, {
-            lastMessage: contactmsg,
-            lastTime: serverTimestamp()
-        });
-
-        progressFill.style.width = '100%';
-        setTimeout(() => {
-            uploadProgress.classList.remove('show');
-            progressFill.style.width = '0%';
-        }, 500);
-
-        e.target.value = '';
-    } catch (error) {
-        console.error('Upload error:', error);
-        alert('Failed to upload file. Please try again.');
-        document.getElementById('uploadProgress').classList.remove('show');
-        document.getElementById('progressFill').style.width = '0%';
-    }
+document.getElementById('fileInput').addEventListener('change', (e) => {
+    //pass 'e' AND your custom variables here
+    uploadFile(e, currentChat, ALLOWED_EXTENSIONS, username, auth, WORKER_URL ); 
 });
+
 
 document.getElementById('messageInput').addEventListener('keydown', function(event) {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -1098,28 +1253,65 @@ document.getElementById('messageInput').addEventListener('keydown', function(eve
 async function sendMessage() {
     const messageInput = document.getElementById('messageInput');
     const message = messageInput.value.trim();
+    let reciver = document.getElementById('chatHeader').getAttribute('reciverid');
+    console.log(reciver)
     let contactMsg;
-    if (message.length > 12){
-      const ending = "...";
+    let chatId;
+    if (message.length > 16){
+      const ending = "..."; 
+      const limit = 16;
       contactMsg = message.slice(0, limit - ending.length) + ending;
     }
     else{
       contactMsg = message;
     }
+
+    const counterToUpdate = reciver + "_unreadCounter"
+
     if (message && currentChat) {
-        const chatId = getChatId(username, currentChat);
-	const contactRef = doc(db, `chats/${chatId}`)
-        await addDoc(collection(db, `chats/${chatId}/messages`), {
-            sender: username,
-            receiver: currentChat,
-            message: message,
-            timestamp: serverTimestamp()
+        chatId = getChatId(userId, reciver);
+	try{
+          await addDoc(collection(db, `chats/${chatId}/messages`), {
+              sender: userId,
+              receiver: reciver,
+              message: message,
+              timestamp: serverTimestamp()
+          });
+	}
+	catch(err){
+	  console.error('msg:', err.stack);
+	}
+
+        listenToUserStatus(reciver, async (status) => {
+            if (status?.currentRoom === chatId) {
+	        try{
+                  await setDoc(doc(db, `chats/${chatId}`), {
+	              participants: [userId, reciver],
+                      lastMessage: contactMsg,
+                      lastTime: serverTimestamp(),
+		      [counterToUpdate]: 0
+                  },  { merge: true });
+ 	        }
+	        catch(err){
+	          console.error('meta:', err.stack);
+	        }
+            } else {
+	        try{
+                  await setDoc(doc(db, `chats/${chatId}`), {
+	              participants: [userId, reciver],
+                      lastMessage: contactMsg,
+                      lastTime: serverTimestamp(),
+		      [counterToUpdate]: increment(1)
+                  },  { merge: true });
+   	        }
+	        catch(err){
+	          console.error('meta:', err.stack);
+	        }
+            }
         });
 
-        await updateDoc(contactRef, {
-            lastMessage: contactMsg,
-            lastTime: serverTimestamp()
-        });
+	document.getElementById(reciver).textContent = contactMsg;
+
         messageInput.value = '';
     }
 }
@@ -1159,10 +1351,18 @@ async function loadContacts() {
             console.log("Other user in chat:", otherUser);
 
             const userDoc = await getDoc(doc(db, "users", otherUser));
+            let reciverid = userDoc.id;
+	    console.log(reciverid);
             const userData = userDoc.data();
 
             let contactDiv = document.createElement("div");
             contactDiv.classList.add("contact-item");
+	    const chatId = getChatId(userId, reciverid);
+	    contactDiv.setAttribute('chatId', chatId);
+
+            const unreadBadge = document.createElement("div");
+            unreadBadge.classList.add("noUnreadMessages");
+	    unreadBadge.id = "unreadBadge";
 
             let avatar;
             let dp = userData?.photoURL;
@@ -1187,6 +1387,7 @@ async function loadContacts() {
 
             const contactStatus = document.createElement("div");
             contactStatus.classList.add("contact-status");
+	    contactStatus.id = reciverid;
             contactStatus.textContent = lastMsg;
 
             contactInfo.appendChild(contactName);
@@ -1198,8 +1399,34 @@ async function loadContacts() {
             contactDiv.addEventListener("click", () => {
 
                 currentChat = userData.username;
+                if (listeningtochat) stoplisteningtocurrentchat();
+                let statusEl;
 
                 const chatHeader = document.getElementById("chatHeader");
+                chatHeader.setAttribute('reciverid', reciverid);
+		
+		// remove previous listener
+		if (currentStatusUnsub) currentStatusUnsub();
+
+		currentStatusUnsub = listenToUserStatus(otherUser, (data) => {
+		  const statusEl = document.querySelector(".chat-header-status");
+
+		  if (!statusEl || !data) return;
+
+		  if (data.state === "online") {
+		    statusEl.textContent = "online";
+		  } else if (data.state === "idle") {
+		    statusEl.textContent = "idle";
+		  } else {
+		    const lastSeen = data.last_changed;
+		    statusEl.textContent = "last seen " + new Date(lastSeen).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+		  }
+		});
+
+		const chatId = getChatId(userId, reciverid);
+		setCurrentRoom(chatId);
+		const counterToUpdate = userId + "_unreadCounter"
+		setUnreadCounterToZero(chatId, counterToUpdate)
 
                 if (!dp) {
                   chatHeader.innerHTML = `
@@ -1209,7 +1436,7 @@ async function loadContacts() {
                       <div class="chat-header-avatar">${userData.username.charAt(0).toUpperCase()}</div>
                       <div class="chat-header-info">
                           <div class="chat-header-name">${userData.username}</div>
-                          <div class="chat-header-status">online</div>
+                          <div class="chat-header-status">...</div>
                       </div>
                   `;
                 }
@@ -1221,7 +1448,7 @@ async function loadContacts() {
                       <img src=${dp} class="chat-header-avatar">
                       <div class="chat-header-info">
                           <div class="chat-header-name">${userData.username}</div>
-                          <div class="chat-header-status">online</div>
+                          <div class="chat-header-status">...</div>
                       </div>
                   `;
                 }
@@ -1230,6 +1457,7 @@ async function loadContacts() {
                 document.getElementById('backButton')?.addEventListener('click', () => {
                     document.getElementById('chatPanel').classList.remove('mobile-active');
                     document.getElementById('contactsPanel').classList.add('mobile-active');
+		    setCurrentRoom("none");
                 });
 
                 document.querySelectorAll('.contact-item').forEach(
@@ -1243,7 +1471,7 @@ async function loadContacts() {
                     document.getElementById('chatPanel').classList.add('mobile-active');
                 }
 
-                listenForMessages();
+                stoplisteningtocurrentchat = listenForMessages();
 
             });
 
@@ -1253,23 +1481,36 @@ async function loadContacts() {
 }
 
 function listenForMessages() {
-    const chatId = getChatId(username, currentChat);
+    let reciver = document.getElementById('chatHeader').getAttribute('reciverid');
+    const chatId = getChatId(userId, reciver);
     const messagesRef = collection(db, `chats/${chatId}/messages`);
-    const q = query(messagesRef, orderBy('timestamp'));
-    onSnapshot(q, (snapshot) => {
-    const messages = snapshot.docs.map(doc => ({
-        id: doc.id, 
-        ...doc.data()
-    }));
-        displayMessages(messages);
+    const q = query(
+      messagesRef, 
+      orderBy("timestamp", "desc"), 
+      limit(20)
+    );
+    
+    // onSnapshot takes the query AND a callback function
+    const stoplisteningtochat = onSnapshot(q, (snapshot) => {
+      const messages = snapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .reverse(); 
+
+      listeningtochat = 'true';
+      displayMessages(messages);
+    }, (error) => {
+      console.error("Listening failed:", error);
     });
+
+    // Return this to stop the listener
+    return stoplisteningtochat;
 }
 
 function displayMessages(messages) {
     const chatWindow = document.getElementById('chatWindow');
     chatWindow.innerHTML = messages
         .map(m => {
-            const isSent = m.sender === username;
+            const isSent = m.sender === userId;
             const wrapperClass = isSent ? 'sent' : 'received';
             const time = m.timestamp ? new Date(m.timestamp.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
             
@@ -1278,7 +1519,7 @@ function displayMessages(messages) {
                 const fileName = m.fileName || 'File';
 
                 if (fileType.startsWith('image/')) {
-					if(m.sender === username){
+					if(m.sender === userId){
                       return `
                           <div class="message-wrapper ${wrapperClass}" id="${m.id}">
                               <div class="message-bubble">
@@ -1360,15 +1601,185 @@ function displayMessages(messages) {
           deleteFile(filename, filetype, fileurl, id);
       }
   });
-    chatWindow.scrollTop = chatWindow.scrollHeight;
+    requestAnimationFrame(() => {
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+    });
 }
 
 document.getElementById('sendButton').addEventListener('click', sendMessage);
 
+
+// ── Search modal: fuzzy search + chat open (needs module scope) ─────────────
+const USER_INDEX_URL = 'https://havsite-user-search.vm002248.workers.dev/';
+const searchModalInput   = document.getElementById('searchModalInput');
+const searchModalResults = document.getElementById('searchModalResults');
+
+let searchDebounce = null;
+let finalResults = '';
+
+searchModalInput.addEventListener('input', () => {
+    const q = searchModalInput.value.trim();
+    clearTimeout(searchDebounce);
+
+    if (!q) {
+        searchModalResults.innerHTML = `
+            <div class="search-modal-empty">
+                <i class="fas fa-search"></i>
+                Start typing to find users
+            </div>`;
+        return;
+    }
+
+    searchModalResults.innerHTML = `<div class="search-modal-loading"><i class="fas fa-spinner fa-spin"></i> Searching…</div>`;
+
+    searchDebounce = setTimeout(async () => {
+        try {
+            const res  = await fetch(`${USER_INDEX_URL}/?mode=fuzzy&username=${encodeURIComponent(q)}`);
+            const data = await res.json();
+
+            if (!data.results || data.results.length === 0) {
+                searchModalResults.innerHTML = `
+                    <div class="search-modal-empty">
+                        <i class="fas fa-user-slash"></i>
+                        No users found for "<strong>${q}</strong>"
+                    </div>`;
+                return;
+            }
+
+	    finalResults = data.results.filter(user => user.uid !== userId);
+
+            searchModalResults.innerHTML = finalResults.map(user => `
+                <div class="search-result-item" data-username="${user.username}" data-uid="${user.uid}">
+                    <div class="search-result-avatar">${user.username.charAt(0).toUpperCase()}</div>
+                    <div class="search-result-info">
+                        <div class="search-result-name">${user.username}</div>
+                        <div class="search-result-score">Match: ${(user.score * 100).toFixed(0)}%</div>
+                    </div>
+                    <i class="fas fa-comment" style="color: var(--accent-color); opacity: 0.6; font-size: 0.9em;"></i>
+                </div>
+            `).join('');
+
+            searchModalResults.querySelectorAll('.search-result-item').forEach(item => {
+                item.addEventListener('click', async () => {
+                    const uname = item.dataset.username;
+                    const uid   = item.dataset.uid;
+
+                    window._closeSearchModal();
+
+                    if (listeningtochat) stoplisteningtocurrentchat();
+                    if (currentStatusUnsub) currentStatusUnsub();
+
+                    currentChat = uname;
+
+                    // Fetch photoURL from Firestore using uid from search result
+                    const userSnap = await getDoc(doc(db, 'users', uid));
+                    const dp = userSnap.exists() ? userSnap.data()?.photoURL : null;
+
+                    const chatHeader = document.getElementById('chatHeader');
+		    chatHeader.setAttribute('reciverid', uid);
+                    chatHeader.innerHTML = `
+                        <button class="back-button" id="backButton">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        ${dp ? `<img src="${dp}" class="chat-header-avatar">` : `<div class="chat-header-avatar">${uname.charAt(0).toUpperCase()}</div>`}
+                        <div class="chat-header-info">
+                            <div class="chat-header-name">${uname}</div>
+                            <div class="chat-header-status">...</div>
+                        </div>
+                    `;
+
+                    document.getElementById('backButton')?.addEventListener('click', () => {
+                        document.getElementById('chatPanel').classList.remove('mobile-active');
+                        document.getElementById('contactsPanel').classList.add('mobile-active');
+                    });
+
+                    currentStatusUnsub = listenToUserStatus(uid, (statusData) => {
+                        const statusEl = document.querySelector('.chat-header-status');
+                        if (!statusEl || !statusData) return;
+                        if (statusData.state === 'online') statusEl.textContent = 'online';
+                        else if (statusData.state === 'idle') statusEl.textContent = 'idle';
+                        else statusEl.textContent = 'last seen ' + new Date(statusData.last_changed).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    });
+
+                    document.querySelectorAll('.contact-item').forEach(i => i.classList.remove('active'));
+
+                    if (window.innerWidth <= 768) {
+                        document.getElementById('contactsPanel').classList.remove('mobile-active');
+                        document.getElementById('chatPanel').classList.add('mobile-active');
+                    }
+
+                    stoplisteningtocurrentchat = listenForMessages();
+                });
+            });
+
+        } catch (err) {
+            console.log(err)
+            searchModalResults.innerHTML = `
+                <div class="search-modal-empty">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Search failed — check worker URL
+                </div>`;
+        }
+    }, 350);
+});
+
 function getChatId(user1, user2) {
     return [user1, user2].sort().join('_');
 }
+
+
+// ── Search New Users Modal (open/close only) ────────────────────────────────
+const addContactBtn    = document.getElementById('add-contact');
+const searchOverlay    = document.getElementById('searchOverlay');
+const searchModal      = document.getElementById('searchModal');
+const searchModalClose = document.getElementById('searchModalClose');
+
+function openSearchModal() {
+    searchOverlay.classList.add('active');
+    searchModal.classList.add('active');
+    setTimeout(() => document.getElementById('searchModalInput').focus(), 100);
+}
+
+function closeSearchModal() {
+    searchOverlay.classList.remove('active');
+    searchModal.classList.remove('active');
+    document.getElementById('searchModalInput').value = '';
+    document.getElementById('searchModalResults').innerHTML = `
+        <div class="search-modal-empty">
+            <i class="fas fa-search"></i>
+            Start typing to find users
+        </div>`;
+}
+
+// expose so module script can call closeSearchModal too
+window._closeSearchModal = closeSearchModal;
+
+addContactBtn.addEventListener('click', openSearchModal);
+searchOverlay.addEventListener('click', closeSearchModal);
+searchModalClose.addEventListener('click', closeSearchModal);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSearchModal(); });
+
 </script>
+
+    <!-- Blur overlay -->
+    <div class="blur-overlay" id="searchOverlay"></div>
+
+    <!-- Search new users modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-header">
+            <span><i class="fas fa-user-plus" style="margin-right:8px;"></i>Search Users</span>
+            <button class="search-modal-close" id="searchModalClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="search-modal-input-wrap">
+            <input type="text" id="searchModalInput" placeholder="Type a username to search…" autocomplete="off">
+        </div>
+        <div class="search-modal-results" id="searchModalResults">
+            <div class="search-modal-empty">
+                <i class="fas fa-search"></i>
+                Start typing to find users
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
-            
