@@ -1271,7 +1271,7 @@ async function sendMessage() {
 	  console.error('msg:', err.stack);
 	}
 
-        listenToUserStatus(otherUserId, async (status) => {
+        listenToUserStatus(reciver, async (status) => {
             if (status?.currentRoom === roomId) {
 	        try{
                   await setDoc(doc(db, `chats/${chatId}`), {
