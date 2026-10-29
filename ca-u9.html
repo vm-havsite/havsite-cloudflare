@@ -1015,13 +1015,16 @@
 	#unreadBadge{
 	    left: 85%;
 	    top: 40%;
-	    height: 4vh;
-	    width: 4vh;
+	    height: clamp(20px, 3.7vh, 28px);
+	    width: clamp(20px, 3.7vh, 28px);
 	    background: #17c70a;
 	    border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    font-size: clamp(10px, 1.5vh, 14px);
+	    font-weight: bold;
+	    color: #111111;
 	}
 
     </style>
