@@ -1,3 +1,6 @@
+import { doc, getDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import { db } from './firebase_auth.js';
+
 function UpdateUnreadMsgBadge(unreadBadge, counterToRead){
 
   const parentDocRef = doc(db, `chats/${chatId}/unreadMsgCounters/{counterToRead}`);
