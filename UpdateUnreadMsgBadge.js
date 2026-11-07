@@ -10,5 +10,4 @@ function UpdateUnreadMsgBadge(unreadBadge, counterToRead){
   });
 }
 
-
-	
+export { UpdateUnreadMsgBadge };
