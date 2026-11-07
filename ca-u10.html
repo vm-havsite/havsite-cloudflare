@@ -1371,7 +1371,7 @@ async function loadContacts() {
             unreadBadge.classList.add("noUnreadMessages");
 	    unreadBadge.id = "unreadBadge";
 	    const counterToRead = userId + "_unreadCounter";
-	    UpdateUnreadMsgBadge(unreadBadge, counterToRead);
+	    UpdateUnreadMsgBadge(unreadBadge, counterToRead, chatId);
 
             let avatar;
             let dp = userData?.photoURL;
