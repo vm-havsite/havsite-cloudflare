@@ -3,7 +3,7 @@ import { db } from './firebase_auth.js';
 
 function UpdateUnreadMsgBadge(unreadBadge, counterToRead, chatId){
 
-  const parentDocRef = doc(db, `chats/${chatId}/unreadMsgCounters/{counterToRead}`);
+  const parentDocRef = doc(db, `chats/${chatId}/unreadMsgCounters/${counterToRead}`);
 
   const unsubscribe = onSnapshot(parentDocRef, (docSnap) => {
     if (docSnap.exists()) {

@@ -1298,7 +1298,7 @@ async function sendMessage() {
         listenToUserStatus(reciver, async (status) => {
             if (status?.currentRoom === chatId) {
 	        try{
-                  await setDoc(doc(db, `chats/${chatId}/unreadMsgCounters/{counterToUpdate}`), {
+                  await setDoc(doc(db, `chats/${chatId}/unreadMsgCounters/${counterToUpdate}`), {
 		      counter: 0
                   },  { merge: true });
  	        }
@@ -1307,7 +1307,7 @@ async function sendMessage() {
 	        }
             } else {
 	        try{
-                  await setDoc(doc(db, `chats/${chatId}/unreadMsgCounters/{counterToUpdate}`), {
+                  await setDoc(doc(db, `chats/${chatId}/unreadMsgCounters/${counterToUpdate}`), {
 		      counter: increment(1)
                   },  { merge: true });
    	        }
