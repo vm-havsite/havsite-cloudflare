@@ -2,6 +2,7 @@ import { doc, getDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.8
 import { db } from './firebase_auth.js';
 
 function UpdateUnreadMsgBadge(unreadBadge, counterToRead, chatId){
+  console.log('running UpdateUnreadMsgBadge');
 
   const parentDocRef = doc(db, `chats/${chatId}/unreadMsgCounters/${counterToRead}`);
 
@@ -11,6 +12,7 @@ function UpdateUnreadMsgBadge(unreadBadge, counterToRead, chatId){
        unreadBadge .textContent = count;
     }
   });
+  console.log('ran UpdateUnreadMsgBadge');
 }
 
 export { UpdateUnreadMsgBadge };
