@@ -9,7 +9,7 @@ function UpdateUnreadMsgBadge(unreadBadge, counterToRead, chatId){
   const unsubscribe = onSnapshot(parentDocRef, (docSnap) => {
     if (docSnap.exists()) {
        const count = docSnap.get("counter") || 0;
-       unreadBadge .textContent = count;
+       unreadBadge.textContent = 2;
     }
   });
   console.log('ran UpdateUnreadMsgBadge');
