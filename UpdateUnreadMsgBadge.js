@@ -12,7 +12,7 @@ function UpdateUnreadMsgBadge(unreadBadge, counterToRead, chatId){
        unreadBadge.textContent = count;
     }
     else {
-       unreadBadge.textContent = 2;
+       unreadBadge.textContent = 0;
     }
   }, (error) => {
     console.error("UpdateUnreadMsgBadge listener failed:", error.code, error.message);
