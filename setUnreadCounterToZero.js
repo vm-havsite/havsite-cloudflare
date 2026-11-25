@@ -3,8 +3,8 @@ import { db } from './firebase_auth.js';
 
 async function setUnreadCounterToZero(chatId, counterToUpdate){
   try{
-    await setDoc(doc(db, `chats/${chatId}`), {
-       [counterToUpdate]: 0
+    await setDoc(doc(db, `chats/${chatId}/unreadMsgCounters/${counterToUpdate}`), {
+        counter: 0
    },  { merge: true });
   }
   catch(err){

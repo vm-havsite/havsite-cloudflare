@@ -1439,6 +1439,7 @@ async function loadContacts() {
 		setCurrentRoom(chatId);
 		const counterToUpdate = userId + "_unreadCounter"
 		setUnreadCounterToZero(chatId, counterToUpdate)
+		console.log(`counter updated to zero for room ${chatId}`);
 
                 if (!dp) {
                   chatHeader.innerHTML = `
